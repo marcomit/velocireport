@@ -59,8 +59,24 @@ class MyApp extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    const Expanded(
-                        flex: 3, child: RoundedContainer(child: Text('World'))),
+                    Expanded(
+                        flex: 3,
+                        child: RoundedContainer(
+                          color: Colors.grey[200],
+                          child: Padding(
+                            padding: const EdgeInsets.all(24),
+                            child: Center(
+                              child: AspectRatio(
+                                aspectRatio: 210 / 297,
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )),
                   ],
                 ),
               ),
