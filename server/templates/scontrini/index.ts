@@ -1,7 +1,6 @@
 import { div } from "../../src/html";
+import data from "./data.json";
 
-export default async function scontrini() {
-  return div(
-    'ciao'
-  )
-}
+export default async () => {
+  return div(data["ciao"]["ciao"]);
+};

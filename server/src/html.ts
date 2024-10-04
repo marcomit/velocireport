@@ -135,21 +135,21 @@ const htmlTags: (HTMLTag)[] = [
 
 function el(
   tag: HTMLTag,
-  props: TreeNode["props"],
+  // props: TreeNode["props"],
   ...children: Content[]
 ): TreeNode {
-  // console.log(tag, currentId);
+  console.log(tag, children);
   const node: TreeNode = {
     tag,
-    props,
-    children: children,
+    props: {},
+    children,
     $: <K extends keyof ElementProps<HTMLTag>>(
       attr: K,
       value: ElementProps<HTMLTag>[K]
     ): TreeNode => {
-      if (typeof props === "object" && props) {
-        props[attr] = value;
-      }
+      // if (typeof props === "object" && props) {
+      //   props[attr] = value;
+      // }
       return node;
     },
   };
@@ -160,17 +160,17 @@ const functions = Object.fromEntries(
   htmlTags.map((tag) => [
     tag,
     ((...args: any[]) => {
-      if (
-        typeof args[0] === "object" &&
-        !Array.isArray(args[0]) &&
-        !("tag" in args[0]) &&
-        !("props" in args[0])
-      ) {
-        const [props = {}, ...children] = args;
-        return el(tag, { ...props }, ...children);
-      } else {
-        return el(tag, new Map<string, any>(), ...args);
-      }
+      // if (
+      //   typeof args[0] === "object" &&
+      //   !Array.isArray(args[0]) &&
+      //   !("tag" in args[0]) &&
+      //   !("props" in args[0])
+      // ) {
+      // const [props = {}, ...children] = args;
+      return el(tag, ...args);
+      // } else {
+      //   return el(tag, new Map<string, any>(), ...args);
+      // }
     }) as TreeNodeFunction,
   ])
 ) as Record<HTMLTag, TreeNodeFunction>;
@@ -194,7 +194,9 @@ function isNode(content: Content): TreeNode | undefined {
   if (
     content &&
     typeof content === "object" &&
-    "tag" in content!
+    "tag" in content! &&
+    "children" in content! &&
+    Array.isArray(content!.children)
   ) {
     return content;
   }
@@ -207,8 +209,10 @@ function renderToString(head: Content): string {
   const { tag, props, children = [] } = head as TreeNode;
   const renderedProps = renderProps(props);
   return selfClosedTags.has(tag)
-    ? `<${tag}${renderedProps === '' ? "" : ` ${renderedProps}`}/>`
-    : `<${tag}${renderedProps === '' ? "" : ` ${renderedProps}>`}>${children.map((child) => renderToString(child)).join("")}</${tag}>`;
+    ? `<${tag}${renderedProps === "" ? "" : ` ${renderedProps}`}/>`
+    : `<${tag}${renderedProps === "" ? "" : ` ${renderedProps}>`}>${children
+        .map(renderToString)
+        .join("")}</${tag}>`;
 }
 
 function renderProps(props: TreeNode["props"]): string {
