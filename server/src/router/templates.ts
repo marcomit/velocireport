@@ -8,15 +8,16 @@ const router = express.Router();
 
 // Get all templates
 router.get("/", async (req, res) => {
-  const files = await fs.readdir(path.join(__dirname, "../../templates"));
-  res.send(files);
+  const items = await getTree(`../../templates`);
+
+  res.send(items);
 });
 
 // Get a template
 router.get("/:template", async (req, res) => {
   const { template } = req.params;
 
-  const items = await getTree(`../../templates`);
+  const items = await getTree(`../../templates/${template}`);
 
   res.send(items);
 });
