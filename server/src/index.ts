@@ -1,5 +1,6 @@
-import express from 'express';
-import fs from 'fs/promises';
+import express from "express";
+import fs from "fs/promises";
+import cors from "cors";
 import path from "path";
 import {
   body,
@@ -13,6 +14,13 @@ import { default as pdf } from "./router/pdf";
 import { default as templates } from "./router/templates";
 
 const app = express();
+app.use(
+  cors({
+    origin: "*", // Allow requests from this origin
+    methods: ["GET", "POST"], // Allow only GET and POST requests
+    credentials: true, // Include credentials in CORS requests
+  })
+);
 const PORT = process.env.PORT || 80;
 
 app.use(express.json());

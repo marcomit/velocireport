@@ -1,62 +1,19 @@
-"use client";
-// components/PdfPreview.js
-import { useEffect, useState } from "react";
-import { Document, Page } from "react-pdf";
+import { Worker, Viewer } from "@react-pdf-viewer/core";
+import "@react-pdf-viewer/core/lib/styles/index.css";
 
 const PdfPreview = ({ buffer }) => {
-  const [numPages, setNumPages] = useState(null);
-  const [pdfData, setPdfData] = useState(null);
-
-  useEffect(() => {
-    if (buffer) {
-      const blob = new Blob([buffer], { type: "application/pdf" });
-      const url = URL.createObjectURL(blob);
-      setPdfData(url);
-
-      // Clean up the object URL when the component unmounts or buffer changes
-      return () => {
-        URL.revokeObjectURL(url);
-      };
-    }
-  }, [buffer]);
-
-  function onDocumentLoadSuccess({ numPages }) {
-    setNumPages(numPages);
-  }
-
-  return (
-    <div className="pdf-preview">
-      {pdfData && (
-        <Document
-          file={pdfData}
-          onLoadSuccess={onDocumentLoadSuccess}
-          className="pdf-document"
-        >
-          {Array.from(new Array(numPages), (el, index) => (
-            <Page key={`page_${index + 1}`} pageNumber={index + 1} />
-          ))}
-        </Document>
-      )}
-      {numPages && <p className="page-indicator">Page 1 of {numPages}</p>}
-      <style jsx>{`
-        .pdf-preview {
-          width: 100%;
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          overflow: auto;
-        }
-        .pdf-document {
-          width: 100%;
-          height: auto;
-        }
-        .page-indicator {
-          text-align: center;
-          margin-top: 10px;
-        }
-      `}</style>
-    </div>
+  return buffer ? (
+    <Worker
+      workerUrl={`https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js`}
+    >
+      <Viewer
+        fileUrl={URL.createObjectURL(
+          new Blob([buffer], { type: "application/pdf" })
+        )}
+      />
+    </Worker>
+  ) : (
+    <p>No PDF to display</p>
   );
 };
 
