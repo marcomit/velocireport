@@ -1,7 +1,6 @@
 import express from 'express';
 import fs from 'fs/promises';
 import path from "path";
-import puppeteer from "puppeteer";
 import {
   body,
   script as code,
@@ -46,19 +45,7 @@ app.get("/", async (req, res) => {
   const result = renderToString(
     html(head(style(css || ""), code(script || "")), body(content))
   );
-  const browser = await puppeteer.launch({
-    headless: true,
-  });
-  const page = await browser.newPage();
-  await page.setContent(result);
-  const buffer = await page.pdf({
-    format: "a4",
-    printBackground: true,
-    displayHeaderFooter: true,
-    headerTemplate: header || "",
-    footerTemplate: footer || "",
-  });
-  await browser.close();
+
   res.send(result);
 });
 

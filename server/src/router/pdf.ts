@@ -3,14 +3,14 @@ import puppeteer from 'puppeteer';
 
 const router = express.Router();
 
-router.post('/templates', async (req, res) => {
-  const { url } = req.body;
+router.get("/:template", async (req, res) => {
+  const { template } = req.params;
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  await page.goto(url);
-  const buffer = await page.screenshot();
+  await page.goto(`http://localhost:80/templates/scontrini/${template}`);
+  const content = await page.content();
   await browser.close();
-  res.send(buffer);
+  res.send(content);
 });
 
 export default router;
