@@ -17,7 +17,7 @@ import { default as templates } from "./router/templates";
 const app = express();
 app.use(
   cors({
-    origin: "http://localhost:3001", // Allow requests from this origin
+    origin: "*", // Allow requests from this origin
     methods: ["GET", "POST"], // Allow only GET and POST requests
     credentials: true, // Include credentials in CORS requests
   })
