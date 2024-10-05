@@ -46,9 +46,11 @@ export default function Home() {
       <ResizablePanelGroup direction="horizontal">
         {/* First panel with smaller size */}
         <ResizablePanel defaultSize={8} minSize={5}>
-          <h2>Files</h2>
-          {/* Pass directories to DirectoriesTree component */}
-          <DirectoriesTree directories={directories} />
+          {directories.length === 0 ? (
+            <p>Loading...</p>
+          ) : (
+            <DirectoriesTree directories={directories} />
+          )}
         </ResizablePanel>
         <ResizableHandle />
         <ResizablePanel defaultSize={40} minSize={10}>

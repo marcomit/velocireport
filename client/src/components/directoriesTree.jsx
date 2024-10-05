@@ -1,26 +1,23 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-const DirectoriesTree = () => {
-  const [directories, setDirectories] = useState([]);
-  const fetchDirectories = async () => {
-    const response = await fetch("localhost/templates");
-    const data = await response.json();
-    setDirectories(data);
+const DirectoriesTree = ({ directories }) => {
+  const mapDirectories = (directories) => {
+    console.log(directories);
+    return directories.map((directory) => (
+      <li key={directory.name}>
+        {directory.name}
+        {directory.type === "directory" && directory.content ? (
+          <ul>{mapDirectories(directory.content)}</ul>
+        ) : null}
+      </li>
+    ));
   };
-
-  useEffect(() => {
-    fetchDirectories();
-  }, []);
 
   return (
     <div>
       <h2>Directories</h2>
-      <ul>
-        {directories.map((directory) => (
-          <li key={directory.id}>{directory.name}</li>
-        ))}
-      </ul>
+      <ul>{mapDirectories(directories)}</ul>
     </div>
   );
 };
