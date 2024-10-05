@@ -2,13 +2,15 @@
 import React from "react";
 
 const DirectoriesTree = ({ directories }) => {
-  const mapDirectories = (directories) => {
+  const mapDirectories = (directories, deph = 0) => {
     console.log(directories);
     return directories.map((directory) => (
-      <li key={directory.name}>
+      <li key={directory.name} style={{ marginLeft: `${deph * 20}px` }}>
         {directory.name}
         {directory.type === "directory" && directory.content ? (
-          <ul>{mapDirectories(directory.content)}</ul>
+          <ul className={`ml-[${deph * 20}px]`}>
+            {mapDirectories(directory.content, deph + 1)}
+          </ul>
         ) : null}
       </li>
     ));

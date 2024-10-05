@@ -1,7 +1,7 @@
 import { Worker, Viewer } from "@react-pdf-viewer/core";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 
-const PdfPreview = ({ buffer }) => {
+const PdfPreview = ({ buffer }: { buffer: Buffer | null }) => {
   return buffer ? (
     <Worker
       workerUrl={`https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js`}

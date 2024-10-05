@@ -16,15 +16,13 @@ import { useEffect, useState } from "react";
 import DirectoriesTree from "@/components/directoriesTree";
 
 export default function Home() {
-  const [pdfBuffer, setPdfBuffer] = useState(null);
+  const [pdfBuffer, setPdfBuffer] = useState<Buffer | null>(null);
   const [directories, setDirectories] = useState([]);
 
   const fetchDirectories = async () => {
-    const url = "http://localhost:80/templates";
-    console.log("Fetching from:", url); // Log the URL being fetched
+    const url = "http://localhost:8000/templates";
     try {
       const response = await fetch(url);
-      console.log("Response:", response); // Log the response object
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -38,8 +36,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchDirectories();
-    console.log(directories);
-  }, []); // Empty dependency array to fetch once on mount
+  }, []);
 
   return (
     <div className="h-screen w-screen">
@@ -55,7 +52,7 @@ export default function Home() {
         <ResizableHandle />
         <ResizablePanel defaultSize={40} minSize={10}>
           {/* Text editor with content */}
-          <TextEditor />
+          <TextEditor value="" />
         </ResizablePanel>
         <ResizableHandle />
         <ResizablePanel defaultSize={40} minSize={10}>
