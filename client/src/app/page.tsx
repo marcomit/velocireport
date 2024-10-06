@@ -18,6 +18,7 @@ import DirectoriesTree from "@/components/directoriesTree";
 export default function Home() {
   const [pdfBuffer, setPdfBuffer] = useState<Buffer | null>(null);
   const [directories, setDirectories] = useState([]);
+  const [selectedFile, setSelectedFile] = useState<string | null>(null);
 
   const fetchDirectories = async () => {
     const url = "http://localhost:80/templates";
@@ -46,13 +47,16 @@ export default function Home() {
           {directories.length === 0 ? (
             <p>Loading...</p>
           ) : (
-            <DirectoriesTree directories={directories} />
+            <DirectoriesTree
+              directories={directories}
+              setSelectedFile={setSelectedFile}
+            />
           )}
         </ResizablePanel>
         <ResizableHandle />
         <ResizablePanel defaultSize={45} minSize={10}>
           {/* Text editor with content */}
-          <TextEditor value="" />
+          <TextEditor value={selectedFile ? selectedFile : ""} />
         </ResizablePanel>
         <ResizableHandle />
         <ResizablePanel defaultSize={45} minSize={10}>

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 
-const DirectoriesTree = ({ directories }) => {
+const DirectoriesTree = ({ directories, setSelectedFile }) => {
   const [expandedDirectories, setExpandedDirectories] = useState({});
 
   const toggleDirectory = (directoryName) => {
@@ -21,7 +21,12 @@ const DirectoriesTree = ({ directories }) => {
             </p>
           </div>
         ) : (
-          <div>{directory.name}</div>
+          <div
+            onClick={() => setSelectedFile(directory.content)}
+            className=" cursor-pointer "
+          >
+            <p className=" m-0 text-nowrap ">{directory.name}</p>
+          </div>
         )}
         {directory.type === "directory" &&
           expandedDirectories[directory.name] && (

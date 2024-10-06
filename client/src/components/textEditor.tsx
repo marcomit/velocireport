@@ -12,6 +12,7 @@ const TextEditor = ({ value }: { value: string }) => {
       defaultLanguage="javascript"
       theme="vs-dark"
       onChange={handleEditorChange}
+      value={value}
     />
   );
 };
