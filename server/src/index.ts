@@ -48,7 +48,6 @@ app.get("/", async (req, res) => {
     hasFooter &&
     (await import("fs")).readFileSync("templates/scontrini/footer.ts", "utf8");
 
-  // console.log(css, script);
   const result = renderToString(
     html(head(style(css || ""), code(script || "")), body(content))
   );

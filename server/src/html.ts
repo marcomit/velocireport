@@ -138,7 +138,6 @@ function el(
   // props: TreeNode["props"],
   ...children: Content[]
 ): TreeNode {
-  console.log(tag, children);
   const node: TreeNode = {
     tag,
     props: {},

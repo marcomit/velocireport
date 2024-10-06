@@ -124,17 +124,23 @@ async function getFile(template: string, fileName: string) {
 
 async function getTree(
   directory: string,
-  tree: Template[] = []
+  tree: Template[] = [],
+  parent: string = ""
 ): Promise<Template[]> {
   const files = await fs.readdir(path.join(__dirname, directory));
   for (const file of files) {
     const stat = await fs.stat(path.join(__dirname, directory, file));
     if (stat.isDirectory()) {
-      const children = await getTree(path.join(directory, file), []);
+      const children = await getTree(
+        path.join(directory, file),
+        [],
+        path.join(parent, file)
+      );
       tree.push({
         name: file,
         type: "directory",
         content: children,
+        parent,
       });
     } else if (stat.isFile()) {
       const content = await fs.readFile(
@@ -145,6 +151,7 @@ async function getTree(
         name: file,
         type: "file",
         content,
+        parent,
       });
     }
   }
