@@ -1,24 +1,39 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 
 const DirectoriesTree = ({ directories }) => {
-  const mapDirectories = (directories, deph = 0) => {
-    console.log(directories);
+  const [expandedDirectories, setExpandedDirectories] = useState({});
+
+  const toggleDirectory = (directoryName) => {
+    setExpandedDirectories((prev) => ({
+      ...prev,
+      [directoryName]: !prev[directoryName],
+    }));
+  };
+
+  const mapDirectories = (directories) => {
     return directories.map((directory) => (
-      <li key={directory.name} style={{ marginLeft: `${deph * 20}px` }}>
-        {directory.name}
-        {directory.type === "directory" && directory.content ? (
-          <ul className={`ml-[${deph * 20}px]`}>
-            {mapDirectories(directory.content, deph + 1)}
-          </ul>
-        ) : null}
+      <li key={directory.name}>
+        {directory.type === "directory" ? (
+          <div onClick={() => toggleDirectory(directory.name)}>
+            <p className=" cursor-pointer m-0 text-nowrap ">
+              {expandedDirectories[directory.name] ? "-" : "+"} {directory.name}
+            </p>
+          </div>
+        ) : (
+          <div>{directory.name}</div>
+        )}
+        {directory.type === "directory" &&
+          expandedDirectories[directory.name] && (
+            <ul className=" ms-6 ">{mapDirectories(directory.content)}</ul>
+          )}
       </li>
     ));
   };
 
   return (
-    <div>
-      <h2>Directories</h2>
+    <div className="p-2 h-screen overflow-x-auto text-nowrap text-ellipsis">
+      <h2 className=" font-bold text-center mb-2 text-xl ">Your files</h2>
       <ul>{mapDirectories(directories)}</ul>
     </div>
   );

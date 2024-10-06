@@ -20,7 +20,7 @@ export default function Home() {
   const [directories, setDirectories] = useState([]);
 
   const fetchDirectories = async () => {
-    const url = "http://localhost:8000/templates";
+    const url = "http://localhost:80/templates";
     try {
       const response = await fetch(url);
       if (!response.ok) {
@@ -42,7 +42,7 @@ export default function Home() {
     <div className="h-screen w-screen">
       <ResizablePanelGroup direction="horizontal">
         {/* First panel with smaller size */}
-        <ResizablePanel defaultSize={8} minSize={5}>
+        <ResizablePanel defaultSize={10} minSize={5}>
           {directories.length === 0 ? (
             <p>Loading...</p>
           ) : (
@@ -50,12 +50,12 @@ export default function Home() {
           )}
         </ResizablePanel>
         <ResizableHandle />
-        <ResizablePanel defaultSize={40} minSize={10}>
+        <ResizablePanel defaultSize={45} minSize={10}>
           {/* Text editor with content */}
           <TextEditor value="" />
         </ResizablePanel>
         <ResizableHandle />
-        <ResizablePanel defaultSize={40} minSize={10}>
+        <ResizablePanel defaultSize={45} minSize={10}>
           <h2>PDF Preview</h2>
           <PdfPreview buffer={pdfBuffer} />
         </ResizablePanel>
