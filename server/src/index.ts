@@ -1,6 +1,6 @@
+import cors from "cors";
 import express from "express";
 import fs from "fs/promises";
-import cors from "cors";
 import path from "path";
 import {
   body,
@@ -16,15 +16,14 @@ import { default as templates } from "./router/templates";
 const app = express();
 app.use(
   cors({
-    origin: "*", // Allow requests from this origin
-    methods: ["GET", "POST"], // Allow only GET and POST requests
-    credentials: true, // Include credentials in CORS requests
+    origin: "*",
+    credentials: true,
   })
 );
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 8000;
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "../../templates/scontrini")));
+app.use(express.static(path.join(__dirname, "../../templates")));
 app.use("/pdf", pdf);
 app.use("/templates", templates);
 

@@ -1,18 +1,38 @@
 "use client";
 
-import React from "react";
+import useTabs from "@/stores/tabs";
 import Editor, { OnChange } from "@monaco-editor/react";
 
-const TextEditor = ({ value }: { value: string }) => {
-  // Handle editor content change
-  const handleEditorChange: OnChange = (content) => {};
+const languages = new Map<string, string>([
+  ['ts', 'typescript'],
+  ['js', 'javascript'],
+  ['css', 'css'],
+  ['json', 'json'],
+])
+
+const TextEditor = () => {
+  const { selected, updateContent } = useTabs();
+
+  const handleChange: OnChange = (value) => {
+    if (selected) {
+      updateContent(selected.name, value || '');
+    }
+  };
+
+  const getLanguage = () => {
+    if (selected) {
+      return languages.get(selected.name.split('.').pop() || '');
+    }
+    return '';
+  }
 
   return (
     <Editor
       defaultLanguage="javascript"
+      language={getLanguage()}
       theme="vs-dark"
-      onChange={handleEditorChange}
-      value={value}
+      onChange={handleChange}
+      value={selected ? selected.content as string : ''}
     />
   );
 };

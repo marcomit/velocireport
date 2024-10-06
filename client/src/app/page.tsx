@@ -6,6 +6,9 @@ const PdfPreview = dynamic(() => import("@/components/pdfPreview"), {
   ssr: false, // Disable server-side rendering
 });
 
+import DirectoriesTree from "@/components/directoriesTree";
+import Header from "@/components/header";
+import Tabs from "@/components/tabs";
 import TextEditor from "@/components/textEditor";
 import {
   ResizableHandle,
@@ -13,22 +16,19 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { useEffect, useState } from "react";
-import DirectoriesTree from "@/components/directoriesTree";
 
 export default function Home() {
   const [pdfBuffer, setPdfBuffer] = useState<Buffer | null>(null);
   const [directories, setDirectories] = useState([]);
-  const [selectedFile, setSelectedFile] = useState<string | null>(null);
 
   const fetchDirectories = async () => {
-    const url = "http://localhost:80/templates";
+    const url = "http://localhost:8000/templates";
     try {
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      console.log("Data:", data); // Log the data received
       setDirectories(data);
     } catch (error) {
       console.error("Error fetching directories:", error);
@@ -41,6 +41,7 @@ export default function Home() {
 
   return (
     <div className="h-screen w-screen">
+      <Header />
       <ResizablePanelGroup direction="horizontal">
         {/* First panel with smaller size */}
         <ResizablePanel defaultSize={10} minSize={5}>
@@ -48,15 +49,16 @@ export default function Home() {
             <p>Loading...</p>
           ) : (
             <DirectoriesTree
-              directories={directories}
-              setSelectedFile={setSelectedFile}
+                directories={directories}
             />
           )}
         </ResizablePanel>
         <ResizableHandle />
         <ResizablePanel defaultSize={45} minSize={10}>
-          {/* Text editor with content */}
-          <TextEditor value={selectedFile ? selectedFile : ""} />
+          <div className="h-full flex flex-col">
+            <Tabs />
+            <TextEditor />
+          </div>
         </ResizablePanel>
         <ResizableHandle />
         <ResizablePanel defaultSize={45} minSize={10}>
