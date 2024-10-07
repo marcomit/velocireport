@@ -14,6 +14,14 @@ interface DirectoriesTreeProps {
   directories: DirectoryTree[];
 }
 
+const imagesForLanguage = new Map<string, string>([
+  ["ts", "ts.png"],
+  ["js", "js.png"],
+  ["css", "css.png"],
+  ["json", "json.png"],
+  ['pdf', "pdf.svg"],
+])
+
 const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
   const [expandedDirectories, setExpandedDirectories] = useState<{ [key: string]: boolean }>({});
   const { tabs, changeSelected, selected, open } = useTabs();
@@ -63,7 +71,7 @@ const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
             className={`cursor-pointer flex items-center justify-start ${selected === directory && "bg-secondary"}`}
           >
             <Image
-              src={`/${directory.name.split(".")[1]}.png`}
+                src={`/${imagesForLanguage.get(directory.name.split(".").pop() || '')}`}
               className="w-4 h-4"
               alt={directory.name}
               width={20}

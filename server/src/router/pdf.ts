@@ -1,32 +1,19 @@
 import express from 'express';
-import fs from "fs/promises";
-import puppeteer from "puppeteer";
-import { body, div, h1, h2, h3, h4, head, html, renderToString } from "../html";
+import Template from "../functions/utils";
 
 const router = express.Router();
 
 router.get("/:templateName", async (req, res) => {
   const { templateName } = req.params;
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-  await page.setContent(
-    renderToString(
-      html(
-        head(),
-        body(div("ciao"), h1("ciao"), h2("ciao"), h3("ciao"), h4("ciao"))
-      )
-    )
-  );
-  const pdf = await page.pdf({
-    format: "A4",
-    printBackground: true,
-    preferCSSPageSize: true,
-    // path: `./report.pdf`,
-  });
 
-  await fs.writeFile(`./templates/${templateName}/report.pdf`, pdf);
+  if (templateName === "shared") {
+    res.status(401).send("Cannot create shared pdf");
+    return;
+  }
+  const template = new Template(templateName);
 
-  await browser.close();
+  const pdf = await template.pdf();
+
   res.send(pdf);
 });
 

@@ -13,7 +13,7 @@ const Header = () => {
     if (!selected || selected.sync == true) return
 
     try {
-      const response = await axios.post(`http://localhost:8000/templates/${selected.name}`, selected.content);
+      const response = await axios.put(`http://localhost:8000/templates/${selected.name}`, selected.content);
       console.log(response.data);
       sync(selected)
     }
