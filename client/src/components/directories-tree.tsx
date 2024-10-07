@@ -19,15 +19,16 @@ const imagesForLanguage = new Map<string, string>([
   ["js", "js.png"],
   ["css", "css.png"],
   ["json", "json.png"],
-  ['pdf', "pdf.svg"],
-])
+  ["pdf", "pdf.svg"],
+]);
 
 const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
-  const [expandedDirectories, setExpandedDirectories] = useState<{ [key: string]: boolean }>({});
+  const [expandedDirectories, setExpandedDirectories] = useState<{
+    [key: string]: boolean;
+  }>({});
   const { tabs, changeSelected, selected, open } = useTabs();
 
-
-  const Directory = ({ directories, }: { directories: DirectoryTree[] }) => {
+  const Directory = ({ directories }: { directories: DirectoryTree[] }) => {
     const { tabs } = useTabs();
 
     const toggleDirectory = (directoryName: string) => {
@@ -43,8 +44,9 @@ const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
           <div onClick={() => toggleDirectory(directory.name)}>
             <p className=" cursor-pointer m-0 text-nowrap flex items-center justify-start">
               <ChevronRight
-                className={`w-4 h-4 transition-all ${expandedDirectories[directory.name] && "rotate-90"
-                  }`}
+                className={`w-4 h-4 transition-all ${
+                  expandedDirectories[directory.name] && "rotate-90"
+                }`}
               />{" "}
               <Image
                 src={
@@ -63,15 +65,19 @@ const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
         ) : (
           <div
             onClick={() => {
-              if (!tabs.find(tab => tab.name === directory.name)) {
+              if (!tabs.find((tab) => tab.name === directory.name)) {
                 open(directory);
               }
               changeSelected(directory);
             }}
-            className={`cursor-pointer flex items-center justify-start ${selected === directory && "bg-secondary"}`}
+            className={`cursor-pointer flex items-center justify-start ${
+              selected === directory && "bg-secondary"
+            }`}
           >
             <Image
-                src={`/${imagesForLanguage.get(directory.name.split(".").pop() || '')}`}
+              src={`/${imagesForLanguage.get(
+                directory.name.split(".").pop() || ""
+              )}`}
               className="w-4 h-4"
               alt={directory.name}
               width={20}
@@ -82,34 +88,31 @@ const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
         )}
         {directory.type === "directory" &&
           expandedDirectories[directory.name] && (
-            <ul className="ps-6"><Directory directories={directory.content as DirectoryTree[]} /></ul>
+            <ul className="ps-6">
+              <Directory directories={directory.content as DirectoryTree[]} />
+            </ul>
           )}
       </li>
     ));
-
-  }
+  };
 
   return (
     <div className="p-2 h-screen overflow-x-auto text-nowrap text-ellipsis">
-      <div className="flex justify-end space-x-2">
+      <div className="flex justify-start items-center space-x-2">
         <Tooltip>
-          <TooltipTrigger asChild><NewFileDialog /></TooltipTrigger>
-          <TooltipContent><p>Add new file</p></TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger asChild><NewFolderDialog /></TooltipTrigger>
-          <TooltipContent><p>Create new folder</p></TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger asChild><NewTemplateDialog /></TooltipTrigger>
-          <TooltipContent><p>Create new template</p></TooltipContent>
+          <TooltipTrigger asChild>
+            <NewTemplateDialog />
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Create new template</p>
+          </TooltipContent>
         </Tooltip>
       </div>
-      <ul><Directory directories={directories} />
+      <ul>
+        <Directory directories={directories} />
       </ul>
-    </div >
+    </div>
   );
 };
-
 
 export default DirectoriesTree;

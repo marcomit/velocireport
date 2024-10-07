@@ -16,6 +16,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { useEffect, useState } from "react";
+import logo from "@/assets/logo.png";
 
 export default function Home() {
   const [pdfBuffer, setPdfBuffer] = useState<Buffer | null>(null);
@@ -48,9 +49,7 @@ export default function Home() {
           {directories.length === 0 ? (
             <p>Loading...</p>
           ) : (
-            <DirectoriesTree
-                directories={directories}
-            />
+            <DirectoriesTree directories={directories} />
           )}
         </ResizablePanel>
         <ResizableHandle />
