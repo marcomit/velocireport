@@ -2,9 +2,12 @@
 import useTabs from "@/stores/tabs";
 import { DirectoryTree } from "@/types/directory";
 import { TooltipContent } from "@radix-ui/react-tooltip";
-import { ChevronRight, FilePlus2, FolderPlus } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import { NewFileDialog } from "./dialogs/new-file";
+import { NewFolderDialog } from "./dialogs/new-folder";
+import { NewTemplateDialog } from "./dialogs/new-template";
 import { Tooltip, TooltipTrigger } from "./ui/tooltip";
 
 interface DirectoriesTreeProps {
@@ -15,14 +18,17 @@ const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
   const [expandedDirectories, setExpandedDirectories] = useState<{ [key: string]: boolean }>({});
   const { tabs, changeSelected, selected, open } = useTabs();
 
-  const toggleDirectory = (directoryName: string) => {
-    setExpandedDirectories((prev) => ({
-      ...prev,
-      [directoryName]: !prev[directoryName],
-    }));
-  };
 
-  const mapDirectories = (directories: DirectoryTree[]) => {
+  const Directory = ({ directories, }: { directories: DirectoryTree[] }) => {
+    const { tabs } = useTabs();
+
+    const toggleDirectory = (directoryName: string) => {
+      setExpandedDirectories((prev) => ({
+        ...prev,
+        [directoryName]: !prev[directoryName],
+      }));
+    };
+
     return directories.map((directory) => (
       <li key={directory.name}>
         {directory.type === "directory" ? (
@@ -68,27 +74,34 @@ const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
         )}
         {directory.type === "directory" &&
           expandedDirectories[directory.name] && (
-            <ul className="ps-6">{mapDirectories(directory.content as DirectoryTree[])}</ul>
+            <ul className="ps-6"><Directory directories={directory.content as DirectoryTree[]} /></ul>
           )}
       </li>
     ));
-  };
+
+  }
 
   return (
     <div className="p-2 h-screen overflow-x-auto text-nowrap text-ellipsis">
       <div className="flex justify-end space-x-2">
         <Tooltip>
-          <TooltipTrigger asChild><FilePlus2 className="w-4 h-4" /></TooltipTrigger>
+          <TooltipTrigger asChild><NewFileDialog /></TooltipTrigger>
           <TooltipContent><p>Add new file</p></TooltipContent>
         </Tooltip>
         <Tooltip>
-          <TooltipTrigger asChild><FolderPlus className="w-4 h-4" /></TooltipTrigger>
+          <TooltipTrigger asChild><NewFolderDialog /></TooltipTrigger>
+          <TooltipContent><p>Create new folder</p></TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger asChild><NewTemplateDialog /></TooltipTrigger>
           <TooltipContent><p>Create new template</p></TooltipContent>
         </Tooltip>
       </div>
-      <ul>{mapDirectories(directories)}</ul>
-    </div>
+      <ul><Directory directories={directories} />
+      </ul>
+    </div >
   );
 };
+
 
 export default DirectoriesTree;

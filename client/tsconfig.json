@@ -33,7 +33,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/page.tsx",
-    "src/components/pdfPreview.tsx"
+    "src/components/pdf-preview.tsx"
   ],
   "exclude": [
     "node_modules"

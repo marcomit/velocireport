@@ -2,14 +2,14 @@
 import dynamic from "next/dynamic";
 
 // Dynamically load PdfPreview
-const PdfPreview = dynamic(() => import("@/components/pdfPreview"), {
+const PdfPreview = dynamic(() => import("@/components/pdf-preview"), {
   ssr: false, // Disable server-side rendering
 });
 
-import DirectoriesTree from "@/components/directoriesTree";
+import DirectoriesTree from "@/components/directories-tree";
 import Header from "@/components/header";
 import Tabs from "@/components/tabs";
-import TextEditor from "@/components/textEditor";
+import TextEditor from "@/components/text-editor";
 import {
   ResizableHandle,
   ResizablePanel,
