@@ -54,7 +54,7 @@ export default function Home() {
         </ResizablePanel>
         <ResizableHandle />
         <ResizablePanel defaultSize={45} minSize={10}>
-          <div className="h-full flex flex-col">
+          <div className="h-full flex flex-col ">
             <Tabs />
             <TextEditor />
           </div>
