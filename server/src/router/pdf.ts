@@ -13,7 +13,7 @@ router.get("/:templateName", async (req, res) => {
   const template = new Template(templateName);
 
   const pdf = await template.pdf();
-
+  res.set("Content-Type", "application/pdf");
   res.send(pdf);
 });
 

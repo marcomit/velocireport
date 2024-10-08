@@ -135,7 +135,9 @@ class Template {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     const template = await this.getContent();
-    await page.setContent(m.renderToString(template));
+    await page.setContent(m.renderToString(template), {
+      waitUntil: "networkidle0",
+    });
     const header = (await this.defaultScript("header")) || "";
     const footer = (await this.defaultScript("footer")) || "";
     
