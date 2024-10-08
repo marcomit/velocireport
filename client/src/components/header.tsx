@@ -28,7 +28,7 @@ const Header = () => {
   function handleSaveAll() {}
 
   return (
-    <header className=" w-full flex justify-between items-center">
+    <header className=" w-full flex justify-between items-center border-b-2 border-border">
       <div className="flex w-full justify-start space-x-2 items-center">
         <div className="flex items-center px-4  ">
           <Image src="/logo.png" alt="logo" width={80} height={80} />
@@ -37,21 +37,21 @@ const Header = () => {
 
         <Button
           onClick={handleRun}
-          className="flex items-center justify-center space-x-2 mx-4 my-2 border-2 bg-background text-foreground border-foreground hover:text-background"
+          className="flex items-center justify-center space-x-2 mx-4 my-2 border-2 bg-background text-foreground border-border hover:bg-border "
         >
           <Play className="w-8 h-w-8" />
           <span className="text-xl">Run</span>
         </Button>
         <Button
           onClick={handleSave}
-          className="flex items-center justify-center space-x-2 mx-4 my-2 border-2 bg-background text-foreground border-foreground hover:text-background"
+          className="flex items-center justify-center space-x-2 mx-4 my-2 border-2 bg-background text-foreground  border-border hover:bg-border"
         >
           <Play className="w-8 h-w-8" />
           <span className="text-xl">Save file</span>
         </Button>
         <Button
           onClick={handleSaveAll}
-          className="flex items-center justify-center space-x-2 mx-4 my-2 border-2 bg-background text-foreground border-foreground hover:text-background"
+          className="flex items-center justify-center space-x-2 mx-4 my-2 border-2 bg-background text-foreground  border-border hover:bg-border"
         >
           <Play className="w-8 h-w-8" />
           <span className="text-xl">Save all</span>

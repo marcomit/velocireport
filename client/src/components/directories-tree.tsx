@@ -11,18 +11,11 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
+import { imagesForLanguage } from "@/lib/utils";
 
 interface DirectoriesTreeProps {
   directories: DirectoryTree[];
 }
-
-const imagesForLanguage = new Map<string, string>([
-  ["ts", "ts.png"],
-  ["js", "js.png"],
-  ["css", "css.png"],
-  ["json", "json.png"],
-  ["pdf", "pdf.svg"],
-]);
 
 const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
   const [expandedDirectories, setExpandedDirectories] = useState<{
