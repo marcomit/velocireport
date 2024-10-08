@@ -4,6 +4,7 @@ import { Play } from "lucide-react";
 import { Button } from "./ui/button";
 import logo from "@/assets/logo.png";
 import Image from "next/image";
+import { ModeToggle } from "./theme-toggle";
 
 const Header = () => {
   const { selected, sync } = useTabs();
@@ -27,33 +28,38 @@ const Header = () => {
   function handleSaveAll() {}
 
   return (
-    <header className="flex w-full justify-start space-x-2 items-center bg-zinc-800 text-white">
-      <div className="flex items-center px-4  ">
-        <Image src="/logo.png" alt="logo" width={80} height={80} />
-        <h1 className="text-3xl font-bold mt-0">VelociReport</h1>
-      </div>
+    <header className=" w-full flex justify-between items-center">
+      <div className="flex w-full justify-start space-x-2 items-center">
+        <div className="flex items-center px-4  ">
+          <Image src="/logo.png" alt="logo" width={80} height={80} />
+          <h1 className="text-3xl font-bold mt-0">VelociReport</h1>
+        </div>
 
-      <Button
-        onClick={handleRun}
-        className="flex items-center justify-center space-x-2 mx-4 my-2 border-2 border-white"
-      >
-        <Play className="w-8 h-w-8" />
-        <span className="text-xl">Run</span>
-      </Button>
-      <Button
-        onClick={handleSave}
-        className="flex items-center justify-center space-x-2 mx-4 my-2 border-2 border-white"
-      >
-        <Play className="w-8 h-w-8" />
-        <span className="text-xl">Save file</span>
-      </Button>
-      <Button
-        onClick={handleSaveAll}
-        className="flex items-center justify-center space-x-2 mx-4 my-2 border-2 border-white"
-      >
-        <Play className="w-8 h-w-8" />
-        <span className="text-xl">Save all</span>
-      </Button>
+        <Button
+          onClick={handleRun}
+          className="flex items-center justify-center space-x-2 mx-4 my-2 border-2 border-white"
+        >
+          <Play className="w-8 h-w-8" />
+          <span className="text-xl">Run</span>
+        </Button>
+        <Button
+          onClick={handleSave}
+          className="flex items-center justify-center space-x-2 mx-4 my-2 border-2 border-white"
+        >
+          <Play className="w-8 h-w-8" />
+          <span className="text-xl">Save file</span>
+        </Button>
+        <Button
+          onClick={handleSaveAll}
+          className="flex items-center justify-center space-x-2 mx-4 my-2 border-2 border-white"
+        >
+          <Play className="w-8 h-w-8" />
+          <span className="text-xl">Save all</span>
+        </Button>
+      </div>
+      <div className="ms-auto me-4">
+        <ModeToggle />
+      </div>
     </header>
   );
 };

@@ -97,17 +97,8 @@ const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
   };
 
   return (
-    <div className="p-2 h-screen overflow-x-auto text-nowrap text-ellipsis">
-      <div className="flex justify-start items-center space-x-2">
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <NewTemplateDialog />
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Create new template</p>
-          </TooltipContent>
-        </Tooltip>
-      </div>
+    <div className="p-2 h-max overflow-x-auto text-nowrap text-ellipsis">
+      <div className="flex justify-start items-center space-x-2"></div>
       <ul>
         <Directory directories={directories} />
       </ul>
