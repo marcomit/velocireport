@@ -6,9 +6,19 @@ import logo from "@/assets/logo.png";
 import Image from "next/image";
 import { ModeToggle } from "./theme-toggle";
 
-const Header = () => {
+const Header = ({
+  setPdfBuffer,
+}: {
+  setPdfBuffer: (buffer: Blob | null) => void;
+}) => {
   const { selected, sync } = useTabs();
-  function handleRun() {}
+  async function handleRun() {
+    const response = await axios.get("http://localhost:8000/pdf/scontrini", {
+      responseType: "blob",
+    });
+    console.log(response);
+    setPdfBuffer(response.data);
+  }
 
   async function handleSave() {
     if (!selected || selected.sync == true) return;

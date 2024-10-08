@@ -1,14 +1,15 @@
 import { Worker, Viewer } from "@react-pdf-viewer/core";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 
-const PdfPreview = ({ buffer }: { buffer: Buffer | null }) => {
+const PdfPreview = ({ buffer }: { buffer: Blob | null }) => {
   return buffer ? (
     <Worker
-      workerUrl={`https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js`}
+      workerUrl={`https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`}
     >
       <Viewer
         fileUrl={URL.createObjectURL(
-          new Blob([buffer], { type: "application/pdf" })
+          buffer
+          /* new Blob([buffer], { type: "application/pdf" }) */
         )}
       />
     </Worker>

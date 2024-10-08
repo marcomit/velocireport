@@ -11,9 +11,11 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import PdfPreview from "@/components/pdf-preview";
 
 export default function Home() {
   const [directories, setDirectories] = useState([]);
+  const [pdfBuffer, setPdfBuffer] = useState<Blob | null>(null);
 
   const fetchDirectories = async () => {
     const url = "http://localhost:8000/templates";
@@ -35,7 +37,7 @@ export default function Home() {
 
   return (
     <div className="h-screen flex flex-col font-mono">
-      <Header />
+      <Header setPdfBuffer={setPdfBuffer} />
       <div className="flex-1 overflow-hidden">
         <ResizablePanelGroup direction="horizontal" className="h-full">
           <ResizablePanel
@@ -63,9 +65,11 @@ export default function Home() {
           <ResizableHandle />
           <ResizablePanel defaultSize={45} minSize={10} className="h-full">
             <div className="h-full flex justify-center items-center overflow-auto">
-              <h2>PDF Preview</h2>
-              {/* Uncomment and use PdfPreview component when ready */}
-              {/* <PdfPreview buffer={pdfBuffer} /> */}
+              {!pdfBuffer ? (
+                <h2>PDF Preview</h2>
+              ) : (
+                <PdfPreview buffer={pdfBuffer} />
+              )}
             </div>
           </ResizablePanel>
         </ResizablePanelGroup>

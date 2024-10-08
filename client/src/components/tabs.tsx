@@ -33,7 +33,7 @@ const TabItem = ({ file }: { file: DirectoryTree }) => {
 
   return (
     <div
-      className={`flex items-center justify-center space-x-2 hover:bg-border px-2 py-2 cursor-pointer m-1 rounded-lg ${
+      className={`flex flex-shrink-0 items-center justify-center space-x-2 hover:bg-border px-2 py-2 cursor-pointer m-1 rounded-lg ${
         file === selected && "bg-primary/10"
       }`}
       onClick={handleClick}
