@@ -32,7 +32,7 @@ const TextEditor = () => {
     <Editor
       defaultLanguage="javascript"
       language={getLanguage()}
-      theme={theme === "light" ? "vs-light" : "vs-dark"}
+      theme={theme === "light" ? "vs-dark" : "vs-dark"}
       onChange={handleChange}
       value={selected ? (selected.content as string) : ""}
     />
