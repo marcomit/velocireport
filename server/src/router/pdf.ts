@@ -1,5 +1,5 @@
 import express from 'express';
-import Template from "../functions/utils";
+import Template from "../functions/template";
 
 const router = express.Router();
 
