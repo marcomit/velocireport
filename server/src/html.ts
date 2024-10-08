@@ -11,15 +11,12 @@ type TreeNodeFunction = {
 };
 type TreeNode = {
   tag: HTMLTag;
-  props: ElementProps<HTMLTag>;
+  props: Map<string, string>;
   children: Content[];
-  $: <K extends keyof ElementProps<HTMLTag>>(
-    attr: K,
-    value: ElementProps<HTMLTag>[K]
-  ) => TreeNode;
+  $: (attr: string, value: string) => TreeNode;
 };
 
-const htmlTags: (HTMLTag)[] = [
+const htmlTags: HTMLTag[] = [
   "a",
   "abbr",
   "address",
@@ -133,22 +130,13 @@ const htmlTags: (HTMLTag)[] = [
   "wbr",
 ];
 
-function el(
-  tag: HTMLTag,
-  // props: TreeNode["props"],
-  ...children: Content[]
-): TreeNode {
+function el(tag: HTMLTag, ...children: Content[]): TreeNode {
   const node: TreeNode = {
     tag,
-    props: {},
+    props: new Map<string, string>(),
     children,
-    $: <K extends keyof ElementProps<HTMLTag>>(
-      attr: K,
-      value: ElementProps<HTMLTag>[K]
-    ): TreeNode => {
-      // if (typeof props === "object" && props) {
-      //   props[attr] = value;
-      // }
+    $: (attr: string, value: string): TreeNode => {
+      node.props.set(attr, value);
       return node;
     },
   };
@@ -207,9 +195,10 @@ function renderToString(head: Content): string {
   }
   const { tag, props, children = [] } = head as TreeNode;
   const renderedProps = renderProps(props);
+
   return selfClosedTags.has(tag)
     ? `<${tag}${renderedProps === "" ? "" : ` ${renderedProps}`}/>`
-    : `<${tag}${renderedProps === "" ? "" : ` ${renderedProps}>`}>${children
+    : `<${tag}${renderedProps === "" ? "" : ` ${renderedProps}`}>${children
         .map(renderToString)
         .join("")}</${tag}>`;
 }
@@ -218,8 +207,8 @@ function renderProps(props: TreeNode["props"]): string {
   if (!props) {
     return "";
   }
-  return Object.entries(props)
-    .map(([key, value]) => `${key}="${value}"`)
+  return Array.from(props)
+    .map(([key, value]) => `${key}=\"${value}\"`)
     .join(" ");
 }
 

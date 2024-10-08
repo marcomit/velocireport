@@ -6,7 +6,6 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   const template = new Template("../../templates");
   const templates = await template.tree();
-  console.log(templates);
 
   res.send(templates);
 });

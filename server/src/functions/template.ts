@@ -138,17 +138,12 @@ class Template {
     await page.setContent(m.renderToString(template));
     const header = (await this.defaultScript("header")) || "";
     const footer = (await this.defaultScript("footer")) || "";
-    console.log(header ? m.renderToString(header) : "");
+    
     const pdf = await page.pdf({
-      margin: {
-        top: "100px",
-        right: "10px",
-        bottom: "100px",
-        left: "10px",
-      },
       format: "A4",
       printBackground: true,
       preferCSSPageSize: true,
+      margin: { top: 100, bottom: 100, left: 100, right: 100 },
       displayHeaderFooter: true,
       headerTemplate: header ? m.renderToString(header) : "",
       footerTemplate: footer ? m.renderToString(footer) : "",
@@ -201,3 +196,4 @@ class Template {
 
 export default Template;
 export type { TemplateTree };
+

@@ -1,1 +1,1648 @@
-["ciao", "ciao", "ciao", "ciao", "ciao", "ciao", "ciao", "ciao", "ciao"]
+{
+  "scontrini": [
+    {
+      "_id": "2021-08-27T10:42:25+02:00825",
+      "_rev": "5-0a5d8c1b634d46e7ff80c48ed0d1d33e",
+      "fiscale": {},
+      "pagamento": {},
+      "righe": [
+        {
+          "codice": "ABBIGLIAMENTO",
+          "quantita": 1,
+          "descrizione": "REPARTO ABBIGLIAMENTO",
+          "prezzoUnitario": "25.00",
+          "prezzo": "25.00",
+          "aliquota": 22,
+          "tipo": "reparto",
+          "tipoBene": "PRODOTTO",
+          "nota": "",
+          "repartoFiscale": "1",
+          "operatore": "",
+          "rigaCodice": "9a58a0fc-10d1-418c-b03c-80a06be5c38d"
+        }
+      ],
+      "stato": "aperto",
+      "statoPagamento": "dapagare",
+      "operatore": "",
+      "cliente": "",
+      "tipoDocumento": "scontrino",
+      "codiceBreve": "",
+      "editInfo": {
+        "dataCreazione": "2021-08-27T08:42:25.377Z",
+        "dataModifica": "2021-08-27T08:42:25.578Z"
+      }
+    },
+    {
+      "_id": "2021-08-27T10:46:41+02:00481",
+      "_rev": "4-9c8ca3869637684765e7ce80ec301e58",
+      "fiscale": {
+        "ricerca": {
+          "code": "1701003200013",
+          "documento": "0032-0001"
+        },
+        "azzeramento": 32,
+        "numeroScontrino": 1,
+        "matricola": "72MU1065030",
+        "data": "2021-08-27T10:45:52"
+      },
+      "pagamento": {
+        "pagamenti": [
+          {
+            "tipo": "contanti",
+            "importo": 25
+          }
+        ],
+        "totale": 25,
+        "resto": null
+      },
+      "righe": [
+        {
+          "codice": "ABBIGLIAMENTO",
+          "quantita": 1,
+          "descrizione": "REPARTO ABBIGLIAMENTO",
+          "prezzoUnitario": "25.00",
+          "prezzo": "25.00",
+          "aliquota": 22,
+          "tipo": "reparto",
+          "tipoBene": "PRODOTTO",
+          "nota": "",
+          "repartoFiscale": "1",
+          "operatore": "",
+          "rigaCodice": "7ee15db3-de99-4c05-b6fb-5b510eab1d32"
+        },
+        {
+          "codice": "ABBIGLIAMENTO",
+          "quantita": 1,
+          "descrizione": "REPARTO ABBIGLIAMENTO",
+          "prezzoUnitario": "25.00",
+          "prezzo": "25.00",
+          "aliquota": 22,
+          "tipo": "reparto",
+          "tipoBene": "PRODOTTO",
+          "nota": "",
+          "repartoFiscale": "1",
+          "operatore": "",
+          "rigaCodice": "7ee15db3-de99-4c05-b6fb-5b510eab1d32"
+        },
+        {
+          "codice": "ABBIGLIAMENTO",
+          "quantita": 1,
+          "descrizione": "REPARTO ABBIGLIAMENTO",
+          "prezzoUnitario": "25.00",
+          "prezzo": "25.00",
+          "aliquota": 22,
+          "tipo": "reparto",
+          "tipoBene": "PRODOTTO",
+          "nota": "",
+          "repartoFiscale": "1",
+          "operatore": "",
+          "rigaCodice": "7ee15db3-de99-4c05-b6fb-5b510eab1d32"
+        },
+        {
+          "codice": "ABBIGLIAMENTO",
+          "quantita": 1,
+          "descrizione": "REPARTO ABBIGLIAMENTO",
+          "prezzoUnitario": "25.00",
+          "prezzo": "25.00",
+          "aliquota": 22,
+          "tipo": "reparto",
+          "tipoBene": "PRODOTTO",
+          "nota": "",
+          "repartoFiscale": "1",
+          "operatore": "",
+          "rigaCodice": "7ee15db3-de99-4c05-b6fb-5b510eab1d32"
+        },
+        {
+          "codice": "ABBIGLIAMENTO",
+          "quantita": 1,
+          "descrizione": "REPARTO ABBIGLIAMENTO",
+          "prezzoUnitario": "25.00",
+          "prezzo": "25.00",
+          "aliquota": 22,
+          "tipo": "reparto",
+          "tipoBene": "PRODOTTO",
+          "nota": "",
+          "repartoFiscale": "1",
+          "operatore": "",
+          "rigaCodice": "7ee15db3-de99-4c05-b6fb-5b510eab1d32"
+        },
+        {
+          "codice": "ABBIGLIAMENTO",
+          "quantita": 1,
+          "descrizione": "REPARTO ABBIGLIAMENTO",
+          "prezzoUnitario": "25.00",
+          "prezzo": "25.00",
+          "aliquota": 22,
+          "tipo": "reparto",
+          "tipoBene": "PRODOTTO",
+          "nota": "",
+          "repartoFiscale": "1",
+          "operatore": "",
+          "rigaCodice": "7ee15db3-de99-4c05-b6fb-5b510eab1d32"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Totale complessivo",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totalecomplessivo"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Pagamento contante",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "contanti"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Importo pagato",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totale",
+          "payload": null
+        }
+      ],
+      "stato": "chiuso",
+      "statoPagamento": "pagato",
+      "operatore": "",
+      "cliente": "",
+      "tipoDocumento": "scontrino",
+      "codiceBreve": "",
+      "editInfo": {
+        "dataCreazione": "2021-08-27T08:46:41.159Z",
+        "dataModifica": "2021-08-27T08:46:45.457Z"
+      }
+    },
+    {
+      "_id": "2021-08-27T11:02:04+02:0093",
+      "_rev": "5-0ba20a9cbc20b7867a35a53037c4af32",
+      "fiscale": {
+        "ricerca": {
+          "code": "1701003200020",
+          "documento": "0032-0002"
+        },
+        "azzeramento": 32,
+        "numeroScontrino": 2,
+        "matricola": "72MU1065030",
+        "data": "2021-08-27T11:01:14"
+      },
+      "pagamento": {
+        "pagamenti": [
+          {
+            "tipo": "contanti",
+            "importo": 25
+          }
+        ],
+        "totale": 25,
+        "resto": null
+      },
+      "righe": [
+        {
+          "codice": "ABBIGLIAMENTO",
+          "quantita": 1,
+          "descrizione": "REPARTO ABBIGLIAMENTO",
+          "prezzoUnitario": "25.00",
+          "prezzo": "25.00",
+          "aliquota": 22,
+          "tipo": "reparto",
+          "tipoBene": "PRODOTTO",
+          "nota": "",
+          "repartoFiscale": "1",
+          "operatore": "",
+          "rigaCodice": "9e223202-b84e-4432-be3c-a09aead2aae6"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Totale complessivo",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totalecomplessivo"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Pagamento contante",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "contanti"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Importo pagato",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totale",
+          "payload": null
+        }
+      ],
+      "stato": "chiuso",
+      "statoPagamento": "pagato",
+      "operatore": "",
+      "cliente": "",
+      "tipoDocumento": "scontrino",
+      "codiceBreve": "",
+      "editInfo": {
+        "dataCreazione": "2021-08-27T09:02:04.650Z",
+        "dataModifica": "2021-08-27T09:03:38.901Z"
+      },
+      "resi": [
+        {
+          "fiscale": {
+            "azzeramento": 32,
+            "numeroScontrino": 3,
+            "matricolaStampante": "72MU1065030",
+            "dataScontrino": "2021-08-27T11:02:45"
+          },
+          "righe": [
+            {
+              "codice": "ABBIGLIAMENTO",
+              "quantita": -1,
+              "descrizione": "REPARTO ABBIGLIAMENTO",
+              "prezzoUnitario": "25.00",
+              "prezzo": "-25.00",
+              "aliquota": 22,
+              "tipo": "reparto",
+              "tipoBene": "PRODOTTO",
+              "nota": "",
+              "repartoFiscale": "1",
+              "operatore": "",
+              "rigaCodice": "5c4ff3bc-ca04-457a-b2d2-4391f5deb8a9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_id": "2021-08-27T11:02:04+02:0093",
+      "_rev": "5-0ba20a9cbc20b7867a35a53037c4af32",
+      "fiscale": {
+        "ricerca": {
+          "code": "1701003200020",
+          "documento": "0032-0002"
+        },
+        "azzeramento": 32,
+        "numeroScontrino": 2,
+        "matricola": "72MU1065030",
+        "data": "2021-08-27T11:01:14"
+      },
+      "pagamento": {
+        "pagamenti": [
+          {
+            "tipo": "contanti",
+            "importo": 25
+          }
+        ],
+        "totale": 25,
+        "resto": null
+      },
+      "righe": [
+        {
+          "codice": "ABBIGLIAMENTO",
+          "quantita": 1,
+          "descrizione": "REPARTO ABBIGLIAMENTO",
+          "prezzoUnitario": "25.00",
+          "prezzo": "25.00",
+          "aliquota": 22,
+          "tipo": "reparto",
+          "tipoBene": "PRODOTTO",
+          "nota": "",
+          "repartoFiscale": "1",
+          "operatore": "",
+          "rigaCodice": "9e223202-b84e-4432-be3c-a09aead2aae6"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Totale complessivo",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totalecomplessivo"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Pagamento contante",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "contanti"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Importo pagato",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totale",
+          "payload": null
+        }
+      ],
+      "stato": "chiuso",
+      "statoPagamento": "pagato",
+      "operatore": "",
+      "cliente": "",
+      "tipoDocumento": "scontrino",
+      "codiceBreve": "",
+      "editInfo": {
+        "dataCreazione": "2021-08-27T09:02:04.650Z",
+        "dataModifica": "2021-08-27T09:03:38.901Z"
+      },
+      "resi": [
+        {
+          "fiscale": {
+            "azzeramento": 32,
+            "numeroScontrino": 3,
+            "matricolaStampante": "72MU1065030",
+            "dataScontrino": "2021-08-27T11:02:45"
+          },
+          "righe": [
+            {
+              "codice": "ABBIGLIAMENTO",
+              "quantita": -1,
+              "descrizione": "REPARTO ABBIGLIAMENTO",
+              "prezzoUnitario": "25.00",
+              "prezzo": "-25.00",
+              "aliquota": 22,
+              "tipo": "reparto",
+              "tipoBene": "PRODOTTO",
+              "nota": "",
+              "repartoFiscale": "1",
+              "operatore": "",
+              "rigaCodice": "5c4ff3bc-ca04-457a-b2d2-4391f5deb8a9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_id": "2021-08-27T11:02:04+02:0093",
+      "_rev": "5-0ba20a9cbc20b7867a35a53037c4af32",
+      "fiscale": {
+        "ricerca": {
+          "code": "1701003200020",
+          "documento": "0032-0002"
+        },
+        "azzeramento": 32,
+        "numeroScontrino": 2,
+        "matricola": "72MU1065030",
+        "data": "2021-08-27T11:01:14"
+      },
+      "pagamento": {
+        "pagamenti": [
+          {
+            "tipo": "contanti",
+            "importo": 25
+          }
+        ],
+        "totale": 25,
+        "resto": null
+      },
+      "righe": [
+        {
+          "codice": "ABBIGLIAMENTO",
+          "quantita": 1,
+          "descrizione": "REPARTO ABBIGLIAMENTO",
+          "prezzoUnitario": "25.00",
+          "prezzo": "25.00",
+          "aliquota": 22,
+          "tipo": "reparto",
+          "tipoBene": "PRODOTTO",
+          "nota": "",
+          "repartoFiscale": "1",
+          "operatore": "",
+          "rigaCodice": "9e223202-b84e-4432-be3c-a09aead2aae6"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Totale complessivo",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totalecomplessivo"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Pagamento contante",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "contanti"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Importo pagato",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totale",
+          "payload": null
+        }
+      ],
+      "stato": "chiuso",
+      "statoPagamento": "pagato",
+      "operatore": "",
+      "cliente": "",
+      "tipoDocumento": "scontrino",
+      "codiceBreve": "",
+      "editInfo": {
+        "dataCreazione": "2021-08-27T09:02:04.650Z",
+        "dataModifica": "2021-08-27T09:03:38.901Z"
+      },
+      "resi": [
+        {
+          "fiscale": {
+            "azzeramento": 32,
+            "numeroScontrino": 3,
+            "matricolaStampante": "72MU1065030",
+            "dataScontrino": "2021-08-27T11:02:45"
+          },
+          "righe": [
+            {
+              "codice": "ABBIGLIAMENTO",
+              "quantita": -1,
+              "descrizione": "REPARTO ABBIGLIAMENTO",
+              "prezzoUnitario": "25.00",
+              "prezzo": "-25.00",
+              "aliquota": 22,
+              "tipo": "reparto",
+              "tipoBene": "PRODOTTO",
+              "nota": "",
+              "repartoFiscale": "1",
+              "operatore": "",
+              "rigaCodice": "5c4ff3bc-ca04-457a-b2d2-4391f5deb8a9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_id": "2021-08-27T11:02:04+02:0093",
+      "_rev": "5-0ba20a9cbc20b7867a35a53037c4af32",
+      "fiscale": {
+        "ricerca": {
+          "code": "1701003200020",
+          "documento": "0032-0002"
+        },
+        "azzeramento": 32,
+        "numeroScontrino": 2,
+        "matricola": "72MU1065030",
+        "data": "2021-08-27T11:01:14"
+      },
+      "pagamento": {
+        "pagamenti": [
+          {
+            "tipo": "contanti",
+            "importo": 25
+          }
+        ],
+        "totale": 25,
+        "resto": null
+      },
+      "righe": [
+        {
+          "codice": "ABBIGLIAMENTO",
+          "quantita": 1,
+          "descrizione": "REPARTO ABBIGLIAMENTO",
+          "prezzoUnitario": "25.00",
+          "prezzo": "25.00",
+          "aliquota": 22,
+          "tipo": "reparto",
+          "tipoBene": "PRODOTTO",
+          "nota": "",
+          "repartoFiscale": "1",
+          "operatore": "",
+          "rigaCodice": "9e223202-b84e-4432-be3c-a09aead2aae6"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Totale complessivo",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totalecomplessivo"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Pagamento contante",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "contanti"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Importo pagato",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totale",
+          "payload": null
+        }
+      ],
+      "stato": "chiuso",
+      "statoPagamento": "pagato",
+      "operatore": "",
+      "cliente": "",
+      "tipoDocumento": "scontrino",
+      "codiceBreve": "",
+      "editInfo": {
+        "dataCreazione": "2021-08-27T09:02:04.650Z",
+        "dataModifica": "2021-08-27T09:03:38.901Z"
+      },
+      "resi": [
+        {
+          "fiscale": {
+            "azzeramento": 32,
+            "numeroScontrino": 3,
+            "matricolaStampante": "72MU1065030",
+            "dataScontrino": "2021-08-27T11:02:45"
+          },
+          "righe": [
+            {
+              "codice": "ABBIGLIAMENTO",
+              "quantita": -1,
+              "descrizione": "REPARTO ABBIGLIAMENTO",
+              "prezzoUnitario": "25.00",
+              "prezzo": "-25.00",
+              "aliquota": 22,
+              "tipo": "reparto",
+              "tipoBene": "PRODOTTO",
+              "nota": "",
+              "repartoFiscale": "1",
+              "operatore": "",
+              "rigaCodice": "5c4ff3bc-ca04-457a-b2d2-4391f5deb8a9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_id": "2021-08-27T11:02:04+02:0093",
+      "_rev": "5-0ba20a9cbc20b7867a35a53037c4af32",
+      "fiscale": {
+        "ricerca": {
+          "code": "1701003200020",
+          "documento": "0032-0002"
+        },
+        "azzeramento": 32,
+        "numeroScontrino": 2,
+        "matricola": "72MU1065030",
+        "data": "2021-08-27T11:01:14"
+      },
+      "pagamento": {
+        "pagamenti": [
+          {
+            "tipo": "contanti",
+            "importo": 25
+          }
+        ],
+        "totale": 25,
+        "resto": null
+      },
+      "righe": [
+        {
+          "codice": "ABBIGLIAMENTO",
+          "quantita": 1,
+          "descrizione": "REPARTO ABBIGLIAMENTO",
+          "prezzoUnitario": "25.00",
+          "prezzo": "25.00",
+          "aliquota": 22,
+          "tipo": "reparto",
+          "tipoBene": "PRODOTTO",
+          "nota": "",
+          "repartoFiscale": "1",
+          "operatore": "",
+          "rigaCodice": "9e223202-b84e-4432-be3c-a09aead2aae6"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Totale complessivo",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totalecomplessivo"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Pagamento contante",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "contanti"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Importo pagato",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totale",
+          "payload": null
+        }
+      ],
+      "stato": "chiuso",
+      "statoPagamento": "pagato",
+      "operatore": "",
+      "cliente": "",
+      "tipoDocumento": "scontrino",
+      "codiceBreve": "",
+      "editInfo": {
+        "dataCreazione": "2021-08-27T09:02:04.650Z",
+        "dataModifica": "2021-08-27T09:03:38.901Z"
+      },
+      "resi": [
+        {
+          "fiscale": {
+            "azzeramento": 32,
+            "numeroScontrino": 3,
+            "matricolaStampante": "72MU1065030",
+            "dataScontrino": "2021-08-27T11:02:45"
+          },
+          "righe": [
+            {
+              "codice": "ABBIGLIAMENTO",
+              "quantita": -1,
+              "descrizione": "REPARTO ABBIGLIAMENTO",
+              "prezzoUnitario": "25.00",
+              "prezzo": "-25.00",
+              "aliquota": 22,
+              "tipo": "reparto",
+              "tipoBene": "PRODOTTO",
+              "nota": "",
+              "repartoFiscale": "1",
+              "operatore": "",
+              "rigaCodice": "5c4ff3bc-ca04-457a-b2d2-4391f5deb8a9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_id": "2021-08-27T11:02:04+02:0093",
+      "_rev": "5-0ba20a9cbc20b7867a35a53037c4af32",
+      "fiscale": {
+        "ricerca": {
+          "code": "1701003200020",
+          "documento": "0032-0002"
+        },
+        "azzeramento": 32,
+        "numeroScontrino": 2,
+        "matricola": "72MU1065030",
+        "data": "2021-08-27T11:01:14"
+      },
+      "pagamento": {
+        "pagamenti": [
+          {
+            "tipo": "contanti",
+            "importo": 25
+          }
+        ],
+        "totale": 25,
+        "resto": null
+      },
+      "righe": [
+        {
+          "codice": "ABBIGLIAMENTO",
+          "quantita": 1,
+          "descrizione": "REPARTO ABBIGLIAMENTO",
+          "prezzoUnitario": "25.00",
+          "prezzo": "25.00",
+          "aliquota": 22,
+          "tipo": "reparto",
+          "tipoBene": "PRODOTTO",
+          "nota": "",
+          "repartoFiscale": "1",
+          "operatore": "",
+          "rigaCodice": "9e223202-b84e-4432-be3c-a09aead2aae6"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Totale complessivo",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totalecomplessivo"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Pagamento contante",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "contanti"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Importo pagato",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totale",
+          "payload": null
+        }
+      ],
+      "stato": "chiuso",
+      "statoPagamento": "pagato",
+      "operatore": "",
+      "cliente": "",
+      "tipoDocumento": "scontrino",
+      "codiceBreve": "",
+      "editInfo": {
+        "dataCreazione": "2021-08-27T09:02:04.650Z",
+        "dataModifica": "2021-08-27T09:03:38.901Z"
+      },
+      "resi": [
+        {
+          "fiscale": {
+            "azzeramento": 32,
+            "numeroScontrino": 3,
+            "matricolaStampante": "72MU1065030",
+            "dataScontrino": "2021-08-27T11:02:45"
+          },
+          "righe": [
+            {
+              "codice": "ABBIGLIAMENTO",
+              "quantita": -1,
+              "descrizione": "REPARTO ABBIGLIAMENTO",
+              "prezzoUnitario": "25.00",
+              "prezzo": "-25.00",
+              "aliquota": 22,
+              "tipo": "reparto",
+              "tipoBene": "PRODOTTO",
+              "nota": "",
+              "repartoFiscale": "1",
+              "operatore": "",
+              "rigaCodice": "5c4ff3bc-ca04-457a-b2d2-4391f5deb8a9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_id": "2021-08-27T11:02:04+02:0093",
+      "_rev": "5-0ba20a9cbc20b7867a35a53037c4af32",
+      "fiscale": {
+        "ricerca": {
+          "code": "1701003200020",
+          "documento": "0032-0002"
+        },
+        "azzeramento": 32,
+        "numeroScontrino": 2,
+        "matricola": "72MU1065030",
+        "data": "2021-08-27T11:01:14"
+      },
+      "pagamento": {
+        "pagamenti": [
+          {
+            "tipo": "contanti",
+            "importo": 25
+          }
+        ],
+        "totale": 25,
+        "resto": null
+      },
+      "righe": [
+        {
+          "codice": "ABBIGLIAMENTO",
+          "quantita": 1,
+          "descrizione": "REPARTO ABBIGLIAMENTO",
+          "prezzoUnitario": "25.00",
+          "prezzo": "25.00",
+          "aliquota": 22,
+          "tipo": "reparto",
+          "tipoBene": "PRODOTTO",
+          "nota": "",
+          "repartoFiscale": "1",
+          "operatore": "",
+          "rigaCodice": "9e223202-b84e-4432-be3c-a09aead2aae6"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Totale complessivo",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totalecomplessivo"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Pagamento contante",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "contanti"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Importo pagato",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totale",
+          "payload": null
+        }
+      ],
+      "stato": "chiuso",
+      "statoPagamento": "pagato",
+      "operatore": "",
+      "cliente": "",
+      "tipoDocumento": "scontrino",
+      "codiceBreve": "",
+      "editInfo": {
+        "dataCreazione": "2021-08-27T09:02:04.650Z",
+        "dataModifica": "2021-08-27T09:03:38.901Z"
+      },
+      "resi": [
+        {
+          "fiscale": {
+            "azzeramento": 32,
+            "numeroScontrino": 3,
+            "matricolaStampante": "72MU1065030",
+            "dataScontrino": "2021-08-27T11:02:45"
+          },
+          "righe": [
+            {
+              "codice": "ABBIGLIAMENTO",
+              "quantita": -1,
+              "descrizione": "REPARTO ABBIGLIAMENTO",
+              "prezzoUnitario": "25.00",
+              "prezzo": "-25.00",
+              "aliquota": 22,
+              "tipo": "reparto",
+              "tipoBene": "PRODOTTO",
+              "nota": "",
+              "repartoFiscale": "1",
+              "operatore": "",
+              "rigaCodice": "5c4ff3bc-ca04-457a-b2d2-4391f5deb8a9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_id": "2021-08-27T11:02:04+02:0093",
+      "_rev": "5-0ba20a9cbc20b7867a35a53037c4af32",
+      "fiscale": {
+        "ricerca": {
+          "code": "1701003200020",
+          "documento": "0032-0002"
+        },
+        "azzeramento": 32,
+        "numeroScontrino": 2,
+        "matricola": "72MU1065030",
+        "data": "2021-08-27T11:01:14"
+      },
+      "pagamento": {
+        "pagamenti": [
+          {
+            "tipo": "contanti",
+            "importo": 25
+          }
+        ],
+        "totale": 25,
+        "resto": null
+      },
+      "righe": [
+        {
+          "codice": "ABBIGLIAMENTO",
+          "quantita": 1,
+          "descrizione": "REPARTO ABBIGLIAMENTO",
+          "prezzoUnitario": "25.00",
+          "prezzo": "25.00",
+          "aliquota": 22,
+          "tipo": "reparto",
+          "tipoBene": "PRODOTTO",
+          "nota": "",
+          "repartoFiscale": "1",
+          "operatore": "",
+          "rigaCodice": "9e223202-b84e-4432-be3c-a09aead2aae6"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Totale complessivo",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totalecomplessivo"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Pagamento contante",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "contanti"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Importo pagato",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totale",
+          "payload": null
+        }
+      ],
+      "stato": "chiuso",
+      "statoPagamento": "pagato",
+      "operatore": "",
+      "cliente": "",
+      "tipoDocumento": "scontrino",
+      "codiceBreve": "",
+      "editInfo": {
+        "dataCreazione": "2021-08-27T09:02:04.650Z",
+        "dataModifica": "2021-08-27T09:03:38.901Z"
+      },
+      "resi": [
+        {
+          "fiscale": {
+            "azzeramento": 32,
+            "numeroScontrino": 3,
+            "matricolaStampante": "72MU1065030",
+            "dataScontrino": "2021-08-27T11:02:45"
+          },
+          "righe": [
+            {
+              "codice": "ABBIGLIAMENTO",
+              "quantita": -1,
+              "descrizione": "REPARTO ABBIGLIAMENTO",
+              "prezzoUnitario": "25.00",
+              "prezzo": "-25.00",
+              "aliquota": 22,
+              "tipo": "reparto",
+              "tipoBene": "PRODOTTO",
+              "nota": "",
+              "repartoFiscale": "1",
+              "operatore": "",
+              "rigaCodice": "5c4ff3bc-ca04-457a-b2d2-4391f5deb8a9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_id": "2021-08-27T11:02:04+02:0093",
+      "_rev": "5-0ba20a9cbc20b7867a35a53037c4af32",
+      "fiscale": {
+        "ricerca": {
+          "code": "1701003200020",
+          "documento": "0032-0002"
+        },
+        "azzeramento": 32,
+        "numeroScontrino": 2,
+        "matricola": "72MU1065030",
+        "data": "2021-08-27T11:01:14"
+      },
+      "pagamento": {
+        "pagamenti": [
+          {
+            "tipo": "contanti",
+            "importo": 25
+          }
+        ],
+        "totale": 25,
+        "resto": null
+      },
+      "righe": [
+        {
+          "codice": "ABBIGLIAMENTO",
+          "quantita": 1,
+          "descrizione": "REPARTO ABBIGLIAMENTO",
+          "prezzoUnitario": "25.00",
+          "prezzo": "25.00",
+          "aliquota": 22,
+          "tipo": "reparto",
+          "tipoBene": "PRODOTTO",
+          "nota": "",
+          "repartoFiscale": "1",
+          "operatore": "",
+          "rigaCodice": "9e223202-b84e-4432-be3c-a09aead2aae6"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Totale complessivo",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totalecomplessivo"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Pagamento contante",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "contanti"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Importo pagato",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totale",
+          "payload": null
+        }
+      ],
+      "stato": "chiuso",
+      "statoPagamento": "pagato",
+      "operatore": "",
+      "cliente": "",
+      "tipoDocumento": "scontrino",
+      "codiceBreve": "",
+      "editInfo": {
+        "dataCreazione": "2021-08-27T09:02:04.650Z",
+        "dataModifica": "2021-08-27T09:03:38.901Z"
+      },
+      "resi": [
+        {
+          "fiscale": {
+            "azzeramento": 32,
+            "numeroScontrino": 3,
+            "matricolaStampante": "72MU1065030",
+            "dataScontrino": "2021-08-27T11:02:45"
+          },
+          "righe": [
+            {
+              "codice": "ABBIGLIAMENTO",
+              "quantita": -1,
+              "descrizione": "REPARTO ABBIGLIAMENTO",
+              "prezzoUnitario": "25.00",
+              "prezzo": "-25.00",
+              "aliquota": 22,
+              "tipo": "reparto",
+              "tipoBene": "PRODOTTO",
+              "nota": "",
+              "repartoFiscale": "1",
+              "operatore": "",
+              "rigaCodice": "5c4ff3bc-ca04-457a-b2d2-4391f5deb8a9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_id": "2021-08-27T11:02:04+02:0093",
+      "_rev": "5-0ba20a9cbc20b7867a35a53037c4af32",
+      "fiscale": {
+        "ricerca": {
+          "code": "1701003200020",
+          "documento": "0032-0002"
+        },
+        "azzeramento": 32,
+        "numeroScontrino": 2,
+        "matricola": "72MU1065030",
+        "data": "2021-08-27T11:01:14"
+      },
+      "pagamento": {
+        "pagamenti": [
+          {
+            "tipo": "contanti",
+            "importo": 25
+          }
+        ],
+        "totale": 25,
+        "resto": null
+      },
+      "righe": [
+        {
+          "codice": "ABBIGLIAMENTO",
+          "quantita": 1,
+          "descrizione": "REPARTO ABBIGLIAMENTO",
+          "prezzoUnitario": "25.00",
+          "prezzo": "25.00",
+          "aliquota": 22,
+          "tipo": "reparto",
+          "tipoBene": "PRODOTTO",
+          "nota": "",
+          "repartoFiscale": "1",
+          "operatore": "",
+          "rigaCodice": "9e223202-b84e-4432-be3c-a09aead2aae6"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Totale complessivo",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totalecomplessivo"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Pagamento contante",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "contanti"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Importo pagato",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totale",
+          "payload": null
+        }
+      ],
+      "stato": "chiuso",
+      "statoPagamento": "pagato",
+      "operatore": "",
+      "cliente": "",
+      "tipoDocumento": "scontrino",
+      "codiceBreve": "",
+      "editInfo": {
+        "dataCreazione": "2021-08-27T09:02:04.650Z",
+        "dataModifica": "2021-08-27T09:03:38.901Z"
+      },
+      "resi": [
+        {
+          "fiscale": {
+            "azzeramento": 32,
+            "numeroScontrino": 3,
+            "matricolaStampante": "72MU1065030",
+            "dataScontrino": "2021-08-27T11:02:45"
+          },
+          "righe": [
+            {
+              "codice": "ABBIGLIAMENTO",
+              "quantita": -1,
+              "descrizione": "REPARTO ABBIGLIAMENTO",
+              "prezzoUnitario": "25.00",
+              "prezzo": "-25.00",
+              "aliquota": 22,
+              "tipo": "reparto",
+              "tipoBene": "PRODOTTO",
+              "nota": "",
+              "repartoFiscale": "1",
+              "operatore": "",
+              "rigaCodice": "5c4ff3bc-ca04-457a-b2d2-4391f5deb8a9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_id": "2021-08-27T11:02:04+02:0093",
+      "_rev": "5-0ba20a9cbc20b7867a35a53037c4af32",
+      "fiscale": {
+        "ricerca": {
+          "code": "1701003200020",
+          "documento": "0032-0002"
+        },
+        "azzeramento": 32,
+        "numeroScontrino": 2,
+        "matricola": "72MU1065030",
+        "data": "2021-08-27T11:01:14"
+      },
+      "pagamento": {
+        "pagamenti": [
+          {
+            "tipo": "contanti",
+            "importo": 25
+          }
+        ],
+        "totale": 25,
+        "resto": null
+      },
+      "righe": [
+        {
+          "codice": "ABBIGLIAMENTO",
+          "quantita": 1,
+          "descrizione": "REPARTO ABBIGLIAMENTO",
+          "prezzoUnitario": "25.00",
+          "prezzo": "25.00",
+          "aliquota": 22,
+          "tipo": "reparto",
+          "tipoBene": "PRODOTTO",
+          "nota": "",
+          "repartoFiscale": "1",
+          "operatore": "",
+          "rigaCodice": "9e223202-b84e-4432-be3c-a09aead2aae6"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Totale complessivo",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totalecomplessivo"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Pagamento contante",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "contanti"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Importo pagato",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totale",
+          "payload": null
+        }
+      ],
+      "stato": "chiuso",
+      "statoPagamento": "pagato",
+      "operatore": "",
+      "cliente": "",
+      "tipoDocumento": "scontrino",
+      "codiceBreve": "",
+      "editInfo": {
+        "dataCreazione": "2021-08-27T09:02:04.650Z",
+        "dataModifica": "2021-08-27T09:03:38.901Z"
+      },
+      "resi": [
+        {
+          "fiscale": {
+            "azzeramento": 32,
+            "numeroScontrino": 3,
+            "matricolaStampante": "72MU1065030",
+            "dataScontrino": "2021-08-27T11:02:45"
+          },
+          "righe": [
+            {
+              "codice": "ABBIGLIAMENTO",
+              "quantita": -1,
+              "descrizione": "REPARTO ABBIGLIAMENTO",
+              "prezzoUnitario": "25.00",
+              "prezzo": "-25.00",
+              "aliquota": 22,
+              "tipo": "reparto",
+              "tipoBene": "PRODOTTO",
+              "nota": "",
+              "repartoFiscale": "1",
+              "operatore": "",
+              "rigaCodice": "5c4ff3bc-ca04-457a-b2d2-4391f5deb8a9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_id": "2021-08-27T11:02:04+02:0093",
+      "_rev": "5-0ba20a9cbc20b7867a35a53037c4af32",
+      "fiscale": {
+        "ricerca": {
+          "code": "1701003200020",
+          "documento": "0032-0002"
+        },
+        "azzeramento": 32,
+        "numeroScontrino": 2,
+        "matricola": "72MU1065030",
+        "data": "2021-08-27T11:01:14"
+      },
+      "pagamento": {
+        "pagamenti": [
+          {
+            "tipo": "contanti",
+            "importo": 25
+          }
+        ],
+        "totale": 25,
+        "resto": null
+      },
+      "righe": [
+        {
+          "codice": "ABBIGLIAMENTO",
+          "quantita": 1,
+          "descrizione": "REPARTO ABBIGLIAMENTO",
+          "prezzoUnitario": "25.00",
+          "prezzo": "25.00",
+          "aliquota": 22,
+          "tipo": "reparto",
+          "tipoBene": "PRODOTTO",
+          "nota": "",
+          "repartoFiscale": "1",
+          "operatore": "",
+          "rigaCodice": "9e223202-b84e-4432-be3c-a09aead2aae6"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Totale complessivo",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totalecomplessivo"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Pagamento contante",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "contanti"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Importo pagato",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totale",
+          "payload": null
+        }
+      ],
+      "stato": "chiuso",
+      "statoPagamento": "pagato",
+      "operatore": "",
+      "cliente": "",
+      "tipoDocumento": "scontrino",
+      "codiceBreve": "",
+      "editInfo": {
+        "dataCreazione": "2021-08-27T09:02:04.650Z",
+        "dataModifica": "2021-08-27T09:03:38.901Z"
+      },
+      "resi": [
+        {
+          "fiscale": {
+            "azzeramento": 32,
+            "numeroScontrino": 3,
+            "matricolaStampante": "72MU1065030",
+            "dataScontrino": "2021-08-27T11:02:45"
+          },
+          "righe": [
+            {
+              "codice": "ABBIGLIAMENTO",
+              "quantita": -1,
+              "descrizione": "REPARTO ABBIGLIAMENTO",
+              "prezzoUnitario": "25.00",
+              "prezzo": "-25.00",
+              "aliquota": 22,
+              "tipo": "reparto",
+              "tipoBene": "PRODOTTO",
+              "nota": "",
+              "repartoFiscale": "1",
+              "operatore": "",
+              "rigaCodice": "5c4ff3bc-ca04-457a-b2d2-4391f5deb8a9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_id": "2021-08-27T11:02:04+02:0093",
+      "_rev": "5-0ba20a9cbc20b7867a35a53037c4af32",
+      "fiscale": {
+        "ricerca": {
+          "code": "1701003200020",
+          "documento": "0032-0002"
+        },
+        "azzeramento": 32,
+        "numeroScontrino": 2,
+        "matricola": "72MU1065030",
+        "data": "2021-08-27T11:01:14"
+      },
+      "pagamento": {
+        "pagamenti": [
+          {
+            "tipo": "contanti",
+            "importo": 25
+          }
+        ],
+        "totale": 25,
+        "resto": null
+      },
+      "righe": [
+        {
+          "codice": "ABBIGLIAMENTO",
+          "quantita": 1,
+          "descrizione": "REPARTO ABBIGLIAMENTO",
+          "prezzoUnitario": "25.00",
+          "prezzo": "25.00",
+          "aliquota": 22,
+          "tipo": "reparto",
+          "tipoBene": "PRODOTTO",
+          "nota": "",
+          "repartoFiscale": "1",
+          "operatore": "",
+          "rigaCodice": "9e223202-b84e-4432-be3c-a09aead2aae6"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Totale complessivo",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totalecomplessivo"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Pagamento contante",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "contanti"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "",
+          "prezzoUnitario": 0,
+          "prezzo": "",
+          "tipo": "separatore"
+        },
+        {
+          "quantita": 0,
+          "descrizione": "Importo pagato",
+          "prezzoUnitario": 0,
+          "prezzo": "25.00",
+          "tipo": "totale",
+          "payload": null
+        }
+      ],
+      "stato": "chiuso",
+      "statoPagamento": "pagato",
+      "operatore": "",
+      "cliente": "",
+      "tipoDocumento": "scontrino",
+      "codiceBreve": "",
+      "editInfo": {
+        "dataCreazione": "2021-08-27T09:02:04.650Z",
+        "dataModifica": "2021-08-27T09:03:38.901Z"
+      },
+      "resi": [
+        {
+          "fiscale": {
+            "azzeramento": 32,
+            "numeroScontrino": 3,
+            "matricolaStampante": "72MU1065030",
+            "dataScontrino": "2021-08-27T11:02:45"
+          },
+          "righe": [
+            {
+              "codice": "ABBIGLIAMENTO",
+              "quantita": -1,
+              "descrizione": "REPARTO ABBIGLIAMENTO",
+              "prezzoUnitario": "25.00",
+              "prezzo": "-25.00",
+              "aliquota": 22,
+              "tipo": "reparto",
+              "tipoBene": "PRODOTTO",
+              "nota": "",
+              "repartoFiscale": "1",
+              "operatore": "",
+              "rigaCodice": "5c4ff3bc-ca04-457a-b2d2-4391f5deb8a9"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
