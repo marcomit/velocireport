@@ -1,22 +1,21 @@
+'use client'
 import useTabs from "@/stores/tabs";
 import axios from "axios";
 import { Play } from "lucide-react";
-import { Button } from "./ui/button";
-import logo from "@/assets/logo.png";
 import Image from "next/image";
 import { ModeToggle } from "./theme-toggle";
+import { Button } from "./ui/button";
 
 const Header = ({
   setPdfBuffer,
 }: {
-  setPdfBuffer: (buffer: Blob | null) => void;
+    setPdfBuffer: (buffer: Record<string, number> | null) => void;
 }) => {
   const { selected, sync } = useTabs();
   async function handleRun() {
     const response = await axios.get("http://localhost:8000/pdf/scontrini", {
-      responseType: "blob",
     });
-    console.log(response);
+    console.log(response.data);
     setPdfBuffer(response.data);
   }
 

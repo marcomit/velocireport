@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
-import Header from "@/components/header";
 import DirectoriesTree from "@/components/directories-tree";
+import Header from "@/components/header";
+import PdfPreview from "@/components/pdf-preview";
 import Tabs from "@/components/tabs";
 import TextEditor from "@/components/text-editor";
 import {
@@ -11,11 +10,11 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import PdfPreview from "@/components/pdf-preview";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [directories, setDirectories] = useState([]);
-  const [pdfBuffer, setPdfBuffer] = useState<Blob | null>(null);
+  const [pdfBuffer, setPdfBuffer] = useState<Record<string, number> | null>(null);
 
   const fetchDirectories = async () => {
     const url = "http://localhost:8000/templates";
