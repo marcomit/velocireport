@@ -1,13 +1,9 @@
 "use client";
+
+import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-
-// Dynamically load PdfPreview
-const PdfPreview = dynamic(() => import("@/components/pdf-preview"), {
-  ssr: false, // Disable server-side rendering
-});
-
-import DirectoriesTree from "@/components/directories-tree";
 import Header from "@/components/header";
+import DirectoriesTree from "@/components/directories-tree";
 import Tabs from "@/components/tabs";
 import TextEditor from "@/components/text-editor";
 import {
@@ -15,11 +11,8 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { useEffect, useState } from "react";
-import logo from "@/assets/logo.png";
 
 export default function Home() {
-  const [pdfBuffer, setPdfBuffer] = useState<Buffer | null>(null);
   const [directories, setDirectories] = useState([]);
 
   const fetchDirectories = async () => {
@@ -41,30 +34,42 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="h-screen w-screen">
+    <div className="h-screen flex flex-col">
       <Header />
-      <ResizablePanelGroup direction="horizontal">
-        {/* First panel with smaller size */}
-        <ResizablePanel defaultSize={10} minSize={5}>
-          {directories.length === 0 ? (
-            <p>Loading...</p>
-          ) : (
-            <DirectoriesTree directories={directories} />
-          )}
-        </ResizablePanel>
-        <ResizableHandle />
-        <ResizablePanel defaultSize={45} minSize={10}>
-          <div className="h-full flex flex-col ">
+      <div className="flex-1 overflow-hidden">
+        <ResizablePanelGroup direction="horizontal" className="h-full">
+          <ResizablePanel
+            defaultSize={10}
+            minSize={5}
+            className="h-full overflow-auto"
+          >
+            {directories.length === 0 ? (
+              <p>Loading...</p>
+            ) : (
+              <DirectoriesTree directories={directories} />
+            )}
+          </ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel
+            defaultSize={45}
+            minSize={10}
+            className="h-full flex flex-col"
+          >
             <Tabs />
-            <TextEditor />
-          </div>
-        </ResizablePanel>
-        <ResizableHandle />
-        <ResizablePanel defaultSize={45} minSize={10}>
-          <h2>PDF Preview</h2>
-          <PdfPreview buffer={pdfBuffer} />
-        </ResizablePanel>
-      </ResizablePanelGroup>
+            <div className="flex-1 overflow-auto">
+              <TextEditor />
+            </div>
+          </ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel defaultSize={45} minSize={10} className="h-full">
+            <div className="h-full flex justify-center items-center overflow-auto">
+              <h2>PDF Preview</h2>
+              {/* Uncomment and use PdfPreview component when ready */}
+              {/* <PdfPreview buffer={pdfBuffer} /> */}
+            </div>
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      </div>
     </div>
   );
 }
