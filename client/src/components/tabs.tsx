@@ -4,11 +4,13 @@ import useTabs from "@/stores/tabs";
 import { DirectoryTree } from "@/types/directory";
 import { Dot, X } from "lucide-react";
 import { Button } from "./ui/button";
+import Image from "next/image";
+import { imagesForLanguage } from "@/lib/utils";
 
 const Tabs = () => {
   const { tabs } = useTabs();
   return (
-    <div className="flex h-10 space-x-2 overflow-x-scroll no-scrollbar ">
+    <div className="flex p-1 space-x-2 overflow-x-scroll no-scrollbar border-b-2 border-border">
       {tabs.map((tab) => (
         <TabItem key={tab.name} file={tab} />
       ))}
@@ -31,12 +33,19 @@ const TabItem = ({ file }: { file: DirectoryTree }) => {
 
   return (
     <div
-      className={`flex items-center justify-center space-x-2 border-2 border-primary px-2 cursor-pointer m-1 rounded-md ${
+      className={`flex items-center justify-center space-x-2 hover:bg-border px-2 py-2 cursor-pointer m-1 rounded-lg ${
         file === selected && "bg-primary/10"
       }`}
       onClick={handleClick}
     >
       {file.sync == false && <Dot className="w-6 h-6 p-0" />}
+      <Image
+        src={`/${imagesForLanguage.get(file.name.split(".").pop() || "")}`}
+        className="w-4 h-4"
+        alt={file.name}
+        width={20}
+        height={20}
+      />{" "}
       <span>{file.name}</span>
       <Button
         onClick={handleClose}

@@ -34,7 +34,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="h-screen flex flex-col">
+    <div className="h-screen flex flex-col font-mono">
       <Header />
       <div className="flex-1 overflow-hidden">
         <ResizablePanelGroup direction="horizontal" className="h-full">
@@ -53,10 +53,10 @@ export default function Home() {
           <ResizablePanel
             defaultSize={45}
             minSize={10}
-            className="h-full flex flex-col"
+            className="h-full flex flex-col border-s-2 border-e-2 border-border"
           >
             <Tabs />
-            <div className="flex-1 overflow-auto">
+            <div className="flex-1 overflow-auto ">
               <TextEditor />
             </div>
           </ResizablePanel>
