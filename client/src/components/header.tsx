@@ -37,21 +37,21 @@ const Header = () => {
 
         <Button
           onClick={handleRun}
-          className="flex items-center justify-center space-x-2 mx-4 my-2 border-2 border-white"
+          className="flex items-center justify-center space-x-2 mx-4 my-2 border-2 bg-background text-foreground border-foreground hover:text-background"
         >
           <Play className="w-8 h-w-8" />
           <span className="text-xl">Run</span>
         </Button>
         <Button
           onClick={handleSave}
-          className="flex items-center justify-center space-x-2 mx-4 my-2 border-2 border-white"
+          className="flex items-center justify-center space-x-2 mx-4 my-2 border-2 bg-background text-foreground border-foreground hover:text-background"
         >
           <Play className="w-8 h-w-8" />
           <span className="text-xl">Save file</span>
         </Button>
         <Button
           onClick={handleSaveAll}
-          className="flex items-center justify-center space-x-2 mx-4 my-2 border-2 border-white"
+          className="flex items-center justify-center space-x-2 mx-4 my-2 border-2 bg-background text-foreground border-foreground hover:text-background"
         >
           <Play className="w-8 h-w-8" />
           <span className="text-xl">Save all</span>
