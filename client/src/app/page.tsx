@@ -1,5 +1,6 @@
 "use client";
 
+import CommandBar from "@/components/command-bar";
 import DirectoriesTree from "@/components/directories-tree";
 import Header from "@/components/header";
 import PdfPreview from "@/components/pdf-preview";
@@ -10,11 +11,14 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 
 export default function Home() {
   const [directories, setDirectories] = useState([]);
-  const [pdfBuffer, setPdfBuffer] = useState<Record<string, number> | null>(null);
+  const [pdfBuffer, setPdfBuffer] = useState<Record<string, number> | null>(
+    null
+  );
 
   const fetchDirectories = async () => {
     const url = "http://localhost:8000/templates";
@@ -34,9 +38,16 @@ export default function Home() {
     fetchDirectories();
   }, []);
 
+  const constraintsRef = useRef(null);
+
   return (
-    <div className="h-screen flex flex-col font-mono">
-      <Header setPdfBuffer={setPdfBuffer} />
+    <motion.div
+      ref={constraintsRef}
+      className="h-screen flex flex-col font-mono"
+    >
+      <CommandBar setPdfBuffer={setPdfBuffer} constraintsRef={constraintsRef} />
+
+      <Header />
       <div className="flex-1 overflow-hidden">
         <ResizablePanelGroup direction="horizontal" className="h-full">
           <ResizablePanel
@@ -73,6 +84,6 @@ export default function Home() {
           </ResizablePanel>
         </ResizablePanelGroup>
       </div>
-    </div>
+    </motion.div>
   );
 }
