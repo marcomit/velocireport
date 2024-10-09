@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Button } from "./ui/button";
 import useTabs from "@/stores/tabs";
-import { Play } from "lucide-react";
+import { Play, Save, SaveAll } from "lucide-react";
 import { motion } from "framer-motion";
 
 const CommandBar = ({
@@ -42,23 +42,26 @@ const CommandBar = ({
     >
       <Button
         onClick={handleRun}
-        className="flex items-center justify-center space-x-2 border-2 bg-background text-foreground border-border hover:bg-border "
+        className="flex items-center justify-center space-x-2  "
+        variant={"custom-dark"}
       >
         <Play className="w-8 h-w-8" />
         <span className="text-xl">Run</span>
       </Button>
       <Button
         onClick={handleSave}
-        className="flex items-center justify-center space-x-2 border-2 bg-background text-foreground  border-border hover:bg-border"
+        className="flex items-center justify-center space-x-2 "
+        variant={"custom-dark"}
       >
-        <Play className="w-8 h-w-8" />
+        <Save className="w-8 h-w-8" />
         <span className="text-xl">Save file</span>
       </Button>
       <Button
         onClick={handleSaveAll}
-        className="flex items-center justify-center space-x-2 border-2 bg-background text-foreground  border-border hover:bg-border"
+        className="flex items-center justify-center space-x-2 "
+        variant={"custom-dark"}
       >
-        <Play className="w-8 h-w-8" />
+        <SaveAll className="w-8 h-w-8" />
         <span className="text-xl">Save all</span>
       </Button>
     </motion.div>

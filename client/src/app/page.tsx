@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/resizable";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import ShortcutSidebar from "@/components/shortcut-sidebar";
 
 export default function Home() {
   const [directories, setDirectories] = useState([]);
@@ -53,13 +55,14 @@ export default function Home() {
           <ResizablePanel
             defaultSize={10}
             minSize={5}
-            className="h-full overflow-auto"
+            className="h-full overflow-auto flex flex-col content-between"
           >
             {directories.length === 0 ? (
               <p>Loading...</p>
             ) : (
               <DirectoriesTree directories={directories} />
             )}
+            <ShortcutSidebar />
           </ResizablePanel>
           <ResizableHandle />
           <ResizablePanel
