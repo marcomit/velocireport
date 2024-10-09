@@ -46,10 +46,10 @@ class Template {
     }
   }
   public async create(classic: boolean = false) {
-    if (await this.exists()) {
-      return;
+    if (!(await this.exists())) {
+      await fs.mkdir(this.path);
     }
-    await fs.mkdir(this.path);
+
     if (classic) {
       await this.upsert({
         name: "index.js",
@@ -140,7 +140,7 @@ class Template {
     });
     const header = (await this.defaultScript("header")) || "";
     const footer = (await this.defaultScript("footer")) || "";
-    
+
     const pdf = await page.pdf({
       format: "A4",
       printBackground: true,

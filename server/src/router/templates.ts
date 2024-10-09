@@ -13,6 +13,7 @@ router.get("/", async (req, res) => {
 // Get a template
 router.get("/:templateName", async (req, res) => {
   const { templateName } = req.params;
+
   const template = new Template(templateName);
 
   if (!(await template.exists())) {
@@ -49,8 +50,9 @@ router.post("/:templateName", async (req, res) => {
     res.status(409).send("Template already exists");
     return;
   }
+  console.log(req.query);
 
-  await template.create(req.query.classic != null);
+  await template.create(req.query.default != null);
 
   res.send('Created template "' + templateName + '"');
 });
