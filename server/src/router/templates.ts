@@ -40,7 +40,8 @@ router.get("/:templateName/:fileName", async (req, res) => {
 });
 
 router.post("/:templateName", async (req, res) => {
-  const { templateName } = req.body;
+  const { templateName } = req.params;
+  console.log(templateName);
 
   const template = new Template(templateName, true);
 
