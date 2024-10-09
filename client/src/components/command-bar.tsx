@@ -1,8 +1,9 @@
-import axios from "axios";
-import { Button } from "./ui/button";
 import useTabs from "@/stores/tabs";
-import { Play, Save, SaveAll } from "lucide-react";
+import axios, { AxiosError } from "axios";
 import { motion } from "framer-motion";
+import { Play, Save, SaveAll } from "lucide-react";
+import { toast } from "sonner";
+import { Button } from "./ui/button";
 
 const CommandBar = ({
   setPdfBuffer,
@@ -13,9 +14,16 @@ const CommandBar = ({
 }) => {
   const { selected, sync } = useTabs();
   async function handleRun() {
-    const response = await axios.get("http://localhost:8000/pdf/scontrini", {});
-    console.log(response.data);
-    setPdfBuffer(response.data);
+    if (!selected) return;
+    try {
+      const response = await axios.get(`http://localhost:8000/pdf/${selected.parent.split('/')[0]}`);
+      setPdfBuffer(response.data);
+    }
+    catch (e) {
+      if (e instanceof AxiosError) {
+        toast.error(e.toString());
+      }
+    }
   }
 
   async function handleSave() {
@@ -23,8 +31,8 @@ const CommandBar = ({
 
     try {
       const response = await axios.put(
-        `http://localhost:8000/templates/${selected.name}`,
-        selected.content
+        `http://localhost:8000/templates`,
+        selected
       );
       console.log(response.data);
       sync(selected);

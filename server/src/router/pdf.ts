@@ -12,9 +12,13 @@ router.get("/:templateName", async (req, res) => {
   }
   const template = new Template(templateName);
 
-  const pdf = await template.pdf();
-  res.set("Content-Type", "application/pdf");
-  res.send(pdf);
+  try {
+    const pdf = await template.pdf();
+    res.set("Content-Type", "application/pdf");
+    res.send(pdf);
+  } catch (e) {
+    res.status(400).send(e);
+  }
 });
 
 export default router;

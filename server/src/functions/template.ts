@@ -54,18 +54,22 @@ class Template {
       await this.upsert({
         name: "index.js",
         content: 'import { div } from "../../src/html"',
+        parent: this.name
       });
       await this.upsert({
         name: "header.js",
         content: "",
+        parent: this.name
       });
       await this.upsert({
         name: "footer.js",
         content: "",
+        parent: this.name,
       });
       await this.upsert({
         name: "style.css",
         content: "",
+        parent: this.name,
       });
     }
   }
@@ -114,7 +118,7 @@ class Template {
       "utf8"
     );
   }
-  public async upsert(file: Omit<Omit<TemplateTree, "parent">, "type">) {
+  public async upsert(file: Omit<TemplateTree, "type">) {
     const exists = await this.exists(file.name);
     await fs.writeFile(
       path.join(this.path, file.name!),
