@@ -16,6 +16,9 @@ const ShortcutSidebar = () => {
       <Button variant={"custom-dark"} className="mt-2 w-full">
         CONNECT SCRIPTS
       </Button>
+      <Button variant={"destructive-outline"} className="mt-2 w-full">
+        DELETE TEMPLATE
+      </Button>
       <Button variant={"custom-dark"} className="mt-auto w-full">
         PUBLISH TEMPLATE
       </Button>
