@@ -2,7 +2,7 @@ import fs from "fs/promises";
 import path from "path";
 import puppeteer from "puppeteer";
 import pdf, { renderToString } from "../html";
-import { exists } from "./utils";
+import { exists, treePath } from "./utils";
 
 type TemplateTree = {
   name: string;
@@ -29,7 +29,7 @@ class Template {
   public async exists(filePath?: string, isDirectory: boolean = false) {
     if (filePath) {
       if (isDirectory) {
-        return await exists(path.join(this.path, filePath));
+        return await exists(filePath);
       }
 
       return await exists(filePath);
@@ -104,7 +104,7 @@ class Template {
       return null;
     }
 
-    return await fs.readFile(path.join(this.path, fileName), "utf8");
+    return await fs.readFile(fileName, "utf8");
   }
   public async rename(newName: string) {
     await fs.rename(
@@ -135,53 +135,58 @@ class Template {
   }
   public async pdf() {
     const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    const template = await this.getContent();
+    try {
+      const page = await browser.newPage();
+      const template = await this.getContent();
 
-    await page.setContent(renderToString(template), {
-      waitUntil: "networkidle0",
-    });
-    const header = (await this.defaultScript("header")) || "";
-    const footer = (await this.defaultScript("footer")) || "";
+      await page.setContent(renderToString(template), {
+        waitUntil: "networkidle0",
+      });
+      const header = (await this.defaultScript("header")) || "";
+      const footer = (await this.defaultScript("footer")) || "";
 
-    const generatedPdf = await page.pdf({
-      format: "A4",
-      printBackground: true,
-      preferCSSPageSize: true,
-      margin: { top: 100, bottom: 100, left: 100, right: 100 },
-      displayHeaderFooter: true,
-      headerTemplate: header ? renderToString(header) : "",
-      footerTemplate: footer ? renderToString(footer) : "",
-    });
+      const generatedPdf = await page.pdf({
+        format: "A4",
+        printBackground: true,
+        preferCSSPageSize: true,
+        margin: { top: 100, bottom: 100, left: 100, right: 100 },
+        displayHeaderFooter: true,
+        headerTemplate: header ? renderToString(header) : "",
+        footerTemplate: footer ? renderToString(footer) : "",
+      });
 
-    await fs.writeFile(`./templates/${this.name}/report.pdf`, generatedPdf);
+      await fs.writeFile(`./templates/${this.name}/report.pdf`, generatedPdf);
 
-    await browser.close();
-    return generatedPdf;
+      await browser.close();
+      return generatedPdf;
+    } catch (e) {
+      browser.close();
+      return `${e}`;
+    }
   }
   public async script<T>(
     fileWithoutExtension: string,
     callback: (fileWithExtension: string) => Promise<T>
   ): Promise<T | null> {
+    const fileName = fileWithoutExtension.split("/").pop();
     if (await this.exists(fileWithoutExtension + ".ts")) {
-      return await callback(fileWithoutExtension + ".ts");
+      return await callback(fileName + ".ts");
     }
     if (await this.exists(fileWithoutExtension + ".js")) {
-    return await callback(fileWithoutExtension + ".js");
+      return await callback(fileName + ".js");
     }
     return null;
   }
   public async defaultScript(fileName: string) {
     const content = (
       await this.script(
-        fileName,
+        treePath({ name: fileName, parent: this.name }),
         async (file) => await import(`../../templates/${this.name}/${file}`)
       )
     ).default;
-    
     return await content();
   }
-  public async link(fileName: string) {}
+  // public async link(fileName: string) {}
   public async getContent() {
     const script = await this.get("script.js");
     const style = await this.get("style.css");

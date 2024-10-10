@@ -14,7 +14,7 @@ function isTemplate(obj: object) {
   return "type" in obj && "name" in obj && "parent" in obj && "content" in obj;
 }
 
-function treePath(tree: TemplateTree) {
+function treePath(tree: Omit<TemplateTree, "type" | "content">) {
   return path.join(Template.PATH, tree.parent, tree.name);
 }
 
