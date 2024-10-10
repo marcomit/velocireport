@@ -1,3 +1,53 @@
 /* *{
   background: #000;
 } */
+
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0 auto;
+  padding: 0px;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+.header {
+  width: 100%;
+  padding-top: 10px;
+}
+.footer {
+  width: 100%;
+  padding-bottom: 20px;
+  border-top: 1px solid black;
+}
+.receipt-box {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 10px;
+  width: 100%;
+}
+table {
+  width: 100%;
+  line-height: 24px;
+  text-align: left;
+  border-collapse: collapse;
+  page-break-inside: auto; /* Allow the table to break naturally */
+}
+
+thead {
+  display: table-header-group; /* Ensures the header repeats on new pages */
+}
+
+.table td,
+.table th {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
