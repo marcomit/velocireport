@@ -1,6 +1,8 @@
 import express from "express";
+import fs from "fs/promises";
 import path from "path";
 import Template, { type TemplateTree } from "../lib/template";
+import { exists, isTemplate, treePath } from "../lib/utils";
 
 const router = express.Router();
 // Get all templates
@@ -59,8 +61,20 @@ router.post("/:templateName", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  console.log(req.body);
   const content: TemplateTree = req.body;
+  if (content.type === "directory") {
+    if (await exists(path.join("..", content.parent, content.name))) {
+      res.status(409).send("Directory already exists");
+      return;
+    }
+
+    await fs.mkdir(path.join("..", content.parent, content.name), {
+      recursive: true,
+    });
+    res.send("Directory created");
+    return;
+  }
+
   const template = new Template(content.parent.split("/")[0] || "");
 
   if (!(await template.exists())) {
@@ -78,7 +92,6 @@ router.post("/", async (req, res) => {
 
 router.put("/", async (req, res) => {
   const content: TemplateTree = req.body;
-  console.log(content);
   const template = new Template(content.parent.split("/")[0] || "");
   if (!(await template.exists())) {
     res.status(404).send("Template not found");
@@ -93,6 +106,39 @@ router.put("/", async (req, res) => {
   await template.insert(content);
 
   res.send("File updated");
+});
+
+router.put("/rename/:templateName", async (req, res) => {
+  const content = req.body;
+  if (!("old" in content && "new" in content)) {
+    res.status(400).send('Invalid request, missing "old" or "new" fields');
+    return;
+  }
+  const { old, new: newName }: { old: TemplateTree; new: TemplateTree } =
+    content;
+  if (!isTemplate(old)) {
+    res.status(400).send('Invalid request, "old" is not a template');
+    return;
+  }
+  if (!isTemplate(newName)) {
+    res.status(400).send('Invalid request, "new" is not a template');
+    return;
+  }
+  const template = new Template(req.params.templateName);
+  if (!(await template.exists())) {
+    res.status(404).send("Template not found");
+    return;
+  }
+  if (!(await template.exists(path.join("..", old.parent, old.name)))) {
+    res.status(404).send(`File ${old.name} not found`);
+    return;
+  }
+  try {
+    await fs.rename(treePath(old), treePath(newName));
+    res.send("File renamed");
+  } catch (e) {
+    res.status(400).send(e);
+  }
 });
 
 export default router;
