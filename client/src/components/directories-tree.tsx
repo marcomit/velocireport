@@ -2,7 +2,16 @@
 import useTabs from "@/stores/tabs";
 import { DirectoryTree } from "@/types/directory";
 import { TooltipContent } from "@radix-ui/react-tooltip";
-import { ChevronRight, File, Folder, TextCursor, Trash } from "lucide-react";
+import {
+  ChevronRight,
+  File,
+  Folder,
+  Plane,
+  Play,
+  SaveAll,
+  TextCursor,
+  Trash,
+} from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import {
@@ -72,6 +81,14 @@ const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
             </ContextMenuTrigger>
             <ContextMenuContent>
               <ContextMenuItem>
+                <Play className="w-4 h-4 me-2" />
+                Run
+              </ContextMenuItem>
+              <ContextMenuItem>
+                <SaveAll className="w-4 h-4 me-2" />
+                Save all
+              </ContextMenuItem>
+              <ContextMenuItem>
                 <Folder className="w-4 h-4 me-2" />
                 New folder
               </ContextMenuItem>
@@ -83,8 +100,8 @@ const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
                 <TextCursor className="w-4 h-4 me-2" />
                 Rename
               </ContextMenuItem>
-              <ContextMenuItem>
-                <Trash className="w-4 h-4 me-2" />
+              <ContextMenuItem className="text-destructive focus:text-destructive">
+                <Trash className="w-4 h-4 me-2 " />
                 Delete
               </ContextMenuItem>
             </ContextMenuContent>
@@ -116,8 +133,6 @@ const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
               </div>
             </ContextMenuTrigger>
             <ContextMenuContent>
-              <ContextMenuItem>New folder</ContextMenuItem>
-              <ContextMenuItem>New file</ContextMenuItem>
               <ContextMenuItem>Rename</ContextMenuItem>
               <ContextMenuItem>Delete</ContextMenuItem>
             </ContextMenuContent>

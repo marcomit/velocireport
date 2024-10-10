@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Play, Save, SaveAll } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "./ui/button";
+import { runTemplate } from "@/lib/utils";
 
 const CommandBar = ({
   setPdfBuffer,
@@ -13,18 +14,6 @@ const CommandBar = ({
   setPdfBuffer: (buffer: Record<string, number> | null) => void;
 }) => {
   const { selected, sync } = useTabs();
-  async function handleRun() {
-    if (!selected) return;
-    try {
-      const response = await axios.get(`http://localhost:8000/pdf/${selected.parent.split('/')[0]}`);
-      setPdfBuffer(response.data);
-    }
-    catch (e) {
-      if (e instanceof AxiosError) {
-        toast.error(e.toString());
-      }
-    }
-  }
 
   async function handleSave() {
     if (!selected || selected.sync == true) return;
@@ -40,7 +29,11 @@ const CommandBar = ({
       console.error("Error saving file:", error);
     }
   }
-
+  async function handleRun() {
+    if (!selected) return;
+    const buffer = await runTemplate(selected.parent.split("/")[0] || "");
+    if (buffer != null) setPdfBuffer(buffer);
+  }
   function handleSaveAll() {}
   return (
     <motion.div
