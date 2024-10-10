@@ -15,27 +15,28 @@ const Tabs = () => {
   const contentRef = useRef<HTMLDivElement | null>(null);
   const [dragConstraints, setDragConstraints] = useState({ left: 0, right: 0 });
 
+  // Update drag constraints based on container and content size
+  const updateDragConstraints = () => {
+    if (containerRef.current && contentRef.current) {
+      const containerWidth = containerRef.current.offsetWidth; // Width of the container
+      const contentWidth = contentRef.current.scrollWidth; // Width of all tabs combined
+
+      // Calculate the left and right drag constraints
+      const leftConstraint = 0; // The left side should start at 0
+      const rightConstraint = Math.max(contentWidth - containerWidth, 0); // Prevent going past the last tab
+
+      setDragConstraints({ left: leftConstraint, right: rightConstraint });
+    }
+  };
+
   useEffect(() => {
-    const updateDragConstraints = () => {
-      if (containerRef.current && contentRef.current) {
-        const containerWidth = containerRef.current.offsetWidth;
-        const contentWidth = contentRef.current.scrollWidth;
-
-        // Calculate drag constraints
-        const leftConstraint = containerWidth - contentWidth;
-        const rightConstraint = 0;
-
-        setDragConstraints({ left: leftConstraint, right: rightConstraint });
-      }
-    };
-
-    updateDragConstraints();
-    window.addEventListener("resize", updateDragConstraints);
+    updateDragConstraints(); // Calculate constraints on mount
+    window.addEventListener("resize", updateDragConstraints); // Update on resize
 
     return () => {
-      window.removeEventListener("resize", updateDragConstraints);
+      window.removeEventListener("resize", updateDragConstraints); // Cleanup on unmount
     };
-  }, [tabs]);
+  }, [tabs]); // Recalculate when tabs change
 
   return (
     <div
@@ -47,6 +48,7 @@ const Tabs = () => {
         className="flex space-x-2 p-1"
         drag="x"
         dragConstraints={dragConstraints}
+        onDragEnd={() => updateDragConstraints()} // Recalculate constraints after drag ends
         style={{ userSelect: "none" }}
       >
         {tabs.map((tab) => (
