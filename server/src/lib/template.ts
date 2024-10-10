@@ -125,6 +125,7 @@ class Template {
     );
   }
   public async delete(file: TemplateTree) {
+    await fs.rm(treePath(file), { recursive: true });
     if (
       file.name == "index.ts" ||
       file.name == "index.js" ||
@@ -168,7 +169,9 @@ class Template {
     fileWithoutExtension: string,
     callback: (fileWithExtension: string) => Promise<T>
   ): Promise<T | null> {
-    const fileName = fileWithoutExtension.split("/").pop();
+    const fileName = fileWithoutExtension.split("\\").pop();
+    console.log(fileName);
+    
     if (await this.exists(fileWithoutExtension + ".ts")) {
       return await callback(fileName + ".ts");
     }

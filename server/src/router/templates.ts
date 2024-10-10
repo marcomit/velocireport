@@ -150,4 +150,23 @@ router.put("/rename/:templateName", async (req, res) => {
   }
 });
 
+router.delete("/", async (req, res) => {
+  const content: TemplateTree = req.body;
+  if (!isTemplate(content)) {
+    res.status(400).send('Invalid request, "content" is not a template');
+    return;
+  }
+  const template = new Template(content.parent.split("/")[0] || "");
+  if (!(await template.exists())) {
+    res.status(404).send("Template not found");
+    return;
+  }
+  if (!(await template.exists(treePath(content)))) {
+    res.status(404).send(`File ${content.name} not found ${treePath(content)}`);
+    return;
+  }
+  await template.delete(content);
+  res.send("File deleted");
+});
+
 export default router;
