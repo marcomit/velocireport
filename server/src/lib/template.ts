@@ -32,7 +32,7 @@ class Template {
         return await exists(path.join(this.path, filePath));
       }
 
-      return await exists(path.join(this.path, filePath));
+      return await exists(filePath);
     }
     return await exists(this.path);
   }

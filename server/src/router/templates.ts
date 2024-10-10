@@ -104,8 +104,11 @@ router.put("/", async (req, res) => {
       return;
     }
 
+    console.log();
     if (!(await template.exists(treePath(content)))) {
-      res.status(404).send(`File ${content.name} not found`);
+      res
+        .status(404)
+        .send(`File ${content.name} not found ${treePath(content)}`);
       return;
     }
 
