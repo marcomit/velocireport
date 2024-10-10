@@ -8,7 +8,7 @@ interface TabsState {
   open: (fileName: DirectoryTree) => void;
   close: (file: DirectoryTree) => void;
   last: () => DirectoryTree | undefined;
-  updateContent: (fileName: string, newContent: string) => void;
+  updateContent: (fileName: string, content: string) => void;
   sync: (file?: DirectoryTree) => void;
 }
 

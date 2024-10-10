@@ -1,19 +1,4 @@
 "use client";
-import useTabs from "@/stores/tabs";
-import { DirectoryTree } from "@/types/directory";
-import { TooltipContent } from "@radix-ui/react-tooltip";
-import {
-  ChevronRight,
-  File,
-  Folder,
-  Plane,
-  Play,
-  SaveAll,
-  TextCursor,
-  Trash,
-} from "lucide-react";
-import Image from "next/image";
-import { useState } from "react";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -22,6 +7,21 @@ import {
 } from "@/components/ui/context-menu";
 import { imagesForLanguage, runTemplate, saveFiles } from "@/lib/utils";
 import { usePdfBuffer } from "@/stores/pdf-buffer";
+import useTabs from "@/stores/tabs";
+import { DirectoryTree } from "@/types/directory";
+import { AxiosError } from "axios";
+import {
+  ChevronRight,
+  File,
+  Folder,
+  Play,
+  SaveAll,
+  TextCursor,
+  Trash
+} from "lucide-react";
+import Image from "next/image";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface DirectoriesTreeProps {
   directories: DirectoryTree[];
@@ -50,9 +50,18 @@ const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
     }
 
     async function handleSaveAll(directory: DirectoryTree) {
+
       //TODO only send modified files :)
       if (typeof directory.content === "string") return;
-      saveFiles(directory.content as DirectoryTree[]);
+      try {
+        console.log()
+        const response = await saveFiles(directory.content);
+      }
+      catch (e) {
+        if (e instanceof AxiosError) {
+          toast.error(e.message.toString());
+        }
+      }
     }
 
     return directories.map((directory) => (

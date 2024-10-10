@@ -84,7 +84,7 @@ class Template {
           parent,
           content: children,
         });
-      } else if (stat.isFile()) {
+      } else if (stat.isFile() && file != "report.pdf") {
         const content = await fs.readFile(
           path.join(__dirname, directory, file),
           "utf8"

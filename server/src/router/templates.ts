@@ -89,6 +89,7 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/", async (req, res) => {
+  console.log(req.body);
   const contents = req.body;
   if (!Array.isArray(contents)) {
     res.status(400).send("Invalid request, body is not an array");
