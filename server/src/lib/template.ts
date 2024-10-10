@@ -31,8 +31,6 @@ class Template {
       if (isDirectory) {
         return await exists(path.join(this.path, filePath));
       }
-      // console.log(path.join(this.path, filePath));
-      console.log(filePath);
 
       return await exists(path.join(this.path, filePath));
     }
@@ -139,6 +137,7 @@ class Template {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     const template = await this.getContent();
+
     await page.setContent(renderToString(template), {
       waitUntil: "networkidle0",
     });
@@ -158,7 +157,7 @@ class Template {
     await fs.writeFile(`./templates/${this.name}/report.pdf`, generatedPdf);
 
     await browser.close();
-    return pdf;
+    return generatedPdf;
   }
   public async script<T>(
     fileWithoutExtension: string,
@@ -168,7 +167,7 @@ class Template {
       return await callback(fileWithoutExtension + ".ts");
     }
     if (await this.exists(fileWithoutExtension + ".js")) {
-      return await callback(fileWithoutExtension + ".js");
+    return await callback(fileWithoutExtension + ".js");
     }
     return null;
   }
@@ -179,6 +178,7 @@ class Template {
         async (file) => await import(`../../templates/${this.name}/${file}`)
       )
     ).default;
+    
     return await content();
   }
   public async link(fileName: string) {}
@@ -187,7 +187,9 @@ class Template {
     const style = await this.get("style.css");
     const globalScript = await this.get("../shared/global.js");
     const globalStyle = await this.get("../shared/global.css");
+
     const content = await this.defaultScript("index");
+
     return pdf.html(
       pdf.head(
         pdf.style(globalStyle || ""),

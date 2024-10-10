@@ -45,7 +45,6 @@ router.get("/:templateName/:fileName", async (req, res) => {
 
 router.post("/:templateName", async (req, res) => {
   const { templateName } = req.params;
-  console.log(templateName);
 
   const template = new Template(templateName, true);
 
@@ -53,7 +52,6 @@ router.post("/:templateName", async (req, res) => {
     res.status(409).send("Template already exists");
     return;
   }
-  console.log(req.query);
 
   await template.create(req.query.default != null);
 
@@ -91,19 +89,28 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/", async (req, res) => {
-  const content: TemplateTree = req.body;
-  const template = new Template(content.parent.split("/")[0] || "");
-  if (!(await template.exists())) {
-    res.status(404).send("Template not found");
+  const contents = req.body;
+  if (!Array.isArray(contents)) {
+    res.status(400).send("Invalid request, body is not an array");
     return;
   }
+  for (const content of contents) {
+    if (!isTemplate(content)) {
+      res.status(400).send("Invalid request, content is not a template");
+    }
+    const template = new Template(content.parent.split("/")[0] || "");
+    if (!(await template.exists())) {
+      res.status(404).send(`Template ${template.name} not found`);
+      return;
+    }
 
-  if (!(await template.exists(path.join("..", content.parent, content.name)))) {
-    res.status(404).send("File not found");
-    return;
+    if (!(await template.exists(treePath(content)))) {
+      res.status(404).send(`File ${content.name} not found`);
+      return;
+    }
+
+    await template.insert(content);
   }
-
-  await template.insert(content);
 
   res.send("File updated");
 });

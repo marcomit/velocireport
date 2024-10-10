@@ -1,9 +1,9 @@
-import { div, h1 } from "../../src/html";
+import pdf from "../../src/html";
 
 export default async function () {
-  return div(
-    h1("prova"),
-    div().$("class", "pageNumber"),
-    div().$("class", "totalPages")
+  return pdf.div(
+    pdf.h1("prova"),
+    pdf.div().$("class", "pageNumber"),
+    pdf.div().$("class", "totalPages")
   );
 }

@@ -1,13 +1,13 @@
-import { table, tbody, td, th, thead, tr } from "../../src/html";
+import pdf from "../../src/html";
 import data from "./data.json";
 
 export default async () => {
   const scontrini = data["scontrini"];
-  return table(
-    thead(tr(th("ID"), th("stato"))),
-    tbody(
+  return pdf.table(
+    pdf.thead(pdf.tr(pdf.th("ID"), pdf.th("stato"))),
+    pdf.tbody(
       ...scontrini.map((scontrino) =>
-        tr(td(scontrino._id), td(scontrino.stato))
+        pdf.tr(pdf.td(scontrino._id), pdf.td(scontrino.stato))
       )
     )
   );

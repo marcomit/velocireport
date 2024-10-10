@@ -12,12 +12,17 @@ router.get("/:templateName", async (req, res) => {
   }
   const template = new Template(templateName);
 
+  if (!(await template.exists())) {
+    res.status(404).send("Template not found");
+    return;
+  }
+
   try {
     const pdf = await template.pdf();
     res.set("Content-Type", "application/pdf");
     res.send(pdf);
   } catch (e) {
-    res.status(400).send(e);
+    res.status(400).send(`${e}`);
   }
 });
 

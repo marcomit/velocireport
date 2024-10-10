@@ -1,5 +1,8 @@
-import { div } from "../../src/html";
+import pdf from "../../src/html";
 
 export default async function () {
-  return div(div().$("class", "pageNumber"), div().$("class", "totalPages"));
+  return pdf.div(
+    pdf.div().$("class", "pageNumber"),
+    pdf.div().$("class", "totalPages")
+  );
 }
