@@ -15,12 +15,11 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import ShortcutSidebar from "@/components/shortcut-sidebar";
+import { usePdfBuffer } from "@/stores/pdf-buffer";
 
 export default function Home() {
   const [directories, setDirectories] = useState([]);
-  const [pdfBuffer, setPdfBuffer] = useState<Record<string, number> | null>(
-    null
-  );
+  const { pdfBuffer } = usePdfBuffer();
 
   const fetchDirectories = async () => {
     const url = "http://localhost:8000/templates";
@@ -47,7 +46,7 @@ export default function Home() {
       ref={constraintsRef}
       className="h-screen flex flex-col font-mono"
     >
-      <CommandBar setPdfBuffer={setPdfBuffer} constraintsRef={constraintsRef} />
+      <CommandBar constraintsRef={constraintsRef} />
 
       <Header />
       <div className="flex-1 overflow-hidden">
@@ -78,11 +77,7 @@ export default function Home() {
           <ResizableHandle />
           <ResizablePanel defaultSize={45} minSize={10} className="h-full">
             <div className="h-full flex justify-center items-center overflow-auto">
-              {!pdfBuffer ? (
-                <h2>PDF Preview</h2>
-              ) : (
-                <PdfPreview buffer={pdfBuffer} />
-              )}
+              {!pdfBuffer ? <h2>PDF Preview</h2> : <PdfPreview />}
             </div>
           </ResizablePanel>
         </ResizablePanelGroup>

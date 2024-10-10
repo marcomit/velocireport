@@ -20,7 +20,8 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import { imagesForLanguage } from "@/lib/utils";
+import { imagesForLanguage, runTemplate, saveFiles } from "@/lib/utils";
+import { usePdfBuffer } from "@/stores/pdf-buffer";
 
 interface DirectoriesTreeProps {
   directories: DirectoryTree[];
@@ -34,6 +35,7 @@ const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
 
   const Directory = ({ directories }: { directories: DirectoryTree[] }) => {
     const { tabs } = useTabs();
+    const { setPdfBuffer } = usePdfBuffer();
 
     const toggleDirectory = (directoryName: string) => {
       setExpandedDirectories((prev) => ({
@@ -41,6 +43,17 @@ const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
         [directoryName]: !prev[directoryName],
       }));
     };
+
+    async function handleRun(directoryName: string) {
+      const buffer = await runTemplate(directoryName);
+      if (buffer != null) setPdfBuffer(buffer);
+    }
+
+    async function handleSaveAll(directory: DirectoryTree) {
+      //TODO only send modified files :)
+      if (typeof directory.content === "string") return;
+      saveFiles(directory.content as DirectoryTree[]);
+    }
 
     return directories.map((directory) => (
       <li key={directory.name}>
@@ -80,11 +93,11 @@ const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
               </div>
             </ContextMenuTrigger>
             <ContextMenuContent>
-              <ContextMenuItem>
+              <ContextMenuItem onClick={() => handleRun(directory.name)}>
                 <Play className="w-4 h-4 me-2" />
                 Run
               </ContextMenuItem>
-              <ContextMenuItem>
+              <ContextMenuItem onClick={() => handleSaveAll(directory)}>
                 <SaveAll className="w-4 h-4 me-2" />
                 Save all
               </ContextMenuItem>

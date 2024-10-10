@@ -5,15 +5,15 @@ import { Play, Save, SaveAll } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { runTemplate } from "@/lib/utils";
+import { usePdfBuffer } from "@/stores/pdf-buffer";
 
 const CommandBar = ({
-  setPdfBuffer,
   constraintsRef,
 }: {
   constraintsRef: React.RefObject<HTMLDivElement>;
-  setPdfBuffer: (buffer: Record<string, number> | null) => void;
 }) => {
   const { selected, sync } = useTabs();
+  const { setPdfBuffer } = usePdfBuffer();
 
   async function handleSave() {
     if (!selected || selected.sync == true) return;
