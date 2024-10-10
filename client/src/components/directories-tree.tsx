@@ -38,8 +38,18 @@ const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
         {directory.type === "directory" ? (
           <ContextMenu>
             <ContextMenuTrigger asChild>
-              <div onClick={() => toggleDirectory(directory.name)}>
-                <p className=" cursor-pointer m-0 text-nowrap flex items-center justify-start">
+              <div
+                onClick={() => {
+                  toggleDirectory(directory.name);
+                  changeSelected(directory);
+                }}
+                className={`curson-pointer  rounded-md ${
+                  selected == directory
+                    ? "bg-primary/50 "
+                    : "hover:bg-secondary"
+                }`}
+              >
+                <p className=" cursor-pointer m-0 ms-2 text-nowrap flex items-center justify-start">
                   <ChevronRight
                     className={`w-4 h-4 transition-all ${
                       expandedDirectories[directory.name] && "rotate-90"
@@ -89,8 +99,8 @@ const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
                   }
                   changeSelected(directory);
                 }}
-                className={`cursor-pointer flex items-center justify-start ${
-                  selected === directory && "bg-secondary"
+                className={`cursor-pointer  rounded-md flex items-center justify-start mt-1 ps-1 ${
+                  selected === directory ? "bg-secondary" : "hover:bg-secondary"
                 }`}
               >
                 <Image
