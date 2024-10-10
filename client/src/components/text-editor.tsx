@@ -66,13 +66,15 @@ const TextEditor = () => {
 
   if (!mounted) return null; // Prevent the editor from rendering until fully mounted
 
+  const isSelectedValid = selected && selected.type === "file";
+
   return (
     <Editor
       defaultLanguage="javascript"
       language={getLanguage()}
       theme={theme === "light" ? "custom-light" : "custom-dark"}
       onChange={handleChange}
-      value={selected ? (selected.content as string) : ""}
+      value={isSelectedValid ? (selected.content as string) : ""}
       beforeMount={handleEditorWillMount} // Define custom themes before the editor mounts
     />
   );
