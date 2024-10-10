@@ -108,6 +108,12 @@ class Template {
 
     return await fs.readFile(path.join(this.path, fileName), "utf8");
   }
+  public async rename(newName: string) {
+    await fs.rename(
+      path.join(Template.PATH, this.name),
+      path.join(Template.PATH, newName)
+    );
+  }
   public async insert(file: Omit<TemplateTree, "type">) {
     const hasParentDir = await exists(path.join("..", file.parent));
     if (!hasParentDir) {
@@ -196,3 +202,4 @@ class Template {
 
 export default Template;
 export type { TemplateTree };
+
