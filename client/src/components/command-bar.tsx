@@ -31,7 +31,9 @@ const CommandBar = ({
   }
   async function handleRun() {
     if (!selected) return;
-    const buffer = await runTemplate(selected.parent.split("/")[0] || "");
+    let templateName = selected.parent.split("/")[0] || "";
+    if (templateName === "") templateName = selected.name;
+    const buffer = await runTemplate(templateName);
     if (buffer != null) setPdfBuffer(buffer);
   }
   function handleSaveAll() {}
