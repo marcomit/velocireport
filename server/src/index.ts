@@ -24,6 +24,9 @@ const PORT = process.env.PORT || 8000;
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../../templates")));
+app.use(express.text());
+app.use(express.urlencoded({ extended: true }));
+
 app.use("/pdf", pdf);
 app.use("/templates", templates);
 

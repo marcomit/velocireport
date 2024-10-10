@@ -58,26 +58,26 @@ router.post("/:templateName", async (req, res) => {
   res.send('Created template "' + templateName + '"');
 });
 
-router.post("/:templateName/:fileName", async (req, res) => {
-  const { templateName, fileName: name } = req.params;
-  const content = req.body;
-
-  const template = new Template(templateName);
+router.post("/", async (req, res) => {
+  console.log(req.body);
+  const content: TemplateTree = req.body;
+  const template = new Template(content.parent.split("/")[0] || "");
 
   if (!(await template.exists())) {
     res.status(404).send("Template not found");
     return;
   }
-  if (await template.exists(name)) {
+  if (await template.exists(path.join(content.parent, content.name))) {
     res.status(404).send("File already exists");
     return;
   }
-  await template.upsert({ name, content, parent: templateName });
+  await template.upsert(content);
   res.send("File created");
 });
 
 router.put("/", async (req, res) => {
   const content: TemplateTree = req.body;
+  console.log(content);
   const template = new Template(content.parent.split("/")[0] || "");
   if (!(await template.exists())) {
     res.status(404).send("Template not found");
