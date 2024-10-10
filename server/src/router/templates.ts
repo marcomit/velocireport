@@ -1,6 +1,6 @@
 import express from "express";
 import path from "path";
-import Template, { type TemplateTree } from "../functions/template";
+import Template, { type TemplateTree } from "../lib/template";
 
 const router = express.Router();
 // Get all templates
@@ -67,11 +67,12 @@ router.post("/", async (req, res) => {
     res.status(404).send("Template not found");
     return;
   }
-  if (await template.exists(path.join(content.parent, content.name))) {
+  if (await template.exists(path.join("..", content.parent, content.name))) {
     res.status(404).send("File already exists");
     return;
   }
-  await template.upsert(content);
+
+  await template.insert(content);
   res.send("File created");
 });
 
@@ -83,11 +84,13 @@ router.put("/", async (req, res) => {
     res.status(404).send("Template not found");
     return;
   }
-  if (!(await template.exists(path.join(content.parent, content.name)))) {
+
+  if (!(await template.exists(path.join("..", content.parent, content.name)))) {
     res.status(404).send("File not found");
     return;
   }
-  await template.upsert(content);
+
+  await template.insert(content);
 
   res.send("File updated");
 });

@@ -2,15 +2,8 @@ import cors from "cors";
 import express from "express";
 import fs from "fs/promises";
 import path from "path";
-import {
-  body,
-  script as code,
-  head,
-  html,
-  renderToString,
-  style,
-} from "./html";
-import { default as pdf } from "./router/pdf";
+import pdf, { renderToString } from "./html";
+import { default as pdfRouter } from "./router/pdf";
 import { default as templates } from "./router/templates";
 
 const app = express();
@@ -27,7 +20,7 @@ app.use(express.static(path.join(__dirname, "../../templates")));
 app.use(express.text());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/pdf", pdf);
+app.use("/pdf", pdfRouter);
 app.use("/templates", templates);
 
 app.get("/", async (req, res) => {
@@ -52,7 +45,10 @@ app.get("/", async (req, res) => {
     (await import("fs")).readFileSync("templates/scontrini/footer.ts", "utf8");
 
   const result = renderToString(
-    html(head(style(css || ""), code(script || "")), body(content))
+    pdf.html(
+      pdf.head(pdf.style(css || ""), pdf.code(script || "")),
+      pdf.body(content)
+    )
   );
 
   res.send(result);

@@ -1,7 +1,8 @@
 import fs from "fs/promises";
 import path from "path";
 import puppeteer from "puppeteer";
-import * as m from "../html";
+import pdf, { renderToString } from "../html";
+import { exists } from "./utils";
 
 type TemplateTree = {
   name: string;
@@ -15,8 +16,9 @@ class Template {
   type: "directory" | "file" = "directory";
   parent: string = "";
   content: string | TemplateTree[] = [];
+  public static PATH: string = path.join(__dirname, "../../templates");
   public get path() {
-    return path.join(__dirname, `../../templates/${this.name}`);
+    return path.join(Template.PATH, this.name);
   }
   constructor(name: string, createIfNotExists: boolean = false) {
     this.name = name;
@@ -27,23 +29,14 @@ class Template {
   public async exists(filePath?: string, isDirectory: boolean = false) {
     if (filePath) {
       if (isDirectory) {
-        try {
-          await fs.access(path.join(__dirname, `../../templates/${this.name}`));
-          return true;
-        } catch (e) {
-          return false;
-        }
+        return await exists(path.join(this.path, filePath));
       }
-      return await fs.exists(
-        path.join(__dirname, `../../templates/${this.name}/${filePath}`)
-      );
+      // console.log(path.join(this.path, filePath));
+      console.log(filePath);
+
+      return await exists(path.join(this.path, filePath));
     }
-    try {
-      await fs.access(path.join(__dirname, `../../templates/${this.name}`));
-      return true;
-    } catch (e) {
-      return false;
-    }
+    return await exists(this.path);
   }
   public async create(classic: boolean = false) {
     if (!(await this.exists())) {
@@ -51,22 +44,22 @@ class Template {
     }
 
     if (classic) {
-      await this.upsert({
+      await this.insert({
         name: "index.js",
         content: 'import { div } from "../../src/html"',
-        parent: this.name
+        parent: this.name,
       });
-      await this.upsert({
+      await this.insert({
         name: "header.js",
         content: "",
-        parent: this.name
+        parent: this.name,
       });
-      await this.upsert({
+      await this.insert({
         name: "footer.js",
         content: "",
         parent: this.name,
       });
-      await this.upsert({
+      await this.insert({
         name: "style.css",
         content: "",
         parent: this.name,
@@ -113,18 +106,19 @@ class Template {
       return null;
     }
 
-    return await fs.readFile(
-      path.join(__dirname, `../../templates/${this.name}/${fileName}`),
-      "utf8"
-    );
+    return await fs.readFile(path.join(this.path, fileName), "utf8");
   }
-  public async upsert(file: Omit<TemplateTree, "type">) {
-    const exists = await this.exists(file.name);
+  public async insert(file: Omit<TemplateTree, "type">) {
+    const hasParentDir = await exists(path.join("..", file.parent));
+    if (!hasParentDir) {
+      await fs.mkdir(path.join(Template.PATH, file.parent), {
+        recursive: true,
+      });
+    }
     await fs.writeFile(
-      path.join(this.path, file.name!),
+      path.join(Template.PATH, file.parent, file.name!),
       file.content as string
     );
-    return exists;
   }
   public async delete(file: TemplateTree) {
     if (
@@ -139,23 +133,23 @@ class Template {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     const template = await this.getContent();
-    await page.setContent(m.renderToString(template), {
+    await page.setContent(renderToString(template), {
       waitUntil: "networkidle0",
     });
     const header = (await this.defaultScript("header")) || "";
     const footer = (await this.defaultScript("footer")) || "";
 
-    const pdf = await page.pdf({
+    const generatedPdf = await page.pdf({
       format: "A4",
       printBackground: true,
       preferCSSPageSize: true,
       margin: { top: 100, bottom: 100, left: 100, right: 100 },
       displayHeaderFooter: true,
-      headerTemplate: header ? m.renderToString(header) : "",
-      footerTemplate: footer ? m.renderToString(footer) : "",
+      headerTemplate: header ? renderToString(header) : "",
+      footerTemplate: footer ? renderToString(footer) : "",
     });
 
-    await fs.writeFile(`./templates/${this.name}/report.pdf`, pdf);
+    await fs.writeFile(`./templates/${this.name}/report.pdf`, generatedPdf);
 
     await browser.close();
     return pdf;
@@ -188,18 +182,17 @@ class Template {
     const globalScript = await this.get("../shared/global.js");
     const globalStyle = await this.get("../shared/global.css");
     const content = await this.defaultScript("index");
-    return m.html(
-      m.head(
-        m.style(globalStyle || ""),
-        m.style(style || ""),
-        m.script(globalScript || ""),
-        m.script(script || "")
+    return pdf.html(
+      pdf.head(
+        pdf.style(globalStyle || ""),
+        pdf.style(style || ""),
+        pdf.script(globalScript || ""),
+        pdf.script(script || "")
       ),
-      m.body(content == null ? "" : content)
+      pdf.body(content == null ? "" : content)
     );
   }
 }
 
 export default Template;
 export type { TemplateTree };
-
