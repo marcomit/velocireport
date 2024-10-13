@@ -17,7 +17,7 @@ import {
   Play,
   SaveAll,
   TextCursor,
-  Trash
+  Trash,
 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -50,14 +50,12 @@ const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
     }
 
     async function handleSaveAll(directory: DirectoryTree) {
-
       //TODO only send modified files :)
       if (typeof directory.content === "string") return;
       try {
-        console.log()
+        console.log();
         const response = await saveFiles(directory.content);
-      }
-      catch (e) {
+      } catch (e) {
         if (e instanceof AxiosError) {
           toast.error(e.message.toString());
         }
@@ -74,18 +72,18 @@ const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
                   toggleDirectory(directory.name);
                   changeSelected(directory);
                 }}
-                className={`curson-pointer  rounded-md ${
+                className={`cursor-pointer rounded-md text-ellipsis ${
                   selected == directory
                     ? "bg-primary/50 "
                     : "hover:bg-secondary"
                 }`}
               >
-                <p className=" cursor-pointer m-0 ms-2 text-nowrap flex items-center justify-start">
+                <div className=" cursor-pointer m-0 ms-2 text-nowrap flex items-center ">
                   <ChevronRight
-                    className={`w-4 h-4 transition-all ${
+                    className={`w-4 h-4 transition-all visible ${
                       expandedDirectories[directory.name] && "rotate-90"
                     }`}
-                  />{" "}
+                  />
                   <Image
                     src={
                       directory.name === "shared"
@@ -98,7 +96,7 @@ const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
                     height={30}
                   />
                   <span className="text-lg">{directory.name}</span>
-                </p>
+                </div>
               </div>
             </ContextMenuTrigger>
             <ContextMenuContent>
