@@ -40,7 +40,7 @@ const CommandBar = ({
     <motion.div
       drag
       dragConstraints={constraintsRef}
-      className="flex justify-start items-center fixed bottom-5 left-1/2 -translate-x-1/2 z-50 bg-primary/10 rounded-lg p-2 gap-2 hover:bg-primary/20 transition-colors backdrop-blur-sm"
+      className="flex justify-start items-center fixed bottom-5 left-1/3 z-50 bg-primary/10 rounded-lg p-2 gap-2 hover:bg-primary/20 transition-colors backdrop-blur-sm"
     >
       <Button
         onClick={handleRun}
