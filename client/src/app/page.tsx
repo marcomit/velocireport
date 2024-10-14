@@ -4,6 +4,7 @@ import CommandBar from "@/components/command-bar";
 import DirectoriesTree from "@/components/directories-tree";
 import Header from "@/components/header";
 import PdfPreview from "@/components/pdf-preview";
+import ShortcutSidebar from "@/components/shortcut-sidebar";
 import Tabs from "@/components/tabs";
 import TextEditor from "@/components/text-editor";
 import {
@@ -11,11 +12,9 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { useEffect, useRef, useState } from "react";
+import usePdfBuffer from "@/stores/pdf-buffer";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import ShortcutSidebar from "@/components/shortcut-sidebar";
-import { usePdfBuffer } from "@/stores/pdf-buffer";
+import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
   const [directories, setDirectories] = useState([]);

@@ -1,5 +1,5 @@
 "use client";
-import { usePdfBuffer } from "@/stores/pdf-buffer";
+import usePdfBuffer from "@/stores/pdf-buffer";
 import { Viewer, Worker } from "@react-pdf-viewer/core";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 

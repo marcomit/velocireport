@@ -1,6 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
-import puppeteer from "puppeteer";
+import puppeteer, { type PDFMargin } from "puppeteer";
 import pdf, { renderToString } from "../html";
 import { exists, treePath } from "./utils";
 
@@ -134,7 +134,9 @@ class Template {
       return;
     }
   }
-  public async pdf() {
+  public async pdf(
+    margin: PDFMargin = { top: 0, bottom: 0, left: 0, right: 0 }
+  ) {
     const browser = await puppeteer.launch();
     try {
       const page = await browser.newPage();
@@ -150,7 +152,12 @@ class Template {
         format: "A4",
         printBackground: true,
         preferCSSPageSize: true,
-        margin: { top: 100, bottom: 100, left: 100, right: 100 },
+        margin: {
+          top: margin.top || 0,
+          bottom: margin.bottom || 0,
+          left: margin.left || 0,
+          right: margin.right || 0,
+        },
         displayHeaderFooter: true,
         headerTemplate: header ? renderToString(header) : "",
         footerTemplate: footer ? renderToString(footer) : "",
@@ -170,8 +177,7 @@ class Template {
     callback: (fileWithExtension: string) => Promise<T>
   ): Promise<T | null> {
     const fileName = fileWithoutExtension.split("\\").pop();
-    console.log(fileName);
-    
+
     if (await this.exists(fileWithoutExtension + ".ts")) {
       return await callback(fileName + ".ts");
     }
@@ -191,9 +197,16 @@ class Template {
   }
   // public async link(fileName: string) {}
   public async getContent() {
-    const script = await this.get("script.js");
-    const style = await this.get("style.css");
-    const globalScript = await this.get("../shared/global.js");
+    const script = await this.get(
+      treePath({ name: "script.js", parent: this.name })
+    );
+    const style = await this.get(
+      treePath({ name: "style.css", parent: this.name })
+    );
+
+    const globalScript = await this.get(
+      treePath({ name: "../shared/global.js", parent: "" })
+    );
     const globalStyle = await this.get("../shared/global.css");
 
     const content = await this.defaultScript("index");

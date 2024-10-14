@@ -6,7 +6,7 @@ import {
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 import { imagesForLanguage, runTemplate, saveFiles } from "@/lib/utils";
-import { usePdfBuffer } from "@/stores/pdf-buffer";
+import usePdfBuffer from "@/stores/pdf-buffer";
 import useTabs from "@/stores/tabs";
 import { DirectoryTree } from "@/types/directory";
 import { AxiosError } from "axios";

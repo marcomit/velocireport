@@ -1,11 +1,10 @@
+import { runTemplate } from "@/lib/utils";
+import usePdfBuffer from "@/stores/pdf-buffer";
 import useTabs from "@/stores/tabs";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { motion } from "framer-motion";
 import { Play, Save, SaveAll } from "lucide-react";
-import { toast } from "sonner";
 import { Button } from "./ui/button";
-import { runTemplate } from "@/lib/utils";
-import { usePdfBuffer } from "@/stores/pdf-buffer";
 
 const CommandBar = ({
   constraintsRef,
