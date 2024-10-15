@@ -30,7 +30,7 @@ const ConnectDataDialog = ({ selected }: { selected: DirectoryTree }) => {
     body: "",
   });
 
-  function handleSubmit() {
+  async function handleSubmit() {
     //TODO: send data to server
     console.log({
       name,
@@ -64,10 +64,7 @@ const ConnectDataDialog = ({ selected }: { selected: DirectoryTree }) => {
             onChange={(e) => setName(e.target.value)}
           />
         </div>
-        <Tabs
-          defaultValue="rawdata"
-          className="flex flex-col items-center justify-center"
-        >
+        <Tabs defaultValue="rawdata" className="flex flex-col">
           <TabsList>
             <TabsTrigger value="rawdata" onClick={(e) => setType("rawdata")}>
               Raw Data
@@ -86,7 +83,7 @@ const ConnectDataDialog = ({ selected }: { selected: DirectoryTree }) => {
             paste your raw data here.
             <Textarea
               id="rawdata"
-              className="w-96 h-48 "
+              className="min-h-[200px]"
               onChange={(e) => setRawData(e.target.value)}
             />
           </TabsContent>
