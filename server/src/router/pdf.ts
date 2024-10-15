@@ -1,11 +1,10 @@
-import express from 'express';
+import express from "express";
 import Template from "../lib/template";
 
 const router = express.Router();
 
 router.get("/:templateName", async (req, res) => {
   const { templateName } = req.params;
-
   if (templateName === "shared") {
     res.status(401).send("Cannot create shared pdf");
     return;

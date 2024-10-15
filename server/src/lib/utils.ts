@@ -18,5 +18,13 @@ function treePath(tree: Omit<TemplateTree, "type" | "content">) {
   return path.join(Template.PATH, tree.parent, tree.name);
 }
 
-export { exists, isTemplate, treePath };
+function isAlphanumeric(str: string): boolean {
+  const alphanumericRegex = /^[a-zA-Z0-9]+$/;
+  return alphanumericRegex.test(str);
+}
+function capitalize(str: string): string {
+  if (str.length === 0) return str;
 
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+export { exists, isTemplate, treePath, isAlphanumeric, capitalize };

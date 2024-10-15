@@ -2,15 +2,22 @@ import fs from "fs/promises";
 import path from "path";
 import puppeteer, { type PDFMargin } from "puppeteer";
 import pdf, { renderToString } from "../html";
-import { exists, treePath } from "./utils";
+import { capitalize, exists, treePath } from "./utils";
 
-type TemplateTree = {
+interface TemplateTree {
   name: string;
   type: "directory" | "file";
   parent: string;
   content: string | TemplateTree[];
-};
-
+}
+interface Data {
+  type: "raw" | "file" | "fetch";
+  format: Data["type"] extends "fetch"
+    ? "get" | "post" | "put" | "delete" | "patch"
+    : "txt" | "json" | "csv" | "tsv";
+  name: string;
+  content: string;
+}
 class Template {
   name: string;
   type: "directory" | "file" = "directory";
@@ -176,7 +183,7 @@ class Template {
     fileWithoutExtension: string,
     callback: (fileWithExtension: string) => Promise<T>
   ): Promise<T | null> {
-    const fileName = fileWithoutExtension.split("\\").pop();
+    const fileName = fileWithoutExtension.split("/").pop();
 
     if (await this.exists(fileWithoutExtension + ".ts")) {
       return await callback(fileName + ".ts");
@@ -195,7 +202,6 @@ class Template {
     ).default;
     return await content();
   }
-  // public async link(fileName: string) {}
   public async getContent() {
     const script = await this.get(
       treePath({ name: "script.js", parent: this.name })
@@ -221,8 +227,107 @@ class Template {
       pdf.body(content == null ? "" : content)
     );
   }
+  public async connect({ type, name, content, format }: Data) {
+    if (type === "file") {
+      return;
+    }
+
+    const fileName = this.data({ type, name, format });
+
+    let formattedContent = "";
+
+    switch (format) {
+      case "txt":
+        formattedContent = content;
+        break;
+      case "json":
+        formattedContent = JSON.stringify(content);
+        break;
+      case "csv":
+        formattedContent = content;
+        break;
+      case "tsv":
+        formattedContent = content;
+        break;
+    }
+
+    await this.insert({
+      name: `data/${fileName}`,
+      content: formattedContent,
+      parent: this.name,
+    });
+    const bridgeFunction = await this.linkFunction({ type, format, name });
+    await fs.appendFile(
+      treePath({ name: "data/index.js", parent: this.name }),
+      bridgeFunction
+    );
+  }
+  public async linkFunction(data: Omit<Data, "content">): Promise<string> {
+    let formatter = "";
+    switch (data.format) {
+      case "txt":
+        break;
+      case "json":
+        formatter = "file = JSON.parse(file);";
+        break;
+      case "csv":
+        formatter = `file = file.split("\\n");
+        let headers = file[0].split(",");
+        file.shift();
+        file = file.map((row) => {
+          let data = row.split(",");
+          let obj = {};
+          for (let i = 0; i < headers.length; i++) {
+            obj[headers[i]] = data[i];
+          }
+          return obj;
+        });`;
+        break;
+      case "tsv":
+        formatter = `file = file.split("\\t");
+        let headers = file[0].split(",");
+        file.shift();
+        file = file.map((row) => {
+          let data = row.split(",");
+          let obj = {};
+          for (let i = 0; i < headers.length; i++) {
+            obj[headers[i]] = data[i];
+          }
+          return obj;
+        });`;
+        break;
+    }
+    return this.bridgeFunction(data, formatter);
+  }
+  public bridgeFunction(
+    { type, format, name }: Omit<Data, "content">,
+    formatter: string
+  ) {
+    let getContent = "";
+    if (type === "file" || type === "raw") {
+      getContent = `await fs.readFile(path.join(__dirname, "${this.data({
+        type,
+        name,
+        format,
+      })}"), "utf8");`;
+    } else if (type === "fetch") {
+      getContent = `await fetch(path.join(__dirname, "${this.data({
+        type,
+        name,
+        format,
+      })}")).then((res) => res.text())`;
+    }
+    return `export async function get${capitalize(name)}(){
+        let file = ${getContent}
+        ${formatter}
+        return file;
+      }`;
+  }
+
+  public data({ type, name, format }: Omit<Data, "content">) {
+    return `${type}-${type === "raw" ? `${name}.${format}` : name}`;
+  }
 }
 
 export default Template;
 export type { TemplateTree };
-

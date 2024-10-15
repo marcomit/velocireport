@@ -5,6 +5,7 @@ import path from "path";
 import pdf, { renderToString } from "./html";
 import { default as pdfRouter } from "./router/pdf";
 import { default as templates } from "./router/templates";
+import { default as data } from "./router/data";
 
 const app = express();
 app.use(
@@ -22,6 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/pdf", pdfRouter);
 app.use("/templates", templates);
+app.use("/data", data);
 
 app.get("/", async (req, res) => {
   const content = await (await import("../templates/scontrini")).default();
