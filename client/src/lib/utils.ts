@@ -34,3 +34,17 @@ export async function saveFiles(files: DirectoryTree[]) {
   const response = await axios.put("http://localhost:8000/templates/", files);
   return response.data;
 }
+
+export const fetchDirectories = async () => {
+  const url = "http://localhost:8000/templates";
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching directories:", error);
+  }
+};

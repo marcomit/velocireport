@@ -12,6 +12,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { fetchDirectories } from "@/lib/utils";
 import usePdfBuffer from "@/stores/pdf-buffer";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
@@ -20,22 +21,10 @@ export default function Home() {
   const [directories, setDirectories] = useState([]);
   const { pdfBuffer } = usePdfBuffer();
 
-  const fetchDirectories = async () => {
-    const url = "http://localhost:8000/templates";
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      setDirectories(data);
-    } catch (error) {
-      console.error("Error fetching directories:", error);
-    }
-  };
-
   useEffect(() => {
-    fetchDirectories();
+    fetchDirectories().then((data) => {
+      setDirectories(data);
+    });
   }, []);
 
   const constraintsRef = useRef(null);
