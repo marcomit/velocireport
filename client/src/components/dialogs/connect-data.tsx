@@ -14,6 +14,8 @@ import { Input } from "../ui/input";
 import { useState } from "react";
 import { DirectoryTree } from "@/types/directory";
 import { Textarea } from "../ui/textarea";
+import Image from "next/image";
+import { imagesForLanguage } from "@/lib/utils";
 
 const ConnectDataDialog = ({ selected }: { selected: DirectoryTree }) => {
   const [type, setType] = useState<"rawdata" | "file" | "import" | "fetch">(
@@ -31,7 +33,7 @@ const ConnectDataDialog = ({ selected }: { selected: DirectoryTree }) => {
   });
 
   async function handleSubmit() {
-    //TODO: send data to server
+    //TODO!: send data to server
     console.log({
       name,
       type,
@@ -93,13 +95,22 @@ const ConnectDataDialog = ({ selected }: { selected: DirectoryTree }) => {
               selected.content.map((file) => (
                 <div
                   key={file.name}
-                  className={`cursor-pointer rounded-sm px-2 ${
+                  className={`cursor-pointer rounded-sm px-2 flex items-center ${
                     selectedFile == file
                       ? "bg-primary/50 "
                       : "hover:bg-secondary"
                   }`}
                   onClick={() => setSelectedFile(file)}
                 >
+                  <Image
+                    src={`/${imagesForLanguage.get(
+                      file.name.split(".").pop() || ""
+                    )}`}
+                    className="w-5 h-5 me-2"
+                    alt={file.name}
+                    width={20}
+                    height={20}
+                  />
                   {file.name}
                 </div>
               ))}

@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   title: "VelociReport",
   description: "Create your business reports with ease",
   icons: {
-    icon: "/logo.png",
+    icon: "/favicon.ico",
   },
 };
 
