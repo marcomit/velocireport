@@ -11,37 +11,40 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { useState } from "react";
+import { ChangeEventHandler, useState } from "react";
 import { DirectoryTree } from "@/types/directory";
 import { Textarea } from "../ui/textarea";
 import Image from "next/image";
 import { imagesForLanguage } from "@/lib/utils";
+import { Data, DataSchema, FormatSchema } from "@/types/data-schema";
+import axios from "axios";
 
 const ConnectDataDialog = ({ selected }: { selected: DirectoryTree }) => {
   const [type, setType] = useState<"rawdata" | "file" | "import" | "fetch">(
     "rawdata"
   );
   const [selectedFile, setSelectedFile] = useState<DirectoryTree | null>(null);
-  const [name, setName] = useState<string>(selected.name + "Data");
-  const [rawData, setRawData] = useState<string>("");
-  const [importedFile, setImportedFile] = useState<File | null>(null);
-  const [fetchData, setFetchData] = useState({
-    url: "",
-    method: "",
-    headers: "",
-    body: "",
-  });
+
+  const [data, setData] = useState<Data | null>({
+    type: "raw",
+    name: selected.name + "Data",
+    format: "txt",
+    content: "",
+  } as Data);
+
+  const handleSetData = <T extends keyof Data>(key: T, value: Data[T]) => {
+    setData((prev) => ({
+      ...(prev || ({} as Data)),
+      [key]: value,
+    }));
+  };
 
   async function handleSubmit() {
-    //TODO!: send data to server
+    //TODO!: send Data to server
     console.log({
-      name,
-      type,
-      rawData,
-      selectedFile,
-      importedFile,
-      fetchData,
+      data,
     });
+    await axios.post(`http://localhost:8000/data/${selected.name}`, data);
   }
   return (
     <Dialog>
@@ -63,21 +66,33 @@ const ConnectDataDialog = ({ selected }: { selected: DirectoryTree }) => {
           <Input
             id="name"
             defaultValue={selected.name + "Data"}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => handleSetData("name", e.target.value)}
           />
         </div>
         <Tabs defaultValue="rawdata" className="flex flex-col">
           <TabsList>
-            <TabsTrigger value="rawdata" onClick={(e) => setType("rawdata")}>
+            <TabsTrigger
+              value="rawdata"
+              onClick={(e) => handleSetData("type", "raw")}
+            >
               Raw Data
             </TabsTrigger>
-            <TabsTrigger value="file" onClick={(e) => setType("file")}>
+            <TabsTrigger
+              value="file"
+              onClick={(e) => handleSetData("type", "file")}
+            >
               Select existing file
             </TabsTrigger>
-            <TabsTrigger value="import" onClick={(e) => setType("import")}>
+            <TabsTrigger
+              value="import"
+              onClick={(e) => handleSetData("type", "file")}
+            >
               Import file
             </TabsTrigger>
-            <TabsTrigger value="fetch" onClick={(e) => setType("fetch")}>
+            <TabsTrigger
+              value="fetch"
+              onClick={(e) => handleSetData("type", "fetch")}
+            >
               Api Endpoint
             </TabsTrigger>
           </TabsList>
@@ -86,7 +101,7 @@ const ConnectDataDialog = ({ selected }: { selected: DirectoryTree }) => {
             <Textarea
               id="rawdata"
               className="min-h-[200px]"
-              onChange={(e) => setRawData(e.target.value)}
+              onChange={(e) => handleSetData("content", e.target.value)}
             />
           </TabsContent>
           <TabsContent value="file">
@@ -100,7 +115,18 @@ const ConnectDataDialog = ({ selected }: { selected: DirectoryTree }) => {
                       ? "bg-primary/50 "
                       : "hover:bg-secondary"
                   }`}
-                  onClick={() => setSelectedFile(file)}
+                  onClick={() => {
+                    setSelectedFile(file);
+                    const fileName = FormatSchema.safeParse(
+                      file.name.split(".").pop()
+                    );
+                    if (fileName.success) {
+                      handleSetData("format", fileName.data);
+                    } else {
+                      handleSetData("format", "txt");
+                    }
+                    handleSetData("content", file.content as string);
+                  }}
                 >
                   <Image
                     src={`/${imagesForLanguage.get(
@@ -120,7 +146,17 @@ const ConnectDataDialog = ({ selected }: { selected: DirectoryTree }) => {
               type="file"
               id="import"
               className="col-span-3"
-              onChange={(e) => setImportedFile(e.target.files?.[0] || null)}
+              onChange={(e) => {
+                const fileName = FormatSchema.safeParse(
+                  e.target.files?.[0].name.split(".").pop()
+                );
+                if (fileName.success) {
+                  handleSetData("format", fileName.data);
+                } else {
+                  handleSetData("format", "txt");
+                }
+                handleSetData("content", e.target.value);
+              }}
             />
           </TabsContent>
           <TabsContent value="fetch">
@@ -132,45 +168,10 @@ const ConnectDataDialog = ({ selected }: { selected: DirectoryTree }) => {
                 <Input
                   id="url"
                   className="col-span-3"
-                  onChange={(e) =>
-                    setFetchData({ ...fetchData, url: e.target.value })
-                  }
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="method" className="text-right">
-                  Method
-                </Label>
-                <Input
-                  id="method"
-                  className="col-span-3"
-                  onChange={(e) =>
-                    setFetchData({ ...fetchData, method: e.target.value })
-                  }
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="headers" className="text-right">
-                  Headers
-                </Label>
-                <Input
-                  id="headers"
-                  className="col-span-3"
-                  onChange={(e) =>
-                    setFetchData({ ...fetchData, headers: e.target.value })
-                  }
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="body" className="text-right">
-                  Body
-                </Label>
-                <Input
-                  id="body"
-                  className="col-span-3"
-                  onChange={(e) =>
-                    setFetchData({ ...fetchData, body: e.target.value })
-                  }
+                  onChange={(e) => {
+                    handleSetData("format", "get");
+                    handleSetData("content", e.target.value);
+                  }}
                 />
               </div>
             </div>
