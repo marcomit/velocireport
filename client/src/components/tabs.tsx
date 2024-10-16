@@ -1,6 +1,5 @@
 "use client";
 
-import useTabs from "@/stores/tabs";
 import { DirectoryTree } from "@/types/directory";
 import { Dot, X } from "lucide-react";
 import { Button } from "./ui/button";
@@ -8,9 +7,10 @@ import Image from "next/image";
 import { imagesForLanguage } from "@/lib/utils";
 import { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import useDirectories from "@/stores/directories";
 
 const Tabs = () => {
-  const { tabs } = useTabs();
+  const tabs = useDirectories().getOpenDirectories();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
   const [dragConstraints, setDragConstraints] = useState({ left: 0, right: 0 });
@@ -60,23 +60,34 @@ const Tabs = () => {
 };
 
 const TabItem = ({ file }: { file: DirectoryTree }) => {
-  const { selected, changeSelected, close, last } = useTabs();
+  const {
+    getOpenDirectories,
+    changeTabState,
+    selected,
+    getSelected,
+    changeSelected,
+    getPath,
+  } = useDirectories();
   const tabRef = useRef<HTMLDivElement | null>(null);
 
   const handleClick = () => {
-    changeSelected(file);
+    changeTabState(file);
   };
 
   const handleClose = () => {
-    close(file);
-    if (selected === file) {
-      changeSelected(last());
+    changeTabState(file);
+    if (getSelected() === file) {
+      const tabs = getOpenDirectories();
+      if (tabs.length === 0) {
+        return;
+      }
+      changeSelected(getPath(tabs[tabs.length - 1] as DirectoryTree));
     }
   };
 
   // Scroll the selected tab into view
   useEffect(() => {
-    if (file === selected && tabRef.current) {
+    if (file === getSelected() && tabRef.current) {
       tabRef.current.scrollIntoView({
         behavior: "smooth",
         inline: "center",
@@ -88,7 +99,7 @@ const TabItem = ({ file }: { file: DirectoryTree }) => {
     <motion.div
       ref={tabRef}
       className={`flex items-center justify-center space-x-2 hover:bg-border px-2 py-2 cursor-pointer m-1 rounded-lg ${
-        file === selected ? "bg-primary/10" : ""
+        file === getSelected() ? "bg-primary/10" : ""
       }`}
       onClick={handleClick}
       style={{ scrollSnapAlign: "center" }}

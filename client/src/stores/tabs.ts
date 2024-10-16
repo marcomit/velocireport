@@ -1,4 +1,4 @@
-import { DirectoryTree } from "@/types/directory";
+/* import { DirectoryTree } from "@/types/directory";
 import { create } from "zustand";
 
 interface TabsState {
@@ -64,3 +64,4 @@ const useTabs = create<TabsState>()((set, get) => ({
 }));
 
 export default useTabs;
+ */

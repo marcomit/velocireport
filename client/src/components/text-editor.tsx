@@ -1,6 +1,6 @@
 "use client";
 
-import useTabs from "@/stores/tabs";
+import useDirectories from "@/stores/directories";
 import Editor, { OnChange } from "@monaco-editor/react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
@@ -13,8 +13,9 @@ const languages = new Map<string, string>([
 ]);
 
 const TextEditor = () => {
-  const { selected, updateContent } = useTabs();
+  const { getSelected } = useDirectories();
   const { theme } = useTheme();
+  const selected = getSelected();
   const [mounted, setMounted] = useState(false); // To check if the theme is mounted
 
   const defineCustomThemes = (monaco: any) => {

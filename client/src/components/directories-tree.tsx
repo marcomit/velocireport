@@ -6,8 +6,8 @@ import {
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 import { imagesForLanguage, runTemplate, saveFiles } from "@/lib/utils";
+import useDirectories from "@/stores/directories";
 import usePdfBuffer from "@/stores/pdf-buffer";
-import useTabs from "@/stores/tabs";
 import { DirectoryTree } from "@/types/directory";
 import { AxiosError } from "axios";
 import {
@@ -27,14 +27,26 @@ interface DirectoriesTreeProps {
   directories: DirectoryTree[];
 }
 
-const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
+const DirectoriesTree = () => {
+  const { directories } = useDirectories();
   const [expandedDirectories, setExpandedDirectories] = useState<{
     [key: string]: boolean;
   }>({});
-  const { tabs, changeSelected, selected, open } = useTabs();
+  const {
+    selected,
+    changeSelected,
+    changeTabState,
+    getSelected,
+    getOpenDirectories,
+  } = useDirectories();
 
-  const Directory = ({ directories }: { directories: DirectoryTree[] }) => {
-    const { tabs } = useTabs();
+  const Directory = ({
+    directories,
+    path = [],
+  }: {
+    directories: DirectoryTree[];
+    path?: number[];
+  }) => {
     const { setPdfBuffer } = usePdfBuffer();
 
     const toggleDirectory = (directoryName: string) => {
@@ -62,7 +74,7 @@ const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
       }
     }
 
-    return directories.map((directory) => (
+    return directories.map((directory, index) => (
       <li key={directory.name}>
         {directory.type === "directory" ? (
           <ContextMenu>
@@ -70,10 +82,10 @@ const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
               <div
                 onClick={() => {
                   toggleDirectory(directory.name);
-                  changeSelected(directory);
+                  changeSelected(path);
                 }}
                 className={`cursor-pointer rounded-md text-ellipsis ${
-                  selected == directory
+                  getSelected() == directory
                     ? "bg-primary/50 "
                     : "hover:bg-secondary"
                 }`}
@@ -131,13 +143,19 @@ const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
             <ContextMenuTrigger asChild>
               <div
                 onClick={() => {
-                  if (!tabs.find((tab) => tab.name === directory.name)) {
-                    open(directory);
+                  if (
+                    !getOpenDirectories().find(
+                      (tab) => tab.name === directory.name
+                    )
+                  ) {
+                    changeTabState(directory);
                   }
-                  changeSelected(directory);
+                  changeSelected(path);
                 }}
                 className={`cursor-pointer  rounded-md flex items-center justify-start mt-1 ps-1 ${
-                  selected === directory ? "bg-secondary" : "hover:bg-secondary"
+                  getSelected() === directory
+                    ? "bg-secondary"
+                    : "hover:bg-secondary"
                 }`}
               >
                 <Image
@@ -161,7 +179,10 @@ const DirectoriesTree = ({ directories }: DirectoriesTreeProps) => {
         {directory.type === "directory" &&
           expandedDirectories[directory.name] && (
             <ul className="ps-6">
-              <Directory directories={directory.content as DirectoryTree[]} />
+              <Directory
+                directories={directory.content as DirectoryTree[]}
+                path={[...path, index]}
+              />
             </ul>
           )}
       </li>

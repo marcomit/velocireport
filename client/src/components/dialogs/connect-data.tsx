@@ -1,6 +1,7 @@
 import { Button } from "../ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -15,11 +16,15 @@ import { ChangeEventHandler, useState } from "react";
 import { DirectoryTree } from "@/types/directory";
 import { Textarea } from "../ui/textarea";
 import Image from "next/image";
-import { imagesForLanguage } from "@/lib/utils";
+import { fetchDirectories, imagesForLanguage } from "@/lib/utils";
 import { Data, DataSchema, FormatSchema } from "@/types/data-schema";
 import axios from "axios";
+import { toast } from "sonner";
+import useDirectories from "@/stores/directories";
 
-const ConnectDataDialog = ({ selected }: { selected: DirectoryTree }) => {
+const ConnectDataDialog = ({ selected }: { selected: string }) => {
+  const { directories } = useDirectories();
+  const selectedDirectory = directories.find((dir) => dir.name === selected);
   const [type, setType] = useState<"rawdata" | "file" | "import" | "fetch">(
     "rawdata"
   );
@@ -27,7 +32,7 @@ const ConnectDataDialog = ({ selected }: { selected: DirectoryTree }) => {
 
   const [data, setData] = useState<Data | null>({
     type: "raw",
-    name: selected.name + "Data",
+    name: selected + "Data",
     format: "txt",
     content: "",
   } as Data);
@@ -44,7 +49,16 @@ const ConnectDataDialog = ({ selected }: { selected: DirectoryTree }) => {
     console.log({
       data,
     });
-    await axios.post(`http://localhost:8000/data/${selected.name}`, data);
+    await axios
+      .post(`http://localhost:8000/data/${selected}`, data)
+      .catch((e) => {
+        //TODO: handle error
+        console.error(e.response.data);
+        toast.error(e.response.data);
+      })
+      .finally(() => {
+        toast.success("Data connected successfully");
+      });
   }
   return (
     <Dialog>
@@ -65,7 +79,7 @@ const ConnectDataDialog = ({ selected }: { selected: DirectoryTree }) => {
           <Label htmlFor="name">Name</Label>
           <Input
             id="name"
-            defaultValue={selected.name + "Data"}
+            defaultValue={selected + "Data"}
             onChange={(e) => handleSetData("name", e.target.value)}
           />
         </div>
@@ -106,8 +120,9 @@ const ConnectDataDialog = ({ selected }: { selected: DirectoryTree }) => {
           </TabsContent>
           <TabsContent value="file">
             Select a file:
-            {Array.isArray(selected.content) &&
-              selected.content.map((file) => (
+            {selectedDirectory &&
+              Array.isArray(selectedDirectory.content) &&
+              selectedDirectory.content.map((file) => (
                 <div
                   key={file.name}
                   className={`cursor-pointer rounded-sm px-2 flex items-center ${
@@ -178,9 +193,11 @@ const ConnectDataDialog = ({ selected }: { selected: DirectoryTree }) => {
           </TabsContent>
         </Tabs>
         <DialogFooter>
-          <Button type="submit" onClick={handleSubmit}>
-            Save changes
-          </Button>
+          <DialogClose asChild>
+            <Button type="submit" onClick={handleSubmit}>
+              Save changes
+            </Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>

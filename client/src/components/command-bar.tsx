@@ -1,18 +1,19 @@
 import { runTemplate } from "@/lib/utils";
 import usePdfBuffer from "@/stores/pdf-buffer";
-import useTabs from "@/stores/tabs";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { Play, Save, SaveAll } from "lucide-react";
 import { Button } from "./ui/button";
+import useDirectories from "@/stores/directories";
 
 const CommandBar = ({
   constraintsRef,
 }: {
   constraintsRef: React.RefObject<HTMLDivElement>;
 }) => {
-  const { selected, sync } = useTabs();
+  const { getSelected } = useDirectories();
   const { setPdfBuffer } = usePdfBuffer();
+  const selected = getSelected();
 
   async function handleSave() {
     if (!selected || selected.sync == true) return;
@@ -23,7 +24,7 @@ const CommandBar = ({
         selected
       );
       console.log(response.data);
-      sync(selected);
+      //SALVA  IL FILE, MA NON SONO CAPACE A FARLO FUNZIONARE
     } catch (error) {
       console.error("Error saving file:", error);
     }

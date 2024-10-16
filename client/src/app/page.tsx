@@ -13,12 +13,13 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { fetchDirectories } from "@/lib/utils";
+import useDirectories from "@/stores/directories";
 import usePdfBuffer from "@/stores/pdf-buffer";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
-  const [directories, setDirectories] = useState([]);
+  const { directories, setDirectories } = useDirectories();
   const { pdfBuffer } = usePdfBuffer();
 
   useEffect(() => {
@@ -44,11 +45,7 @@ export default function Home() {
             minSize={5}
             className="h-full overflow-auto flex flex-col content-between"
           >
-            {directories.length === 0 ? (
-              <p>Loading...</p>
-            ) : (
-              <DirectoriesTree directories={directories} />
-            )}
+            {directories.length === 0 ? <p>Loading...</p> : <DirectoriesTree />}
             <ShortcutSidebar />
           </ResizablePanel>
           <ResizableHandle />
