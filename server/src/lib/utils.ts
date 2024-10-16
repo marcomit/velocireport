@@ -40,6 +40,10 @@ const hiddenFiles: Omit<TemplateTree, "type" | "content">[] = [
     parent: path.join("{}", "data"),
   },
   {
+    name: "report.pdf",
+    parent: "{}",
+  },
+  {
     name: "default",
     parent: "",
   },
@@ -83,3 +87,4 @@ export {
   isTemplate,
   treePath,
 };
+
