@@ -9,7 +9,6 @@ interface DirectoriesState {
   setDirectories: (directories: DirectoryTree[]) => void;
   changeTabState: (tab: DirectoryTree) => void;
   getOpenDirectories: () => DirectoryTree[];
-  getPath: (file: DirectoryTree) => number[];
   //   updateContent: (paths: Omit<DirectoryTree, ''>[],) => void;
 }
 
@@ -20,7 +19,9 @@ const useDirectories = create<DirectoriesState>()((set, get) => ({
     const store = get();
     let selected: DirectoryTree;
     selected = store.directories[store.selected[0]];
-    for (let i = 0; i < store.selected.length; i++) {
+    console.log(store.selected);
+
+    for (let i = 1; i < store.selected.length; i++) {
       selected = selected.content[store.selected[i]] as DirectoryTree;
     }
     return selected;
@@ -44,21 +45,6 @@ const useDirectories = create<DirectoriesState>()((set, get) => ({
     const { directories } = get();
     directories.forEach(dfs);
     return open;
-  },
-  getPath: (file) => {
-    const parent = file.parent.split("/");
-    const path: number[] = [];
-    const store = get();
-
-    for (let i = 0; i < parent.length; i++) {
-      const index = store.directories.findIndex(
-        (dir) => dir.name === parent[i]
-      );
-      if (index === -1) return path;
-      path.push(index);
-    }
-
-    return path;
   },
 }));
 

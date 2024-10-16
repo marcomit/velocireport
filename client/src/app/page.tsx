@@ -43,7 +43,7 @@ export default function Home() {
           <ResizablePanel
             defaultSize={10}
             minSize={5}
-            className="h-full overflow-auto flex flex-col content-between"
+            className="h-full overflow-auto flex flex-col content-between scrollbar-thin "
           >
             {directories.length === 0 ? <p>Loading...</p> : <DirectoriesTree />}
             <ShortcutSidebar />

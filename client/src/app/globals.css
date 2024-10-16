@@ -19,6 +19,18 @@ body {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    /* fix color variable */
+    background-color: white;
+    border-radius: 2.5px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background-color: var(--background);
+  }
 }
 
 @layer base {
