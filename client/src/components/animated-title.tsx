@@ -27,7 +27,7 @@ const AnimatedTitle = () => {
     const intervalId = setInterval(() => {
       document.title = titles[index];
       index = (index + 1) % titles.length;
-    }, 300);
+    }, 1000);
 
     // Cleanup interval on unmount
     return () => clearInterval(intervalId);
