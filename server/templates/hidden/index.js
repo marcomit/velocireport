@@ -1,4 +1,6 @@
 import fs from "fs/promises";
+import fetch from "node-fetch";
+
 const format = {
   csv: async (fileName) => {
     let file = await fs.readFile(fileName, "utf8");
@@ -33,6 +35,10 @@ const format = {
   json: async (fileName) => {
     let file = await fs.readFile(fileName, "utf8");
     return JSON.parse(file);
+  },
+  get: async (url) => {
+    let response = await fetch(url);
+    return await response.json();
   },
 };
 export default format;

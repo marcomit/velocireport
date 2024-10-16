@@ -214,25 +214,15 @@ class Template {
     );
   }
   public async connect({ type, name, content, format }: Data) {
-    if (type === "file") {
-      return;
-    }
-
     const fileName = this.data({ type, name, format });
 
     let formattedContent = "";
 
     switch (format) {
-      case "txt":
-        formattedContent = content;
-        break;
       case "json":
         formattedContent = JSON.stringify(content);
         break;
-      case "csv":
-        formattedContent = content;
-        break;
-      case "tsv":
+      default:
         formattedContent = content;
         break;
     }
