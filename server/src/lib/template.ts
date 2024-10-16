@@ -3,7 +3,7 @@ import path from "path";
 import puppeteer, { type PDFMargin } from "puppeteer";
 import pdf, { renderToString } from "../html";
 import { type Data } from "../lib/types";
-import { capitalize, exists, treePath } from "./utils";
+import { capitalize, exists, isHidden, treePath } from "./utils";
 
 interface TemplateTree {
   name: string;
@@ -73,6 +73,7 @@ class Template {
     const files = await fs.readdir(path.join(__dirname, directory));
     for (const file of files) {
       const stat = await fs.stat(path.join(__dirname, directory, file));
+      if (isHidden({ name: file, parent }, parent.split(path.sep)[0])) continue;
       if (stat.isDirectory()) {
         const children = await this.tree(
           path.join(directory, file),
@@ -250,73 +251,20 @@ class Template {
       content: formattedContent,
       parent: this.name,
     });
-    const bridgeFunction = await this.linkFunction({ type, format, name });
+    const bridgeFunction = await this.bridgeFunction({ type, format, name });
     await fs.appendFile(
       treePath({ name: "data/index.js", parent: this.name }),
       bridgeFunction
     );
   }
-  public async linkFunction(data: Omit<Data, "content">): Promise<string> {
-    let formatter = "";
-    switch (data.format) {
-      case "txt":
-        break;
-      case "json":
-        formatter = "file = JSON.parse(file);";
-        break;
-      case "csv":
-        formatter = `file = file.split("\\n");
-let headers = file[0].split(",");
-file.shift();
-file = file.map((row) => {
-  let data = row.split(",");
-  let obj = {};
-  for (let i = 0; i < headers.length; i++) {
-    obj[headers[i]] = data[i];
-  }
-  return obj;
-});`;
-        break;
-      case "tsv":
-        formatter = `
-  file = file.split("\\n");
-  let headers = file[0].split("\\t");
-  file.shift();
-  file = file.map((row) => {
-    let data = row.split(",");
-    let obj = {};
-    for (let i = 0; i < headers.length; i++) {
-      obj[headers[i]] = data[i];
-    }
-    return obj;
-  });`;
-        break;
-    }
-    return this.bridgeFunction(data, formatter);
-  }
-  public bridgeFunction(
-    { type, format, name }: Omit<Data, "content">,
-    formatter: string
-  ) {
-    let getContent = "";
-    if (type === "file" || type === "raw") {
-      getContent = `await fs.readFile(path.join(__dirname, "${this.data({
-        type,
-        name,
-        format,
-      })}"), "utf8");`;
-    } else if (type === "fetch") {
-      getContent = `await fetch(path.join(__dirname, "${this.data({
-        type,
-        name,
-        format,
-      })}")).then((res) => res.text())`;
-    }
-    return `export async function get${capitalize(name)}(){
-  let file = ${getContent}
-  ${formatter}
-  return file;
-}`;
+  public bridgeFunction({ type, format, name }: Omit<Data, "content">) {
+    return `export const get${capitalize(
+      name
+    )} = async () => await format.${format}("${this.data({
+      type,
+      name,
+      format,
+    })}")`;
   }
 
   public data({ type, name, format }: Omit<Data, "content">) {

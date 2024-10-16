@@ -34,7 +34,11 @@ router.post("/:templateName", async (req, res) => {
     res.status(400).send("Invalid name");
     return;
   }
-  await template.connect({ type, name, content, format });
+  try {
+    await template.connect({ type, name, content, format });
+  } catch (e) {
+    res.status(400).send(e);
+  }
   res.send("OK");
 });
 

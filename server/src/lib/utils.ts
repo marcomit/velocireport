@@ -2,6 +2,7 @@ import { access } from "fs/promises";
 import path from "path";
 import type { TemplateTree } from "./template";
 import Template from "./template";
+
 async function exists(path: string) {
   try {
     await access(path);
@@ -27,4 +28,28 @@ function capitalize(str: string): string {
 
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
-export { exists, isTemplate, treePath, isAlphanumeric, capitalize };
+
+// At runtime all {} are replaced with the templateName
+const hiddenFiles: Omit<TemplateTree, 'type' | 'content'>[] = [
+  {
+    name: 'hidden',
+    parent: '',
+  },
+  {
+    name: 'index.js',
+    parent: path.join('{}', 'data'),
+  }
+]
+
+function isHidden(file: Omit<TemplateTree, 'type' | 'content'>, templateName: string){
+  const parent = templateName === '' ? '' :file.parent.replace(templateName, '{}')
+  for(const hidden of hiddenFiles){
+    if(file.name === hidden.name && parent === hidden.parent){
+      return true
+    }
+  }
+  return false
+}
+
+export { capitalize, exists, isAlphanumeric, isHidden, isTemplate, treePath };
+
