@@ -23,7 +23,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "VelociReport",
+  title: "ＶＥＬＯＣＩＲＥＰＯＲＴ ",
   description: "Create your business reports with ease",
   icons: {
     icon: "/favicon.ico",
