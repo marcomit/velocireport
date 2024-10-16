@@ -50,7 +50,7 @@ const TextEditor = () => {
 
   const handleChange: OnChange = (value) => {
     if (selected) {
-      updateContent(selected.name, value || "");
+      //   updateContent(selected.name, value || "");
     }
   };
 
