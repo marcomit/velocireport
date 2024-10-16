@@ -1,28 +1,21 @@
 import { Router } from "express";
 import Template from "../lib/template";
+import { DataSchema } from "../lib/types";
 import { isAlphanumeric, treePath } from "../lib/utils";
 
 const router = Router();
 
-router.post("/:templateName/", async (req, res) => {
+router.post("/:templateName", async (req, res) => {
   const { templateName } = req.params;
-  const body = req.body;
-  if (
-    !body ||
-    !("name" in body && "type" in body && "format" in body && "content" in body)
-  ) {
-    res.status(400).send("Invalid request");
+  const body = DataSchema.safeParse(req.body);
+  if (!body.success) {
+    res.status(400).send(body.error.issues.map((i) => i.message));
     return;
   }
-  const { name, type, format, content } = body;
+  const { name, type, format, content } = body.data;
   const template = new Template(templateName);
   if (!(await template.exists())) {
     res.status(404).send("Template not found");
-    return;
-  }
-
-  if (type !== "raw" && type !== "fetch" && type !== "file") {
-    res.status(400).send("Invalid method");
     return;
   }
   console.log(treePath({ name, parent: `${templateName}/data` }));

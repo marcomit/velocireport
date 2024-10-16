@@ -2,6 +2,7 @@ import fs from "fs/promises";
 import path from "path";
 import puppeteer, { type PDFMargin } from "puppeteer";
 import pdf, { renderToString } from "../html";
+import { type Data } from "../lib/types";
 import { capitalize, exists, treePath } from "./utils";
 
 interface TemplateTree {
@@ -10,14 +11,7 @@ interface TemplateTree {
   parent: string;
   content: string | TemplateTree[];
 }
-interface Data {
-  type: "raw" | "file" | "fetch";
-  format: Data["type"] extends "fetch"
-    ? "get" | "post" | "put" | "delete" | "patch"
-    : "txt" | "json" | "csv" | "tsv";
-  name: string;
-  content: string;
-}
+
 class Template {
   name: string;
   type: "directory" | "file" = "directory";
@@ -183,7 +177,7 @@ class Template {
     fileWithoutExtension: string,
     callback: (fileWithExtension: string) => Promise<T>
   ): Promise<T | null> {
-    const fileName = fileWithoutExtension.split("/").pop();
+    const fileName = fileWithoutExtension.split(path.sep).pop();
 
     if (await this.exists(fileWithoutExtension + ".ts")) {
       return await callback(fileName + ".ts");
@@ -272,29 +266,30 @@ class Template {
         break;
       case "csv":
         formatter = `file = file.split("\\n");
-        let headers = file[0].split(",");
-        file.shift();
-        file = file.map((row) => {
-          let data = row.split(",");
-          let obj = {};
-          for (let i = 0; i < headers.length; i++) {
-            obj[headers[i]] = data[i];
-          }
-          return obj;
-        });`;
+let headers = file[0].split(",");
+file.shift();
+file = file.map((row) => {
+  let data = row.split(",");
+  let obj = {};
+  for (let i = 0; i < headers.length; i++) {
+    obj[headers[i]] = data[i];
+  }
+  return obj;
+});`;
         break;
       case "tsv":
-        formatter = `file = file.split("\\t");
-        let headers = file[0].split(",");
-        file.shift();
-        file = file.map((row) => {
-          let data = row.split(",");
-          let obj = {};
-          for (let i = 0; i < headers.length; i++) {
-            obj[headers[i]] = data[i];
-          }
-          return obj;
-        });`;
+        formatter = `
+  file = file.split("\\n");
+  let headers = file[0].split("\\t");
+  file.shift();
+  file = file.map((row) => {
+    let data = row.split(",");
+    let obj = {};
+    for (let i = 0; i < headers.length; i++) {
+      obj[headers[i]] = data[i];
+    }
+    return obj;
+  });`;
         break;
     }
     return this.bridgeFunction(data, formatter);
@@ -318,10 +313,10 @@ class Template {
       })}")).then((res) => res.text())`;
     }
     return `export async function get${capitalize(name)}(){
-        let file = ${getContent}
-        ${formatter}
-        return file;
-      }`;
+  let file = ${getContent}
+  ${formatter}
+  return file;
+}`;
   }
 
   public data({ type, name, format }: Omit<Data, "content">) {
@@ -331,3 +326,4 @@ class Template {
 
 export default Template;
 export type { TemplateTree };
+
