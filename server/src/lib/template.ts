@@ -3,7 +3,7 @@ import path from "path";
 import puppeteer, { type PDFMargin } from "puppeteer";
 import pdf, { renderToString } from "../html";
 import { type Data } from "../lib/types";
-import { capitalize, exists, isHidden, treePath } from "./utils";
+import { capitalize, copy, exists, isHidden, treePath } from "./utils";
 
 interface TemplateTree {
   name: string;
@@ -17,7 +17,7 @@ class Template {
   type: "directory" | "file" = "directory";
   parent: string = "";
   content: string | TemplateTree[] = [];
-  public static PATH: string = path.join(__dirname, "../../templates");
+  public static PATH: string = path.join(__dirname, "..", "..", "templates");
   public get path() {
     return path.join(Template.PATH, this.name);
   }
@@ -27,9 +27,9 @@ class Template {
       this.create();
     }
   }
-  public async exists(filePath?: string, isDirectory: boolean = false) {
+  public async exists(filePath?: string, type: TemplateTree["type"] = "file") {
     if (filePath) {
-      if (isDirectory) {
+      if (type === "directory") {
         return await exists(filePath);
       }
 
@@ -43,26 +43,7 @@ class Template {
     }
 
     if (classic) {
-      await this.insert({
-        name: "index.js",
-        content: 'import { div } from "../../src/html"',
-        parent: this.name,
-      });
-      await this.insert({
-        name: "header.js",
-        content: "",
-        parent: this.name,
-      });
-      await this.insert({
-        name: "footer.js",
-        content: "",
-        parent: this.name,
-      });
-      await this.insert({
-        name: "style.css",
-        content: "",
-        parent: this.name,
-      });
+      await copy(treePath({ name: "", parent: "default" }), this.path);
     }
   }
   public async tree(
@@ -254,7 +235,7 @@ class Template {
     const bridgeFunction = await this.bridgeFunction({ type, format, name });
     await fs.appendFile(
       treePath({ name: "data/index.js", parent: this.name }),
-      bridgeFunction
+      `${bridgeFunction}\n`
     );
   }
   public bridgeFunction({ type, format, name }: Omit<Data, "content">) {
