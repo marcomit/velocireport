@@ -29,14 +29,14 @@ const Tabs = () => {
     }
   };
 
-  useEffect(() => {
+  /*   useEffect(() => {
     updateDragConstraints(); // Calculate constraints on mount
     window.addEventListener("resize", updateDragConstraints); // Update on resize
 
     return () => {
       window.removeEventListener("resize", updateDragConstraints); // Cleanup on unmount
     };
-  }, [tabs]); // Recalculate when tabs change
+  }, [tabs]); // Recalculate when tabs change */
 
   return (
     <div
@@ -66,7 +66,6 @@ const TabItem = ({ file }: { file: DirectoryTree }) => {
     selected,
     getSelected,
     changeSelected,
-    getPath,
   } = useDirectories();
   const tabRef = useRef<HTMLDivElement | null>(null);
 
@@ -81,7 +80,7 @@ const TabItem = ({ file }: { file: DirectoryTree }) => {
       if (tabs.length === 0) {
         return;
       }
-      changeSelected(getPath(tabs[tabs.length - 1] as DirectoryTree));
+      changeSelected(tabs[tabs.length - 1].path);
     }
   };
 

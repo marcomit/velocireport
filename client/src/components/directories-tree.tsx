@@ -82,7 +82,7 @@ const DirectoriesTree = () => {
               <div
                 onClick={() => {
                   toggleDirectory(directory.name);
-                  changeSelected(path);
+                  changeSelected(directory.path);
                 }}
                 className={`cursor-pointer rounded-md text-ellipsis ${
                   getSelected() == directory
@@ -150,7 +150,7 @@ const DirectoriesTree = () => {
                   ) {
                     changeTabState(directory);
                   }
-                  changeSelected(path);
+                  changeSelected(directory.path);
                 }}
                 className={`cursor-pointer  rounded-md flex items-center justify-start mt-1 ps-1 ${
                   getSelected() === directory
@@ -190,9 +190,9 @@ const DirectoriesTree = () => {
   };
 
   return (
-    <div className="p-2 h-max overflow-x-auto text-nowrap text-ellipsis">
-      <div className="flex justify-start items-center space-x-2"></div>
-      <ul>
+    <div className="p-2 h-max overflow-x-auto text-nowrap text-ellipsis scrollbar-thin">
+      <div className="flex justify-start items-center space-x-2 scrollbar-thin"></div>
+      <ul className="scrollbar-thin">
         <Directory directories={directories} />
       </ul>
     </div>
