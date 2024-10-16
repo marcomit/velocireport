@@ -203,6 +203,8 @@ function renderToString(head: Content): string {
         .join("")}</${tag}>`;
 }
 
+function htmlToNode(content: string) {}
+
 function renderProps(props: TreeNode["props"]): string {
   if (!props) {
     return "";
@@ -213,5 +215,5 @@ function renderProps(props: TreeNode["props"]): string {
 }
 
 export default pdf;
-export { renderToString };
+export { htmlToNode, renderToString };
 

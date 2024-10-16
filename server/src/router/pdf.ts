@@ -19,7 +19,11 @@ router.get("/:templateName", async (req, res) => {
   try {
     const pdf = await template.pdf();
     res.set("Content-Type", "application/pdf");
-    res.send(pdf);
+    if (typeof pdf === "string") {
+      res.status(400).send(pdf);
+    } else {
+      res.send(pdf);
+    }
   } catch (e) {
     res.status(400).send(`${e}`);
   }

@@ -24,10 +24,10 @@ export async function runTemplate(templateName: string) {
     return response.data;
   } catch (e) {
     if (e instanceof AxiosError) {
-      toast.error(e.toString());
+      toast.error(`${e.response?.data}`);
     }
+    return null;
   }
-  return null;
 }
 
 export async function saveFiles(files: DirectoryTree[]) {

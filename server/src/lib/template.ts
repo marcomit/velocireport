@@ -10,6 +10,7 @@ interface TemplateTree {
   type: "directory" | "file";
   parent: string;
   content: string | TemplateTree[];
+  path?: number[];
 }
 
 class Template {
@@ -49,25 +50,33 @@ class Template {
   public async tree(
     directory: string = this.name,
     tree: TemplateTree[] = [],
-    parent: string = ""
+    parent: string = "",
+    location: number[] = []
   ) {
     const files = await fs.readdir(path.join(__dirname, directory));
-    for (const file of files) {
+    let counter = 0;
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
       const stat = await fs.stat(path.join(__dirname, directory, file));
-      if (isHidden({ name: file, parent }, parent.split(path.sep)[0])) continue;
+      if (isHidden({ name: file, parent }, parent.split(path.sep)[0])) {
+        counter++;
+        continue;
+      }
       if (stat.isDirectory()) {
         const children = await this.tree(
           path.join(directory, file),
           [],
-          path.join(parent, file)
+          path.join(parent, file),
+          [...location, i - counter]
         );
         tree.push({
           name: file,
           type: "directory",
           parent,
           content: children,
+          path: [...location, i - counter],
         });
-      } else if (stat.isFile() && file != "report.pdf") {
+      } else if (stat.isFile()) {
         const content = await fs.readFile(
           path.join(__dirname, directory, file),
           "utf8"
@@ -77,6 +86,7 @@ class Template {
           type: "file",
           parent,
           content,
+          path: [...location, i - counter],
         });
       }
     }
@@ -119,7 +129,7 @@ class Template {
   }
   public async pdf(
     margin: PDFMargin = { top: 0, bottom: 0, left: 0, right: 0 }
-  ) {
+  ): Promise<Uint8Array | string> {
     const browser = await puppeteer.launch();
     try {
       const page = await browser.newPage();
@@ -241,11 +251,11 @@ class Template {
   public bridgeFunction({ type, format, name }: Omit<Data, "content">) {
     return `export const get${capitalize(
       name
-    )} = async () => await format.${format}("${this.data({
+    )} = async () => await format.${format}(join(__dirname, "${this.data({
       type,
       name,
       format,
-    })}")`;
+    })}"))`;
   }
 
   public data({ type, name, format }: Omit<Data, "content">) {
