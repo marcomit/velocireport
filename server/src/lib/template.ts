@@ -117,8 +117,7 @@ class Template {
       file.content as string
     );
   }
-  public async delete(file: TemplateTree) {
-    await fs.rm(treePath(file), { recursive: true });
+  public async delete(file: Omit<TemplateTree, "type" | "path" | "content">) {
     if (
       file.name == "index.ts" ||
       file.name == "index.js" ||
@@ -126,6 +125,7 @@ class Template {
     ) {
       return;
     }
+    await fs.rm(treePath(file));
   }
   public async pdf(
     margin: PDFMargin = { top: 0, bottom: 0, left: 0, right: 0 }
