@@ -8,6 +8,7 @@ import { imagesForLanguage } from "@/lib/utils";
 import { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import useDirectories from "@/stores/directories";
+import TabItem from "./tab-item";
 
 const Tabs = () => {
   const tabs = useDirectories().getOpenDirectories();
@@ -29,14 +30,10 @@ const Tabs = () => {
     }
   };
 
-  /*   useEffect(() => {
-    updateDragConstraints(); // Calculate constraints on mount
-    window.addEventListener("resize", updateDragConstraints); // Update on resize
-
-    return () => {
-      window.removeEventListener("resize", updateDragConstraints); // Cleanup on unmount
-    };
-  }, [tabs]); // Recalculate when tabs change */
+  const selected = useDirectories((state) => state.selected);
+  useEffect(() => {
+    console.log("rerendered", selected);
+  }, [selected]);
 
   return (
     <div
@@ -52,76 +49,20 @@ const Tabs = () => {
         style={{ userSelect: "none" }}
       >
         {tabs.map((tab) => (
-          <TabItem key={tab.name} file={tab} />
+          <TabItem key={`${tab.path}-${selected}`} file={tab} />
         ))}
       </motion.div>
     </div>
   );
 };
 
-const TabItem = ({ file }: { file: DirectoryTree }) => {
-  const {
-    getOpenDirectories,
-    changeTabState,
-    selected,
-    getSelected,
-    changeSelected,
-  } = useDirectories();
-  const tabRef = useRef<HTMLDivElement | null>(null);
-
-  const handleClick = () => {
-    changeTabState(file);
-  };
-
-  const handleClose = () => {
-    changeTabState(file);
-    if (getSelected() === file) {
-      const tabs = getOpenDirectories();
-      if (tabs.length === 0) {
-        return;
-      }
-      changeSelected(tabs[tabs.length - 1].path);
-    }
-  };
-
-  // Scroll the selected tab into view
-  useEffect(() => {
-    if (file === getSelected() && tabRef.current) {
-      tabRef.current.scrollIntoView({
-        behavior: "smooth",
-        inline: "center",
-      });
-    }
-  }, [selected, file]);
-
-  return (
-    <motion.div
-      ref={tabRef}
-      className={`flex items-center justify-center space-x-2 hover:bg-border px-2 py-2 cursor-pointer m-1 rounded-lg ${
-        file === getSelected() ? "bg-primary/10" : ""
-      }`}
-      onClick={handleClick}
-      style={{ scrollSnapAlign: "center" }}
-    >
-      {file.sync === false && <Dot className="w-6 h-6" />}
-      <Image
-        src={`/${imagesForLanguage.get(file.name.split(".").pop() || "")}`}
-        className="w-4 h-4"
-        alt={file.name}
-        width={20}
-        height={20}
-      />
-      <span>{file.name}</span>
-      <Button
-        onClick={handleClose}
-        size="icon"
-        variant="ghost"
-        className="h-6 w-6"
-      >
-        <X className="w-4 h-4" />
-      </Button>
-    </motion.div>
-  );
-};
-
 export default Tabs;
+
+/*   useEffect(() => {
+  updateDragConstraints(); // Calculate constraints on mount
+  window.addEventListener("resize", updateDragConstraints); // Update on resize
+
+  return () => {
+    window.removeEventListener("resize", updateDragConstraints); // Cleanup on unmount
+  };
+}, [tabs]); // Recalculate when tabs change */

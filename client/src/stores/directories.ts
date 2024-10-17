@@ -19,16 +19,30 @@ const useDirectories = create<DirectoriesState>()((set, get) => ({
     const store = get();
     let selected: DirectoryTree;
     selected = store.directories[store.selected[0]];
-    console.log(store.selected);
 
     for (let i = 1; i < store.selected.length; i++) {
       selected = selected.content[store.selected[i]] as DirectoryTree;
     }
     return selected;
   },
-  changeSelected: (selected) => set({ selected }),
+  changeSelected: (selected) => set({ selected: [...selected] }),
   setDirectories: (directories) => set({ directories }),
   changeTabState: (tab) => {
+    /* const directories = [...get().directories];
+    let head = directories;
+    for (let i = 0; i < tab.path.length - 1; i++) {
+      head[i] = {
+        ...head[i],
+        content: [...(head[i].content as DirectoryTree[])],
+      };
+      head = head[i].content as DirectoryTree[];
+    }
+    const fileIndex = tab.path[tab.path.length - 1];
+    const file = { ...head[fileIndex] };
+    file.open = !file.open;
+    head[fileIndex] = file;
+    set({ directories }); */
+
     tab.open = !tab.open;
     set({ directories: get().directories });
   },
