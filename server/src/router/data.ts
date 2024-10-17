@@ -42,8 +42,27 @@ router.post("/:templateName", async (req, res) => {
   res.send("OK");
 });
 
-// Midifica la richiesta
-router.put("/:templateName", async (req, res) => {
-  const { templateName } = req.params;
+router.delete("/:templateName/:data", async (req, res) => {
+  const { data } = req.params;
+  const { type } = req.body;
+
+  if (!type) {
+    res.status(400).send('Invalid request, missing "format" or "type" field');
+  }
+
+  const template = new Template(req.params.templateName);
+  if (!(await template.exists())) {
+    res.status(404).send("Template not found");
+    return;
+  }
+  if (!(await template.exists(treePath({ name: data, parent: "data" })))) {
+    res.status(404).send("Data not found");
+    return;
+  }
+  await template.delete({
+    name: template.data({ name: data, type, format: type }),
+    parent: "data",
+  });
+  res.send("OK");
 });
 export default router;
