@@ -132,6 +132,7 @@ router.put("/rename", async (req, res) => {
   } catch (e) {
     if (e instanceof Error) {
       res.status(500).send(e.message);
+      return;
     }
     res.status(500).send(e);
   }
