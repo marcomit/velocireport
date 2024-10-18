@@ -22,7 +22,9 @@ import {
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { NewFileDialog } from "./dialogs/new-file";
+import { Dialog } from "./ui/dialog";
+import DeleteFileDialog from "./dialogs/delete-file";
+import NewFileDialog from "./dialogs/new-file";
 
 interface DirectoriesTreeProps {
   directories: DirectoryTree[];
@@ -87,13 +89,14 @@ const DirectoriesTree = () => {
     }
 
     async function handleRename() {
-      const response = await renameFile(rename.name, rename.path);
-      if (response.status === 200) {
-        setRename({ path: [], name: "" });
-        toast.success("File renamed successfully");
-      } else {
-        toast.error("Error renaming file");
-      }
+      renameFile(rename.name, rename.path)
+        .then((response) => {
+          setRename({ path: [], name: "" });
+          toast.success("File renamed successfully");
+        })
+        .catch((error) => {
+          toast.error(error.message);
+        });
     }
 
     return directories.map((directory, index) => (
@@ -159,19 +162,17 @@ const DirectoriesTree = () => {
                 <Folder className="w-4 h-4 me-2" />
                 New folder
               </ContextMenuItem>
-              <ContextMenuItem>
-                <NewFileDialog />
-              </ContextMenuItem>
+
+              <NewFileDialog />
+
               <ContextMenuItem
                 onClick={() => setRename({ path: directory.path })}
               >
                 <TextCursor className="w-4 h-4 me-2" />
                 Rename
               </ContextMenuItem>
-              <ContextMenuItem className="text-destructive focus:text-destructive">
-                <Trash className="w-4 h-4 me-2 " />
-                Delete
-              </ContextMenuItem>
+
+              <DeleteFileDialog file={directory} />
             </ContextMenuContent>
           </ContextMenu>
         ) : (
