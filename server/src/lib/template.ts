@@ -245,7 +245,7 @@ class Template {
       type,
       name,
       format,
-    })}"))`;
+    })}"));`;
   }
 
   public data({ type, name, format }: Omit<Data, "content">) {

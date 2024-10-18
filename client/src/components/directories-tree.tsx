@@ -12,16 +12,16 @@ import { DirectoryTree } from "@/types/directory";
 import { AxiosError } from "axios";
 import {
   ChevronRight,
-  File,
   Folder,
   Play,
   SaveAll,
   TextCursor,
-  Trash,
+  Trash
 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
+import { NewFileDialog } from "./dialogs/new-file";
 
 interface DirectoriesTreeProps {
   directories: DirectoryTree[];
@@ -125,8 +125,7 @@ const DirectoriesTree = () => {
                 New folder
               </ContextMenuItem>
               <ContextMenuItem>
-                <File className="w-4 h-4 me-2" />
-                New file
+                <NewFileDialog />
               </ContextMenuItem>
               <ContextMenuItem>
                 <TextCursor className="w-4 h-4 me-2" />

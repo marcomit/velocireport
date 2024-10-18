@@ -16,7 +16,7 @@ import { fetchDirectories } from "@/lib/utils";
 import useDirectories from "@/stores/directories";
 import usePdfBuffer from "@/stores/pdf-buffer";
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export default function Home() {
   const { directories, setDirectories } = useDirectories();

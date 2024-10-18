@@ -153,7 +153,7 @@ router.put("/rename/:templateName", async (req, res) => {
 router.delete("/", async (req, res) => {
   const content: TemplateTree = req.body;
   if (!isTemplate(content)) {
-    res.status(400).send('Invalid request, "content" is not a template');
+    res.status(400).send('Invalid request, "body" is not a template');
     return;
   }
   const template = new Template(content.parent.split("/")[0] || "");
@@ -162,7 +162,9 @@ router.delete("/", async (req, res) => {
     return;
   }
   if (!(await template.exists(treePath(content)))) {
-    res.status(404).send(`File ${content.name} not found ${treePath(content)}`);
+    res
+      .status(404)
+      .send(`File ${path.join(content.parent, content.name)} not found`);
     return;
   }
   await template.delete(content);

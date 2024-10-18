@@ -10,13 +10,16 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { FilePlus2 } from "lucide-react"
+import { File } from "lucide-react"
 
 export function NewFileDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="ghost" size={'icon'} className="h-7 w-7 p-1"><FilePlus2 className="w-4 h-4" /></Button>
+        <span className="contents">
+          <File className="w-4 h-4 me-2" />
+          New file
+        </span>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

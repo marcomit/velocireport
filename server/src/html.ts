@@ -203,7 +203,9 @@ function renderToString(head: Content): string {
         .join("")}</${tag}>`;
 }
 
-function htmlToNode(content: string) {}
+function htmlToNode(head: Content): Content {
+  return "";
+}
 
 function renderProps(props: TreeNode["props"]): string {
   if (!props) {
