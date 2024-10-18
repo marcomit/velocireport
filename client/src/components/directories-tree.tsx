@@ -17,7 +17,7 @@ import {
   Play,
   SaveAll,
   TextCursor,
-  Trash
+  Trash,
 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -79,13 +79,20 @@ const DirectoriesTree = () => {
 
     async function handleKeyDown(event: React.KeyboardEvent) {
       if (event.key === "Enter" && rename.name !== "") {
-        const response = await renameFile(rename.name, rename.path);
-        if (response.status === 200) {
-          setRename({ path: [], name: "" });
-          toast.success("File renamed successfully");
-        } else {
-          toast.error("Error renaming file");
-        }
+        handleRename();
+      }
+      if (event.key === "Escape") {
+        setRename({ path: [], name: "" });
+      }
+    }
+
+    async function handleRename() {
+      const response = await renameFile(rename.name, rename.path);
+      if (response.status === 200) {
+        setRename({ path: [], name: "" });
+        toast.success("File renamed successfully");
+      } else {
+        toast.error("Error renaming file");
       }
     }
 
@@ -128,6 +135,7 @@ const DirectoriesTree = () => {
                       type="text"
                       className="renameInput"
                       autoFocus
+                      onBlur={handleRename}
                       value={rename.name}
                       onChange={(e) => setRename({ name: e.target.value })}
                       onKeyDown={handleKeyDown}
@@ -202,6 +210,7 @@ const DirectoriesTree = () => {
                     className="renameInput"
                     value={rename.name}
                     autoFocus
+                    onBlur={handleRename}
                     onChange={(e) => setRename({ name: e.target.value })}
                     onKeyDown={handleKeyDown}
                   />
