@@ -1,10 +1,5 @@
 "use client";
 
-import { DirectoryTree } from "@/types/directory";
-import { Dot, X } from "lucide-react";
-import { Button } from "./ui/button";
-import Image from "next/image";
-import { imagesForLanguage } from "@/lib/utils";
 import { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import useDirectories from "@/stores/directories";

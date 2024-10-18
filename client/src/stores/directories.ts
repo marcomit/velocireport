@@ -4,7 +4,19 @@ import { create } from "zustand";
 interface DirectoriesState {
   directories: DirectoryTree[];
   selected: number[];
+  rename: {
+    name: string;
+    path: DirectoryTree["path"];
+  };
   getSelected: () => DirectoryTree;
+  setRename: ({
+    path,
+    name,
+  }: {
+    path?: DirectoryTree["path"];
+    name?: string;
+  }) => void;
+  updateSelectedContent: (content: string) => void;
   changeSelected: (selected: number[]) => void;
   setDirectories: (directories: DirectoryTree[]) => void;
   changeTabState: (tab: DirectoryTree) => void;
@@ -15,6 +27,7 @@ interface DirectoriesState {
 const useDirectories = create<DirectoriesState>()((set, get) => ({
   directories: [],
   selected: [],
+  rename: { name: "", path: [] },
   getSelected: () => {
     const store = get();
     let selected: DirectoryTree;
@@ -24,6 +37,24 @@ const useDirectories = create<DirectoriesState>()((set, get) => ({
       selected = selected.content[store.selected[i]] as DirectoryTree;
     }
     return selected;
+  },
+
+  setRename: ({ path: path, name: name }) => {
+    const newRename = { ...get().rename };
+    if (path) {
+      newRename.path = path;
+    }
+    if (name) {
+      newRename.name = name;
+    }
+    set({ rename: newRename });
+  },
+  updateSelectedContent: (content: string) => {
+    const store = get();
+    const selected = store.getSelected();
+    selected.content = content;
+    selected.sync = false;
+    set({ directories: [...store.directories] });
   },
   changeSelected: (selected) => set({ selected: [...selected] }),
   setDirectories: (directories) => set({ directories }),

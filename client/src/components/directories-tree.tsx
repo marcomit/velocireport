@@ -5,6 +5,7 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
+import { renameFile } from "@/lib/actions";
 import { imagesForLanguage, runTemplate, saveFiles } from "@/lib/utils";
 import useDirectories from "@/stores/directories";
 import usePdfBuffer from "@/stores/pdf-buffer";
@@ -20,7 +21,7 @@ import {
   Trash,
 } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 interface DirectoriesTreeProps {
@@ -38,6 +39,8 @@ const DirectoriesTree = () => {
     changeTabState,
     getSelected,
     getOpenDirectories,
+    rename,
+    setRename,
   } = useDirectories();
 
   const Directory = ({
@@ -74,6 +77,18 @@ const DirectoriesTree = () => {
       }
     }
 
+    async function handleKeyDown(event: React.KeyboardEvent) {
+      if (event.key === "Enter" && rename.name !== "") {
+        const response = await renameFile(rename.name, rename.path);
+        if (response.status === 200) {
+          setRename({ path: [], name: "" });
+          toast.success("File renamed successfully");
+        } else {
+          toast.error("Error renaming file");
+        }
+      }
+    }
+
     return directories.map((directory, index) => (
       <li key={directory.name}>
         {directory.type === "directory" ? (
@@ -81,6 +96,7 @@ const DirectoriesTree = () => {
             <ContextMenuTrigger asChild>
               <div
                 onClick={() => {
+                  if (rename.path === directory.path) return;
                   toggleDirectory(directory.name);
                   changeSelected(directory.path);
                 }}
@@ -107,7 +123,18 @@ const DirectoriesTree = () => {
                     width={30}
                     height={30}
                   />
-                  <span className="text-lg">{directory.name}</span>
+                  {rename.path === directory.path ? (
+                    <input
+                      type="text"
+                      className="renameInput"
+                      autoFocus
+                      value={rename.name}
+                      onChange={(e) => setRename({ name: e.target.value })}
+                      onKeyDown={handleKeyDown}
+                    />
+                  ) : (
+                    <span className="text-lg">{directory.name}</span>
+                  )}
                 </div>
               </div>
             </ContextMenuTrigger>
@@ -128,7 +155,9 @@ const DirectoriesTree = () => {
                 <File className="w-4 h-4 me-2" />
                 New file
               </ContextMenuItem>
-              <ContextMenuItem>
+              <ContextMenuItem
+                onClick={() => setRename({ path: directory.path })}
+              >
                 <TextCursor className="w-4 h-4 me-2" />
                 Rename
               </ContextMenuItem>
@@ -143,6 +172,7 @@ const DirectoriesTree = () => {
             <ContextMenuTrigger asChild>
               <div
                 onClick={() => {
+                  if (rename.path === directory.path) return;
                   if (
                     !getOpenDirectories().find(
                       (tab) => tab.name === directory.name
@@ -167,11 +197,26 @@ const DirectoriesTree = () => {
                   width={20}
                   height={20}
                 />{" "}
-                <span className="m-0 text-nowrap">{directory.name}</span>
+                {directory.path === rename.path ? (
+                  <input
+                    type="text"
+                    className="renameInput"
+                    value={rename.name}
+                    autoFocus
+                    onChange={(e) => setRename({ name: e.target.value })}
+                    onKeyDown={handleKeyDown}
+                  />
+                ) : (
+                  <span className="m-0 text-nowrap">{directory.name}</span>
+                )}
               </div>
             </ContextMenuTrigger>
             <ContextMenuContent>
-              <ContextMenuItem>Rename</ContextMenuItem>
+              <ContextMenuItem
+                onClick={() => setRename({ path: directory.path })}
+              >
+                Rename
+              </ContextMenuItem>
               <ContextMenuItem>Delete</ContextMenuItem>
             </ContextMenuContent>
           </ContextMenu>

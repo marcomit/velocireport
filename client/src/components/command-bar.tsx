@@ -1,10 +1,12 @@
-import { runTemplate } from "@/lib/utils";
+import { runTemplate, saveFiles } from "@/lib/utils";
 import usePdfBuffer from "@/stores/pdf-buffer";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { Play, Save, SaveAll } from "lucide-react";
 import { Button } from "./ui/button";
 import useDirectories from "@/stores/directories";
+import { toast } from "sonner";
+import { DirectoryTree } from "@/types/directory";
 
 const CommandBar = ({
   constraintsRef,
@@ -18,16 +20,8 @@ const CommandBar = ({
   async function handleSave() {
     if (!selected || selected.sync == true) return;
 
-    try {
-      const response = await axios.put(
-        `http://localhost:8000/templates`,
-        selected
-      );
-      console.log(response.data);
-      //SALVA  IL FILE, MA NON SONO CAPACE A FARLO FUNZIONARE
-    } catch (error) {
-      console.error("Error saving file:", error);
-    }
+    const response = await saveFiles([selected]);
+    toast.success(response);
   }
   async function handleRun() {
     if (!selected) return;
@@ -36,7 +30,23 @@ const CommandBar = ({
     const buffer = await runTemplate(templateName);
     if (buffer != null) setPdfBuffer(buffer);
   }
-  function handleSaveAll() {}
+  async function handleSaveAll() {
+    const directories = useDirectories.getState().directories;
+    const changedFiles: DirectoryTree[] = [];
+    function dfs(directory: DirectoryTree) {
+      if (directory.type === "file" && directory.sync === false) {
+        changedFiles.push(directory);
+      }
+      if (directory.type === "directory") {
+        if (typeof directory.content === "string") return;
+        directory.content.forEach((d) => dfs(d as DirectoryTree));
+      }
+    }
+    directories.forEach((d) => dfs(d));
+    console.log(changedFiles);
+    const result = await saveFiles(changedFiles);
+    toast.success(result);
+  }
   return (
     <motion.div
       drag

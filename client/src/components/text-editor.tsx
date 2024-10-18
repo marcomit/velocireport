@@ -13,7 +13,7 @@ const languages = new Map<string, string>([
 ]);
 
 const TextEditor = () => {
-  const { getSelected } = useDirectories();
+  const { getSelected, updateSelectedContent } = useDirectories();
   const { theme } = useTheme();
   const selected = getSelected();
   const [mounted, setMounted] = useState(false); // To check if the theme is mounted
@@ -74,7 +74,7 @@ const TextEditor = () => {
       defaultLanguage="javascript"
       language={getLanguage()}
       theme={theme === "light" ? "custom-light" : "custom-dark"}
-      onChange={handleChange}
+      onChange={(e) => updateSelectedContent(e || "")}
       value={isSelectedValid ? (selected.content as string) : ""}
       beforeMount={handleEditorWillMount} // Define custom themes before the editor mounts
     />
