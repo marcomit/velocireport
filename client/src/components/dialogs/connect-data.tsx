@@ -1,3 +1,12 @@
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { imagesForLanguage } from "@/lib/utils";
+import useDirectories from "@/stores/directories";
+import { Data, FormatSchema } from "@/types/data-schema";
+import { DirectoryTree } from "@/types/directory";
+import axios from "axios";
+import Image from "next/image";
+import { useState } from "react";
+import { toast } from "sonner";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -9,18 +18,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { ChangeEventHandler, useState } from "react";
-import { DirectoryTree } from "@/types/directory";
+import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
-import Image from "next/image";
-import { fetchDirectories, imagesForLanguage } from "@/lib/utils";
-import { Data, DataSchema, FormatSchema } from "@/types/data-schema";
-import axios from "axios";
-import { toast } from "sonner";
-import useDirectories from "@/stores/directories";
 
 const ConnectDataDialog = ({ selected }: { selected: string }) => {
   const { directories } = useDirectories();
@@ -185,6 +185,7 @@ const ConnectDataDialog = ({ selected }: { selected: string }) => {
                   className="col-span-3"
                   onChange={(e) => {
                     handleSetData("format", "get");
+                    handleSetData("type", "fetch");
                     handleSetData("content", e.target.value);
                   }}
                 />
