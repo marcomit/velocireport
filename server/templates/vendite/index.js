@@ -1,4 +1,4 @@
-import pdf from "../../src/html";
+import pdf from "@/engines/veloci-js";
 import data from "../scontrini/data.json";
 export default async function () {
   return pdf

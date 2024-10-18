@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 import puppeteer, { type PDFMargin } from "puppeteer";
-import pdf, { renderToString } from "../html";
+import pdf, { renderToString } from "../engines/veloci-js";
 import { type Data } from "../lib/types";
 import { capitalize, copy, exists, isHidden, treePath } from "./utils";
 
@@ -27,6 +27,10 @@ class Template {
     if (createIfNotExists) {
       this.create();
     }
+  }
+  public async init() {
+    this.content = await this.tree();
+    return this;
   }
   public async exists(filePath?: string, type: TemplateTree["type"] = "file") {
     if (filePath) {
@@ -99,11 +103,19 @@ class Template {
 
     return await fs.readFile(fileName, "utf8");
   }
-  public async rename(newName: string) {
-    await fs.rename(
-      path.join(Template.PATH, this.name),
-      path.join(Template.PATH, newName)
-    );
+  public async rename(newName: string, location: number[] = []) {
+    const file = this.getTreeFromPath(location);
+    if (newName === file.name) {
+      throw new Error("New name cannot be the same as old name");
+    }
+    await fs.rename(treePath(file), treePath({ ...file, name: newName }));
+  }
+  public getTreeFromPath(location: number[] = []) {
+    let tree: TemplateTree = this.content[location[0]] as TemplateTree;
+    for (let i = 1; i < location.length; i++) {
+      tree = tree.content[location[i]] as TemplateTree;
+    }
+    return tree;
   }
   public async insert(file: Omit<TemplateTree, "type">) {
     const hasParentDir = await exists(path.join("..", file.parent));
@@ -180,13 +192,14 @@ class Template {
     return null;
   }
   public async defaultScript(fileName: string) {
-    const content = (
-      await this.script(
-        treePath({ name: fileName, parent: this.name }),
-        async (file) => await import(`../../templates/${this.name}/${file}`)
-      )
-    ).default;
-    return await content();
+    const content = await this.script(
+      treePath({ name: fileName, parent: this.name }),
+      async (file) => await import(`../../templates/${this.name}/${file}`)
+    );
+    if (content === null) {
+      return null;
+    }
+    return await content.default();
   }
   public async getContent() {
     const script = await this.get(
@@ -247,7 +260,6 @@ class Template {
       format,
     })}"));`;
   }
-
   public data({ type, name, format }: Omit<Data, "content">) {
     return `${type}-${type === "raw" ? `${name}.${format}` : name}`;
   }

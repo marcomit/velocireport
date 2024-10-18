@@ -1,4 +1,4 @@
-import pdf from "../../src/html";
+import pdf from "@/engines/veloci-js";
 import data from "./data.json";
 import * as content from "./data/index";
 
@@ -12,21 +12,27 @@ export default async () => {
     return items.map((item) => {
       const priceClass = item.prezzo > 100 ? "price--high" : "price--normal"; // Conditional price class
       return pdf.tr(
-        pdf.td(receipt._id).$("class", `receipt__id receipt__id--${receipt._id}`), // Dynamic class for receipt ID
+        pdf
+          .td(receipt._id)
+          .$("class", `receipt__id receipt__id--${receipt._id}`), // Dynamic class for receipt ID
         pdf.td(receipt.editInfo.dataCreazione).$("class", "receipt__date"),
         pdf.td(receipt.stato).$("class", "receipt__status"),
         pdf.td(receipt.statoPagamento).$("class", "receipt__payment-status"),
         pdf.td(item.descrizione).$("class", "receipt__description"),
         pdf.td(item.quantita).$("class", "receipt__quantity"),
         pdf.td(`$${item.prezzoUnitario}`).$("class", "receipt__unit-price"), // Format unit price
-        pdf.td(`$${item.prezzo}`).$("class", `receipt__total-price ${priceClass}`) // Conditional class for price
+        pdf
+          .td(`$${item.prezzo}`)
+          .$("class", `receipt__total-price ${priceClass}`) // Conditional class for price
       );
     });
   };
 
   // Function to calculate the overall total for the receipts
   const calculateTotal = () =>
-    receipts.reduce((sum, receipt) => sum + (receipt.totale || 0), 0).toFixed(2);
+    receipts
+      .reduce((sum, receipt) => sum + (receipt.totale || 0), 0)
+      .toFixed(2);
 
   return pdf.div(
     pdf.p(JSON.stringify(test)),
@@ -57,5 +63,6 @@ export default async () => {
         )
       )
       .$("border", 1) // Apply border style
-      .$("class", "table table--receipts")); // Apply the main class for the entire table
+      .$("class", "table table--receipts")
+  ); // Apply the main class for the entire table
 };

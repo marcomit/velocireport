@@ -1,4 +1,4 @@
-import pdf from "../../src/html";
+import pdf from "../../src/engines/veloci-js";
 
 export default async () => {
   return pdf

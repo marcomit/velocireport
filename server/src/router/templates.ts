@@ -7,7 +7,7 @@ import { exists, isTemplate, treePath } from "../lib/utils";
 const router = express.Router();
 // Get all templates
 router.get("/", async (req, res) => {
-  const template = new Template("../../templates");
+  const template = new Template(path.join("..", "..", "templates"));
   const templates = await template.tree();
 
   res.send(templates);
@@ -117,36 +117,23 @@ router.put("/", async (req, res) => {
   res.send("File updated");
 });
 
-router.put("/rename/:templateName", async (req, res) => {
+router.put("/rename", async (req, res) => {
   const content = req.body;
-  if (!("old" in content && "new" in content)) {
-    res.status(400).send('Invalid request, missing "old" or "new" fields');
-    return;
-  }
-  const { old, new: newName }: { old: TemplateTree; new: TemplateTree } =
-    content;
-  if (!isTemplate(old)) {
-    res.status(400).send('Invalid request, "old" is not a template');
-    return;
-  }
-  if (!isTemplate(newName)) {
-    res.status(400).send('Invalid request, "new" is not a template');
-    return;
-  }
-  const template = new Template(req.params.templateName);
-  if (!(await template.exists())) {
-    res.status(404).send("Template not found");
-    return;
-  }
-  if (!(await template.exists(treePath(old)))) {
-    res.status(404).send(`File ${old.name} not found`);
+  if ("name" in content === false || "path" in content === false) {
+    res.status(400).send('Invalid request, missing "name" or "path" field');
     return;
   }
   try {
-    await fs.rename(treePath(old), treePath(newName));
-    res.send("File renamed");
+    const template = await new Template(
+      path.join("..", "..", "templates")
+    ).init();
+    await template.rename(content.name, content.path);
+    res.send("OK");
   } catch (e) {
-    res.status(400).send(e);
+    if (e instanceof Error) {
+      res.status(500).send(e.message);
+    }
+    res.status(500).send(e);
   }
 });
 

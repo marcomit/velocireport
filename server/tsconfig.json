@@ -13,7 +13,10 @@
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "noEmit": true,
-
+    "baseUrl": "./", // Set the base directory
+    "paths": {
+      "@/*": ["src/*"] // Map @/ to the src folder
+    },
     // Best practices
     "strict": true,
     "skipLibCheck": true,

@@ -1,8 +1,6 @@
 type HTMLTag = keyof HTMLElementTagNameMap;
 type Content = string | number | boolean | null | undefined | TreeNode;
-type ElementAttributes<T extends HTMLTag> = Partial<
-  HTMLElementTagNameMap[T]
->;
+type ElementAttributes<T extends HTMLTag> = Partial<HTMLElementTagNameMap[T]>;
 type ElementEvents = Partial<DocumentEventMap>;
 type ElementProps<T extends HTMLTag> = ElementAttributes<T> & ElementEvents;
 type TreeNodeFunction = {
@@ -202,11 +200,9 @@ function renderToString(head: Content): string {
         .map(renderToString)
         .join("")}</${tag}>`;
 }
-
-function htmlToNode(head: Content): Content {
+function htmlToNode(content: string): Content {
   return "";
 }
-
 function renderProps(props: TreeNode["props"]): string {
   if (!props) {
     return "";
@@ -215,7 +211,5 @@ function renderProps(props: TreeNode["props"]): string {
     .map(([key, value]) => `${key}=\"${value}\"`)
     .join(" ");
 }
-
 export default pdf;
 export { htmlToNode, renderToString };
-
