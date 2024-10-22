@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { ContextMenuItem } from "@/components/ui/context-menu";
 import { Trash } from "lucide-react";
 import { useState } from "react";
-import { deleteFile } from "@/lib/actions";
+import { deleteFile } from "@/lib/utils";
 
 interface DeleteFileDialogProps {
   file: DirectoryTree;

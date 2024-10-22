@@ -12,37 +12,21 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { renameFile } from "@/lib/actions";
-import { fetchDirectories } from "@/lib/utils";
+import { areTreesEqual, fetchDirectories } from "@/lib/utils";
 import useDirectories from "@/stores/directories";
 import usePdfBuffer from "@/stores/pdf-buffer";
 import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
-  const { directories, setDirectories, rename, setRename } = useDirectories();
+  const { directories, setDirectories, changed } = useDirectories();
   const { pdfBuffer } = usePdfBuffer();
 
   useEffect(() => {
     fetchDirectories().then((data) => {
       setDirectories(data);
     });
-  }, []);
-
-  async function handleRename() {
-    if (rename.name === "") {
-      return;
-    }
-    renameFile(rename.name, rename.path).then(() => {
-      setRename({ path: [], name: "" });
-    });
-  }
-
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === "Enter") {
-      handleRename();
-    }
-  };
+  }, [changed]);
 
   const constraintsRef = useRef(null);
 

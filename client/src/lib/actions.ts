@@ -35,29 +35,4 @@ const createNewFile = async (e: FormData) => {
   console.log(response.data);
 };
 
-const renameFile = async (name: string, path: DirectoryTree["path"]) => {
-  return await axios.put(
-    `http://localhost:8000/templates/rename`,
-    {
-      name: name,
-      path: path,
-    },
-    {
-      maxRate: 1,
-    }
-  );
-};
-
-async function deleteFile(directory: DirectoryTree) {
-  return await axios.delete(`http://localhost:8000/templates/`, {
-    data: directory,
-  });
-}
-
-export {
-  createTemplate,
-  createNewFolder,
-  createNewFile,
-  renameFile,
-  deleteFile,
-};
+export { createTemplate, createNewFolder, createNewFile };

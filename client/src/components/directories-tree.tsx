@@ -5,7 +5,7 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import { renameFile } from "@/lib/actions";
+import { renameFile } from "@/lib/utils";
 import { imagesForLanguage, runTemplate, saveFiles } from "@/lib/utils";
 import useDirectories from "@/stores/directories";
 import usePdfBuffer from "@/stores/pdf-buffer";
@@ -36,13 +36,13 @@ const DirectoriesTree = () => {
     [key: string]: boolean;
   }>({});
   const {
-    selected,
     changeSelected,
     changeTabState,
     getSelected,
     getOpenDirectories,
     rename,
     setRename,
+    toggleChanged,
   } = useDirectories();
 
   const Directory = ({
@@ -89,9 +89,15 @@ const DirectoriesTree = () => {
     }
 
     async function handleRename() {
+      if (rename.name === "") {
+        toast.error("Name cannot be empty");
+        setRename({ path: [], name: "" });
+        return;
+      }
       renameFile(rename.name, rename.path)
         .then((response) => {
           setRename({ path: [], name: "" });
+          toggleChanged();
           toast.success("File renamed successfully");
         })
         .catch((error) => {
