@@ -1,9 +1,7 @@
 "use server";
 
-import useDirectories from "@/stores/directories";
 import { DirectoryTree } from "@/types/directory";
 import axios from "axios";
-import { toast } from "sonner";
 
 const createTemplate = async (e: FormData) => {
   console.log(e.get("name"));
@@ -35,4 +33,17 @@ const createNewFile = async (e: FormData) => {
   console.log(response.data);
 };
 
+<<<<<<< HEAD
+const renameFile = async (name: string, path: DirectoryTree["path"]) => {
+  const response = await axios.put(`http://localhost:8000/templates/rename`, {
+    name: name,
+    path: path,
+  });
+  return response;
+};
+
+export { createNewFile, createNewFolder, createTemplate, renameFile };
+
+=======
 export { createTemplate, createNewFolder, createNewFile };
+>>>>>>> 7150c6750a4ee0afcd2489ccbe8f95ac23a10ce2

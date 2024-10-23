@@ -8,7 +8,7 @@ export default async () => {
         .span()
         .$("class", "pageNumber")
         .$("style", "font-size:10px !important; padding-left:10px"),
-      "/",
+      pdf.p("/").$("style", "font-size:10px !important"),
       pdf
         .span()
         .$("class", "totalPages")

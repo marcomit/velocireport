@@ -70,7 +70,9 @@ function isHidden(
 
 async function copy(src: string, dest: string) {
   const files = await readdir(src);
-  if (!(await exists(dest))) await mkdir(dest, { recursive: true });
+  if (!(await exists(dest))) {
+    await mkdir(dest);
+  }
   for (const file of files) {
     const srcPath = path.join(src, file);
     const destPath = path.join(dest, file);
