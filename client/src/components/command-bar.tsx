@@ -14,7 +14,7 @@ const CommandBar = ({
   constraintsRef: React.RefObject<HTMLDivElement>;
 }) => {
   const { getSelected } = useDirectories();
-  const { setPdfBuffer } = usePdfBuffer();
+  const { setPdfBuffer, setError } = usePdfBuffer();
   const selected = getSelected();
 
   async function handleSave() {
@@ -27,8 +27,16 @@ const CommandBar = ({
     if (!selected) return;
     let templateName = selected.parent.split("/")[0] || "";
     if (templateName === "") templateName = selected.name;
-    const buffer = await runTemplate(templateName);
-    if (buffer != null) setPdfBuffer(buffer);
+    try {
+      const buffer = await runTemplate(templateName);
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        setError(e.response?.data);
+        console.log(e.response?.data);
+
+        toast.error(e.response?.data);
+      }
+    }
   }
   async function handleSaveAll() {
     const directories = useDirectories.getState().directories;

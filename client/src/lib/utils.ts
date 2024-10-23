@@ -39,17 +39,15 @@ export function areTreesEqual(a: DirectoryTree, b: DirectoryTree) {
 }
 
 export async function runTemplate(templateName: string) {
-  try {
-    const response = await axios.get(
-      `http://localhost:8000/pdf/${templateName}`
-    );
-    return response.data;
-  } catch (e) {
+  /*   try { */
+  const response = await axios.get(`http://localhost:8000/pdf/${templateName}`);
+  return response.data;
+  /* } catch (e) {
     if (e instanceof AxiosError) {
       toast.error(`${e.response?.data}`);
     }
     return null;
-  }
+  } */
 }
 
 export async function saveFiles(files: DirectoryTree[]) {

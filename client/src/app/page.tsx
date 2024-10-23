@@ -23,7 +23,7 @@ import { useEffect, useRef, useState } from "react";
 import { LoaderIcon } from "lucide-react";
 
 export default function Home() {
-  const { pdfBuffer } = usePdfBuffer();
+  const { pdfBuffer, error } = usePdfBuffer();
 
   const constraintsRef = useRef(null);
 
@@ -60,7 +60,13 @@ export default function Home() {
           <ResizableHandle />
           <ResizablePanel defaultSize={45} minSize={10} className="h-full">
             <div className="h-full flex justify-center items-center overflow-auto">
-              {!pdfBuffer ? <h2>PDF Preview</h2> : <PdfPreview />}
+              {error ? (
+                <p className="text-center p-10 text-balance">{error}</p>
+              ) : !pdfBuffer ? (
+                <h2>PDF Preview</h2>
+              ) : (
+                <PdfPreview />
+              )}
             </div>
           </ResizablePanel>
         </ResizablePanelGroup>

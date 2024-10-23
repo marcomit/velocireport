@@ -147,13 +147,13 @@ const DirectoriesTree = () => {
                   toggleDirectory(directory.name);
                   changeSelected(directory.path);
                 }}
-                className={`cursor-pointer rounded-md text-ellipsis ${
+                className={` min-w-max cursor-pointer rounded-md text-ellipsis overflow-hidden whitespace-nowrap ${
                   getSelected() == directory
-                    ? "bg-primary/50 "
+                    ? "bg-primary/50"
                     : "hover:bg-secondary"
                 }`}
               >
-                <div className=" cursor-pointer m-0 ms-2 text-nowrap flex items-center ">
+                <div className="cursor-pointer m-0 ms-2 text-nowrap flex items-center">
                   <ChevronRight
                     className={`w-4 h-4 transition-all visible ${
                       expandedDirectories[directory.name] && "rotate-90"
@@ -165,10 +165,10 @@ const DirectoriesTree = () => {
                         ? "folder-helpers.svg"
                         : "folder.svg"
                     }
-                    className="w-6 h-6 me-2"
+                    className=" me-2"
                     alt={directory.name}
-                    width={30}
-                    height={30}
+                    width={20}
+                    height={20}
                   />
                   {rename.path === directory.path ? (
                     <input
@@ -181,7 +181,9 @@ const DirectoriesTree = () => {
                       onKeyDown={handleKeyDown}
                     />
                   ) : (
-                    <span className="text-lg">{directory.name}</span>
+                    <span className="text-lg overflow-hidden text-ellipsis">
+                      {directory.name}
+                    </span>
                   )}
                 </div>
               </div>
@@ -199,16 +201,13 @@ const DirectoriesTree = () => {
                 <Folder className="w-4 h-4 me-2" />
                 New folder
               </ContextMenuItem>
-
               <NewFileDialog />
-
               <ContextMenuItem
                 onClick={() => setRename({ path: directory.path })}
               >
                 <TextCursor className="w-4 h-4 me-2" />
                 Rename
               </ContextMenuItem>
-
               <DeleteFileDialog file={directory} />
             </ContextMenuContent>
           </ContextMenu>
@@ -227,21 +226,25 @@ const DirectoriesTree = () => {
                   }
                   changeSelected(directory.path);
                 }}
-                className={`cursor-pointer  rounded-md flex items-center justify-start mt-1 ps-1 ${
+                className={`min-w-max cursor-pointer rounded-md flex items-center justify-start mt-1 ps-1 text-ellipsis overflow-hidden ${
                   getSelected() === directory
                     ? "bg-secondary"
                     : "hover:bg-secondary"
                 }`}
+                style={{
+                  width: "100%", // Set width to fit in the panel
+                  maxWidth: "calc(100% - 30px)", // Adjust for padding or margins
+                }}
               >
                 <Image
                   src={`/${imagesForLanguage.get(
                     directory.name.split(".").pop() || ""
                   )}`}
-                  className="w-5 h-5 me-2"
+                  className=" me-2"
                   alt={directory.name}
                   width={20}
                   height={20}
-                />{" "}
+                />
                 {directory.path === rename.path ? (
                   <input
                     type="text"
@@ -253,7 +256,9 @@ const DirectoriesTree = () => {
                     onKeyDown={handleKeyDown}
                   />
                 ) : (
-                  <span className="m-0 text-nowrap">{directory.name}</span>
+                  <span className="m-0 text-nowrap overflow-hidden text-ellipsis">
+                    {directory.name}
+                  </span>
                 )}
               </div>
             </ContextMenuTrigger>
