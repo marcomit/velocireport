@@ -5,7 +5,7 @@ import * as content from "./data/index";
 // Generate the PDF structure for the receipts report
 export default async () => {
   const receipts = data["scontrini"];
-  const test = await content.getProvaTsv();
+  const test = await content.getScontriniData();
   // Function to create a table row for each item in the receipt
   const createReceiptRows = (receipt) => {
     const items = receipt.righe || []; // Ensure items exist

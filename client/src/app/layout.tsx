@@ -11,6 +11,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import AnimatedTitle from "@/components/animated-title"; // Import the animated title component
+import ClientProvider from "@/providers/client-provider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -47,11 +48,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TooltipProvider>
-            {children}
-            <Toaster />
-            <AnimatedTitle /> {/* Insert client-side animation logic */}
-          </TooltipProvider>
+          <ClientProvider>
+            <TooltipProvider>
+              {children}
+              <Toaster />
+              <AnimatedTitle /> {/* Insert client-side animation logic */}
+            </TooltipProvider>
+          </ClientProvider>
         </ThemeProvider>
       </body>
     </html>

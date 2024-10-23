@@ -5,7 +5,7 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import { renameFile } from "@/lib/utils";
+import { fetchDirectories, renameFile } from "@/lib/utils";
 import { imagesForLanguage, runTemplate, saveFiles } from "@/lib/utils";
 import useDirectories from "@/stores/directories";
 import usePdfBuffer from "@/stores/pdf-buffer";
@@ -14,6 +14,7 @@ import { AxiosError } from "axios";
 import {
   ChevronRight,
   Folder,
+  LoaderIcon,
   Play,
   SaveAll,
   TextCursor,
@@ -25,17 +26,20 @@ import { toast } from "sonner";
 import { Dialog } from "./ui/dialog";
 import DeleteFileDialog from "./dialogs/delete-file";
 import NewFileDialog from "./dialogs/new-file";
+import { useQuery } from "@tanstack/react-query";
+import { Button } from "./ui/button";
 
 interface DirectoriesTreeProps {
   directories: DirectoryTree[];
 }
 
 const DirectoriesTree = () => {
-  const { directories } = useDirectories();
   const [expandedDirectories, setExpandedDirectories] = useState<{
     [key: string]: boolean;
   }>({});
   const {
+    directories,
+    setDirectories,
     changeSelected,
     changeTabState,
     getSelected,
@@ -44,6 +48,33 @@ const DirectoriesTree = () => {
     setRename,
     toggleChanged,
   } = useDirectories();
+
+  const { isPending, error, data, refetch } = useQuery({
+    queryKey: ["fetchDirectories"],
+    queryFn: () => fetchDirectories(),
+  });
+  useEffect(() => {
+    if (data) setDirectories(data);
+  }, [data]);
+  if (isPending)
+    return (
+      <div className=" flex justify-center mt-4 ">
+        <LoaderIcon className="w-10 h-10 animate-spin" />
+      </div>
+    );
+  if (error)
+    return (
+      <div className="flex flex-col items-center justify-center">
+        <h2 className="text-center my-4">
+          <span className="text-destructive text-xl text-balance ">
+            Whoops!
+          </span>{" "}
+          Something went wrong
+        </h2>
+        <Button onClick={() => refetch()}>Retry</Button>
+      </div>
+    );
+  //setDirectories(data);
 
   const Directory = ({
     directories,

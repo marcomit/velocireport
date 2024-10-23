@@ -13,6 +13,7 @@ import { ContextMenuItem } from "@/components/ui/context-menu";
 import { Trash } from "lucide-react";
 import { useState } from "react";
 import { deleteFile } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
 
 interface DeleteFileDialogProps {
   file: DirectoryTree;
@@ -21,14 +22,20 @@ interface DeleteFileDialogProps {
 export default function DeleteFileDialog({ file }: DeleteFileDialogProps) {
   const [open, setOpen] = useState(false);
 
-  const onDelete = () => {
-    deleteFile(file);
-  };
+  const { isPending, error, data } = useQuery({
+    queryKey: ["deleteFile"],
+    queryFn: () => deleteFile(file),
+  });
 
-  const handleDelete = () => {
-    onDelete();
+  async function onDelete() {
+    let response = await deleteFile(file);
+    console.log(response);
+  }
+
+  async function handleDelete() {
+    await onDelete();
     setOpen(false);
-  };
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -54,7 +61,7 @@ export default function DeleteFileDialog({ file }: DeleteFileDialogProps) {
         </DialogHeader>
         <DialogFooter>
           <Button variant="destructive" onClick={handleDelete}>
-            Yes
+            {isPending ? "Deleting..." : "Yes"}
           </Button>
           <Button variant="secondary" onClick={() => setOpen(false)}>
             No

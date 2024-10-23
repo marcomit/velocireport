@@ -12,21 +12,18 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { Progress } from "@/components/ui/progress";
+
 import { areTreesEqual, fetchDirectories } from "@/lib/utils";
 import useDirectories from "@/stores/directories";
 import usePdfBuffer from "@/stores/pdf-buffer";
+import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { LoaderIcon } from "lucide-react";
 
 export default function Home() {
-  const { directories, setDirectories, changed } = useDirectories();
   const { pdfBuffer } = usePdfBuffer();
-
-  useEffect(() => {
-    fetchDirectories().then((data) => {
-      setDirectories(data);
-    });
-  }, [changed]);
 
   const constraintsRef = useRef(null);
 
@@ -45,7 +42,8 @@ export default function Home() {
             minSize={5}
             className="h-full overflow-auto flex flex-col content-between scrollbar-thin "
           >
-            {directories.length === 0 ? <p>Loading...</p> : <DirectoriesTree />}
+            <DirectoriesTree />
+
             <ShortcutSidebar />
           </ResizablePanel>
           <ResizableHandle />
