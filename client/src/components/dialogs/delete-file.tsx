@@ -10,39 +10,58 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ContextMenuItem } from "@/components/ui/context-menu";
-import { File, Trash } from "lucide-react";
+import { Trash } from "lucide-react";
 import { useState } from "react";
+import { deleteFile } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
 
-export default function NewFileDialog() {
+interface DeleteFileDialogProps {
+  file: DirectoryTree;
+}
+
+export default function DeleteFileDialog({ file }: DeleteFileDialogProps) {
   const [open, setOpen] = useState(false);
 
-  const handleClick = () => {
+  const { isPending, error, data } = useQuery({
+    queryKey: ["deleteFile"],
+    queryFn: () => deleteFile(file),
+  });
+
+  async function onDelete() {
+    let response = await deleteFile(file);
+    console.log(response);
+  }
+
+  async function handleDelete() {
+    await onDelete();
     setOpen(false);
-  };
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <ContextMenuItem
+          className="text-destructive focus:text-destructive"
           onSelect={(event) => {
             event.preventDefault();
             setOpen(true);
           }}
         >
-          <File className="w-4 h-4 me-2" />
-          New File
+          <Trash className="w-4 h-4 me-2" />
+          Delete
         </ContextMenuItem>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Create File</DialogTitle>
+          <DialogTitle>Delete File</DialogTitle>
           <DialogDescription>
-            Are you sure you want to create a new file?
+            Are you sure you want to delete <strong>{file.name}</strong>? This
+            action cannot be undone.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="default" onClick={handleClick}>
-            Yes
+          <Button variant="destructive" onClick={handleDelete}>
+            {isPending ? "Deleting..." : "Yes"}
           </Button>
           <Button variant="secondary" onClick={() => setOpen(false)}>
             No

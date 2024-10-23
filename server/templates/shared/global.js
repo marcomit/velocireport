@@ -11,7 +11,6 @@ function groupBy(list, keyGetter) {
   });
   return map;
 }
-
 function getMin(list, compare = (a, b) => a - b) {
   let min = list[0];
   for (let i = 1; i < list.length; i++) {
@@ -21,7 +20,6 @@ function getMin(list, compare = (a, b) => a - b) {
   }
   return min;
 }
-
 function getMax(list, compare = (a, b) => a - b) {
   let max = list[0];
   for (let i = 1; i < list.length; i++) {
@@ -31,12 +29,10 @@ function getMax(list, compare = (a, b) => a - b) {
   }
   return max;
 }
-
 function getMedian(list, compare = (a, b) => a - b) {
   const middle = Math.floor(list.length / 2);
   return list[middle];
 }
-
 function getAverage(list, compare = (a, b) => a - b) {
   let sum = 0;
   for (let i = 0; i < list.length; i++) {
@@ -44,7 +40,6 @@ function getAverage(list, compare = (a, b) => a - b) {
   }
   return sum / list.length;
 }
-
 function getSum(list) {
   let sum = 0;
   for (let i = 0; i < list.length; i++) {
@@ -52,5 +47,4 @@ function getSum(list) {
   }
   return sum;
 }
-
 export { getAverage, getMax, getMedian, getMin, getSum, groupBy };

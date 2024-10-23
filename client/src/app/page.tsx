@@ -12,22 +12,13 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { fetchDirectories } from "@/lib/utils";
-import useDirectories from "@/stores/directories";
+
 import usePdfBuffer from "@/stores/pdf-buffer";
 import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 export default function Home() {
-  const { directories, setDirectories, rename, setRename } = useDirectories();
-  const { pdfBuffer } = usePdfBuffer();
-
-  useEffect(() => {
-    fetchDirectories().then((data) => {
-      setDirectories(data);
-    });
-  }, []);
-
+  const { pdfBuffer, error } = usePdfBuffer();
 
   const constraintsRef = useRef(null);
 
@@ -46,7 +37,8 @@ export default function Home() {
             minSize={5}
             className="h-full overflow-auto flex flex-col content-between scrollbar-thin "
           >
-            {directories.length === 0 ? <p>Loading...</p> : <DirectoriesTree />}
+            <DirectoriesTree />
+
             <ShortcutSidebar />
           </ResizablePanel>
           <ResizableHandle />
@@ -63,7 +55,13 @@ export default function Home() {
           <ResizableHandle />
           <ResizablePanel defaultSize={45} minSize={10} className="h-full">
             <div className="h-full flex justify-center items-center overflow-auto">
-              {!pdfBuffer ? <h2>PDF Preview</h2> : <PdfPreview />}
+              {error ? (
+                <p className="text-center p-10 text-balance">{error}</p>
+              ) : !pdfBuffer ? (
+                <h2>PDF Preview</h2>
+              ) : (
+                <PdfPreview />
+              )}
             </div>
           </ResizablePanel>
         </ResizablePanelGroup>

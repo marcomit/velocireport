@@ -5,7 +5,7 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import { renameFile } from "@/lib/actions";
+import { fetchDirectories, renameFile } from "@/lib/utils";
 import { imagesForLanguage, runTemplate, saveFiles } from "@/lib/utils";
 import useDirectories from "@/stores/directories";
 import usePdfBuffer from "@/stores/pdf-buffer";
@@ -14,6 +14,7 @@ import { AxiosError } from "axios";
 import {
   ChevronRight,
   Folder,
+  LoaderIcon,
   Play,
   SaveAll,
   TextCursor,
@@ -22,26 +23,58 @@ import {
 import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
-import { NewFileDialog } from "./dialogs/new-file";
+import { Dialog } from "./ui/dialog";
+import DeleteFileDialog from "./dialogs/delete-file";
+import NewFileDialog from "./dialogs/new-file";
+import { useQuery } from "@tanstack/react-query";
+import { Button } from "./ui/button";
 
 interface DirectoriesTreeProps {
   directories: DirectoryTree[];
 }
 
 const DirectoriesTree = () => {
-  const { directories } = useDirectories();
   const [expandedDirectories, setExpandedDirectories] = useState<{
     [key: string]: boolean;
   }>({});
   const {
-    selected,
+    directories,
+    setDirectories,
     changeSelected,
     changeTabState,
     getSelected,
     getOpenDirectories,
     rename,
     setRename,
+    toggleChanged,
   } = useDirectories();
+
+  const { isPending, error, data, refetch } = useQuery({
+    queryKey: ["fetchDirectories"],
+    queryFn: () => fetchDirectories(),
+  });
+  useEffect(() => {
+    if (data) setDirectories(data);
+  }, [data]);
+  if (isPending)
+    return (
+      <div className=" flex justify-center mt-4 ">
+        <LoaderIcon className="w-10 h-10 animate-spin" />
+      </div>
+    );
+  if (error)
+    return (
+      <div className="flex flex-col items-center justify-center">
+        <h2 className="text-center my-4">
+          <span className="text-destructive text-xl text-balance ">
+            Whoops!
+          </span>{" "}
+          Something went wrong
+        </h2>
+        <Button onClick={() => refetch()}>Retry</Button>
+      </div>
+    );
+  //setDirectories(data);
 
   const Directory = ({
     directories,
@@ -87,13 +120,20 @@ const DirectoriesTree = () => {
     }
 
     async function handleRename() {
-      const response = await renameFile(rename.name, rename.path);
-      if (response.status === 200) {
+      if (rename.name === "") {
+        toast.error("Name cannot be empty");
         setRename({ path: [], name: "" });
-        toast.success("File renamed successfully");
-      } else {
-        toast.error("Error renaming file");
+        return;
       }
+      renameFile(rename.name, rename.path)
+        .then((response) => {
+          setRename({ path: [], name: "" });
+          toggleChanged();
+          toast.success("File renamed successfully");
+        })
+        .catch((error) => {
+          toast.error(error.message);
+        });
     }
 
     return directories.map((directory, index) => (
@@ -107,13 +147,13 @@ const DirectoriesTree = () => {
                   toggleDirectory(directory.name);
                   changeSelected(directory.path);
                 }}
-                className={`cursor-pointer rounded-md text-ellipsis ${
+                className={` min-w-max cursor-pointer rounded-md text-ellipsis overflow-hidden whitespace-nowrap ${
                   getSelected() == directory
-                    ? "bg-primary/50 "
+                    ? "bg-primary/50"
                     : "hover:bg-secondary"
                 }`}
               >
-                <div className=" cursor-pointer m-0 ms-2 text-nowrap flex items-center ">
+                <div className="cursor-pointer m-0 ms-2 text-nowrap flex items-center">
                   <ChevronRight
                     className={`w-4 h-4 transition-all visible ${
                       expandedDirectories[directory.name] && "rotate-90"
@@ -125,10 +165,10 @@ const DirectoriesTree = () => {
                         ? "folder-helpers.svg"
                         : "folder.svg"
                     }
-                    className="w-6 h-6 me-2"
+                    className=" me-2"
                     alt={directory.name}
-                    width={30}
-                    height={30}
+                    width={20}
+                    height={20}
                   />
                   {rename.path === directory.path ? (
                     <input
@@ -141,7 +181,9 @@ const DirectoriesTree = () => {
                       onKeyDown={handleKeyDown}
                     />
                   ) : (
-                    <span className="text-lg">{directory.name}</span>
+                    <span className="text-lg overflow-hidden text-ellipsis">
+                      {directory.name}
+                    </span>
                   )}
                 </div>
               </div>
@@ -159,19 +201,14 @@ const DirectoriesTree = () => {
                 <Folder className="w-4 h-4 me-2" />
                 New folder
               </ContextMenuItem>
-              <ContextMenuItem>
-                <NewFileDialog />
-              </ContextMenuItem>
+              <NewFileDialog />
               <ContextMenuItem
                 onClick={() => setRename({ path: directory.path })}
               >
                 <TextCursor className="w-4 h-4 me-2" />
                 Rename
               </ContextMenuItem>
-              <ContextMenuItem className="text-destructive focus:text-destructive">
-                <Trash className="w-4 h-4 me-2 " />
-                Delete
-              </ContextMenuItem>
+              <DeleteFileDialog file={directory} />
             </ContextMenuContent>
           </ContextMenu>
         ) : (
@@ -189,21 +226,25 @@ const DirectoriesTree = () => {
                   }
                   changeSelected(directory.path);
                 }}
-                className={`cursor-pointer  rounded-md flex items-center justify-start mt-1 ps-1 ${
+                className={`min-w-max cursor-pointer rounded-md flex items-center justify-start mt-1 ps-1 text-ellipsis overflow-hidden ${
                   getSelected() === directory
                     ? "bg-secondary"
                     : "hover:bg-secondary"
                 }`}
+                style={{
+                  width: "100%", // Set width to fit in the panel
+                  maxWidth: "calc(100% - 30px)", // Adjust for padding or margins
+                }}
               >
                 <Image
                   src={`/${imagesForLanguage.get(
                     directory.name.split(".").pop() || ""
                   )}`}
-                  className="w-5 h-5 me-2"
+                  className=" me-2"
                   alt={directory.name}
                   width={20}
                   height={20}
-                />{" "}
+                />
                 {directory.path === rename.path ? (
                   <input
                     type="text"
@@ -215,7 +256,9 @@ const DirectoriesTree = () => {
                     onKeyDown={handleKeyDown}
                   />
                 ) : (
-                  <span className="m-0 text-nowrap">{directory.name}</span>
+                  <span className="m-0 text-nowrap overflow-hidden text-ellipsis">
+                    {directory.name}
+                  </span>
                 )}
               </div>
             </ContextMenuTrigger>

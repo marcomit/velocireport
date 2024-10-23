@@ -3,6 +3,8 @@ import { create } from "zustand";
 
 interface DirectoriesState {
   directories: DirectoryTree[];
+  changed: boolean;
+  toggleChanged: () => void;
   selected: number[];
   rename: {
     name: string;
@@ -26,6 +28,8 @@ interface DirectoriesState {
 
 const useDirectories = create<DirectoriesState>()((set, get) => ({
   directories: [],
+  changed: false,
+  toggleChanged: () => set({ changed: !get().changed }),
   selected: [],
   rename: { name: "", path: [] },
   getSelected: () => {
@@ -38,7 +42,6 @@ const useDirectories = create<DirectoriesState>()((set, get) => ({
     }
     return selected;
   },
-
   setRename: ({ path: path, name: name }) => {
     const newRename = { ...get().rename };
     if (path) {

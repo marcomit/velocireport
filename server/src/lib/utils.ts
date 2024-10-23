@@ -39,6 +39,11 @@ const hiddenFiles: Omit<TemplateTree, "type" | "content">[] = [
     name: "index.js",
     parent: path.join("{}", "data"),
   },
+
+  {
+    name: "data",
+    parent: "{}",
+  },
   {
     name: "report.pdf",
     parent: "{}",
@@ -89,4 +94,3 @@ export {
   isTemplate,
   treePath,
 };
-

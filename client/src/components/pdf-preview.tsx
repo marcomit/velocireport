@@ -10,7 +10,11 @@ const PdfPreview = () => {
     return new Blob([byteArray], { type: "application/pdf" });
   };
 
-  const { pdfBuffer } = usePdfBuffer();
+  const { pdfBuffer, error } = usePdfBuffer();
+  if (error) {
+    console.error(error);
+    return <p>{error}</p>;
+  }
 
   return pdfBuffer ? (
     <Worker
