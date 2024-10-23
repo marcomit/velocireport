@@ -20,7 +20,7 @@ import {
   Trash,
 } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { NewFileDialog } from "./dialogs/new-file";
 

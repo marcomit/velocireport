@@ -1,11 +1,11 @@
 import pdf from "@/engines/veloci-js";
 import data from "../scontrini/data.json";
-import * as content from './data'
+import * as content from "./data";
 export default async function () {
-    const test = await content.getScontriniData();
+  const test = await content.getVenditeData();
   return pdf
     .table(
-        pdf.p(JSON.stringify(test)),
+      pdf.p(JSON.stringify(test)),
       pdf.tbody(
         ...data["scontrini"].map((item, index) =>
           pdf.tr(

@@ -43,13 +43,7 @@ class Template {
     return await exists(this.path);
   }
   public async create(classic: boolean = false) {
-    if (!(await this.exists())) {
-      await fs.mkdir(this.path);
-    }
-
-    if (classic) {
-      await copy(treePath({ name: "", parent: "default" }), this.path);
-    }
+    await copy(treePath({ name: "", parent: "default" }), this.path);
   }
   public async tree(
     directory: string = this.name,

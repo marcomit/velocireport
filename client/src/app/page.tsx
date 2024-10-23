@@ -12,7 +12,6 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { renameFile } from "@/lib/actions";
 import { fetchDirectories } from "@/lib/utils";
 import useDirectories from "@/stores/directories";
 import usePdfBuffer from "@/stores/pdf-buffer";
@@ -29,20 +28,6 @@ export default function Home() {
     });
   }, []);
 
-  async function handleRename() {
-    if (rename.name === "") {
-      return;
-    }
-    renameFile(rename.name, rename.path).then(() => {
-      setRename({ path: [], name: "" });
-    });
-  }
-
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === "Enter") {
-      handleRename();
-    }
-  };
 
   const constraintsRef = useRef(null);
 

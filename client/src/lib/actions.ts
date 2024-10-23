@@ -1,9 +1,7 @@
 "use server";
 
-import useDirectories from "@/stores/directories";
 import { DirectoryTree } from "@/types/directory";
 import axios from "axios";
-import { toast } from "sonner";
 
 const createTemplate = async (e: FormData) => {
   console.log(e.get("name"));
@@ -43,4 +41,5 @@ const renameFile = async (name: string, path: DirectoryTree["path"]) => {
   return response;
 };
 
-export { createTemplate, createNewFolder, createNewFile, renameFile };
+export { createNewFile, createNewFolder, createTemplate, renameFile };
+
