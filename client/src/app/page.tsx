@@ -12,15 +12,10 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { Progress } from "@/components/ui/progress";
 
-import { areTreesEqual, fetchDirectories } from "@/lib/utils";
-import useDirectories from "@/stores/directories";
 import usePdfBuffer from "@/stores/pdf-buffer";
-import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-import { LoaderIcon } from "lucide-react";
+import { useRef } from "react";
 
 export default function Home() {
   const { pdfBuffer, error } = usePdfBuffer();
