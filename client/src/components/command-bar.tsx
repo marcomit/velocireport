@@ -29,9 +29,11 @@ const CommandBar = ({
     if (templateName === "") templateName = selected.name;
     try {
       const buffer = await runTemplate(templateName);
+      setPdfBuffer(buffer);
     } catch (e) {
       if (axios.isAxiosError(e)) {
         setError(e.response?.data);
+
         console.log(e.response?.data);
 
         toast.error(e.response?.data);
