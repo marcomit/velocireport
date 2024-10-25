@@ -5,11 +5,11 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import { fetchDirectories, renameFile } from "@/lib/utils";
-import { imagesForLanguage, runTemplate, saveFiles } from "@/lib/utils";
+import { fetchDirectories, imagesForLanguage, renameFile, runTemplate, saveFiles } from "@/lib/utils";
 import useDirectories from "@/stores/directories";
 import usePdfBuffer from "@/stores/pdf-buffer";
 import { DirectoryTree } from "@/types/directory";
+import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import {
   ChevronRight,
@@ -17,16 +17,13 @@ import {
   LoaderIcon,
   Play,
   SaveAll,
-  TextCursor,
-  Trash,
+  TextCursor
 } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Dialog } from "./ui/dialog";
 import DeleteFileDialog from "./dialogs/delete-file";
 import NewFileDialog from "./dialogs/new-file";
-import { useQuery } from "@tanstack/react-query";
 import { Button } from "./ui/button";
 
 interface DirectoriesTreeProps {

@@ -2,7 +2,7 @@ import express from "express";
 import fs from "fs/promises";
 import path from "path";
 import Template, { type TemplateTree } from "../lib/template";
-import { exists, isTemplate, treePath } from "../lib/utils";
+import { exists, treePath, validate } from "../lib/utils";
 
 const router = express.Router();
 // Get all templates
@@ -53,8 +53,6 @@ router.post("/:templateName", async (req, res) => {
     return;
   }
 
-  await template.create(req.query.default != null);
-
   res.send('Created template "' + templateName + '"');
 });
 
@@ -95,7 +93,7 @@ router.put("/", async (req, res) => {
     return;
   }
   for (const content of contents) {
-    if (!isTemplate(content)) {
+    if (!validate(content, ["name", "parent"])) {
       res.status(400).send("Invalid request, content is not a template");
     }
     const template = new Template(content.parent.split("/")[0] || "");
@@ -143,7 +141,7 @@ router.put("/rename", async (req, res) => {
 
 router.delete("/", async (req, res) => {
   const content: TemplateTree = req.body;
-  if (!isTemplate(content)) {
+  if (!validate(content, ["name", "parent"])) {
     res.status(400).send('Invalid request, "body" is not a template');
     return;
   }
@@ -158,7 +156,16 @@ router.delete("/", async (req, res) => {
       .send(`File ${path.join(content.parent, content.name)} not found`);
     return;
   }
-  await template.delete(content);
+  try {
+    await template.delete(content);
+  } catch (e) {
+    if (e instanceof Error) {
+      res.status(500).send(e.message);
+      console.log(e);
+      return;
+    }
+    res.status(500).send(e);
+  }
   res.send("File deleted");
 });
 
