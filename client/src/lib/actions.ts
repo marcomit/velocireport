@@ -33,7 +33,6 @@ const createNewFile = async (e: FormData) => {
   console.log(response.data);
 };
 
-<<<<<<< HEAD
 const renameFile = async (name: string, path: DirectoryTree["path"]) => {
   const response = await axios.put(`http://localhost:8000/templates/rename`, {
     name: name,
@@ -43,7 +42,3 @@ const renameFile = async (name: string, path: DirectoryTree["path"]) => {
 };
 
 export { createNewFile, createNewFolder, createTemplate, renameFile };
-
-=======
-export { createTemplate, createNewFolder, createNewFile };
->>>>>>> 7150c6750a4ee0afcd2489ccbe8f95ac23a10ce2
