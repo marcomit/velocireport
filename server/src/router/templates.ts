@@ -165,6 +165,7 @@ router.delete("/", async (req, res) => {
       return;
     }
     res.status(500).send(e);
+    return;
   }
   res.send("File deleted");
 });
