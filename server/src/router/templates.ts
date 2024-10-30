@@ -2,7 +2,7 @@ import express from "express";
 import fs from "fs/promises";
 import path from "path";
 import Template, { type TemplateTree } from "../lib/template";
-import { exists, treePath, validate } from "../lib/utils";
+import { exists, rawValidate, treePath } from "../lib/utils";
 
 const router = express.Router();
 // Get all templates
@@ -93,7 +93,7 @@ router.put("/", async (req, res) => {
     return;
   }
   for (const content of contents) {
-    if (!validate(content, ["name", "parent"])) {
+    if (!rawValidate(content, ["name", "parent"])) {
       res.status(400).send("Invalid request, content is not a template");
     }
     const template = new Template(content.parent.split("/")[0] || "");
@@ -117,7 +117,7 @@ router.put("/", async (req, res) => {
 
 router.put("/rename", async (req, res) => {
   const content = req.body;
-  if ("name" in content === false || "path" in content === false) {
+  if (!rawValidate(content, ["name", "path"])) {
     res.status(400).send('Invalid request, missing "name" or "path" field');
     return;
   }
@@ -141,7 +141,7 @@ router.put("/rename", async (req, res) => {
 
 router.delete("/", async (req, res) => {
   const content: TemplateTree = req.body;
-  if (!validate(content, ["name", "parent"])) {
+  if (!rawValidate(content, ["name", "parent"])) {
     res.status(400).send('Invalid request, "body" is not a template');
     return;
   }

@@ -11,10 +11,45 @@ async function exists(path: string) {
     return false;
   }
 }
-function validate(obj: object, keys: string[] = []) {
+function rawValidate(obj: object, keys: string[] = []) {
   for (const key of keys) {
     if (!(key in obj)) {
       return false;
+    }
+  }
+  return true;
+}
+
+type ValidateOptions = {
+  checkTypes: boolean;
+  omitKeys: string[];
+};
+function validate(
+  model: object,
+  obj: object,
+  options: ValidateOptions = {
+    checkTypes: true,
+    omitKeys: [],
+  }
+): boolean {
+  const omitKeys = new Set(options.omitKeys);
+  const keys = Object.keys(model);
+  for (const key of keys) {
+    if (omitKeys.has(key)) {
+      continue;
+    }
+    const value = model[key as keyof typeof model];
+    const objValue = obj[key as keyof typeof obj];
+    if (!(key in obj)) {
+      return false;
+    }
+    if (options.checkTypes && typeof value !== typeof objValue) {
+      return false;
+    }
+    if (typeof value === "object") {
+      if (!validate(value as object, objValue as object, options)) {
+        return false;
+      }
     }
   }
   return true;
@@ -119,6 +154,7 @@ export {
   exists,
   isAlphanumeric,
   isDenied,
+  rawValidate,
   treePath,
   validate,
 };
