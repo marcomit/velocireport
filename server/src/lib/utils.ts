@@ -72,29 +72,15 @@ const hiddenFiles: (Omit<TemplateTree, "type" | "content"> & {
   },
 ];
 
-function isHidden(
-  file: Omit<TemplateTree, "type" | "content">,
-  templateName: string
-) {
-  const parent =
-    templateName === "" ? "" : file.parent.replace(templateName, "{}");
-  for (const hidden of hiddenFiles) {
-    if (file.name === hidden.name && parent === hidden.parent) {
-      return true;
-    }
-  }
-  return false;
-}
-
 function isDenied(
   file: Omit<TemplateTree, "type" | "content">,
   templateName: string,
   permissions: Permission[]
 ) {
   const parent =
-    templateName === "" ? "" : file.parent.replace(templateName, "{}");
+    templateName === "" ? "" : file.parent.replace("{}", templateName);
   for (const hidden of hiddenFiles) {
-    if (file.name === hidden.name && parent === hidden.parent) {
+    if (treePath(file) === treePath({ name: hidden.name, parent })) {
       for (const permission of permissions) {
         if (hidden.denied.has(permission)) {
           return true;
@@ -128,7 +114,6 @@ export {
   exists,
   isAlphanumeric,
   isDenied,
-  isHidden,
   treePath,
   validate,
 };

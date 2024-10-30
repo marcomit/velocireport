@@ -24,11 +24,11 @@ export default function DeleteFileDialog({ file }: DeleteFileDialogProps) {
 
   const { isPending, error, data } = useQuery({
     queryKey: ["deleteFile"],
-    queryFn: () => deleteFile(file),
+    queryFn: () => deleteFile(file.path),
   });
 
   async function onDelete() {
-    let response = await deleteFile(file);
+    let response = await deleteFile(file.path);
     console.log(response);
   }
 

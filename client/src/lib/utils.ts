@@ -62,9 +62,9 @@ export const renameFile = async (name: string, path: DirectoryTree["path"]) => {
   });
 };
 
-export async function deleteFile(directory: DirectoryTree) {
+export async function deleteFile(path: number[]) {
   return await axios.delete(`http://localhost:8000/templates/`, {
-    data: directory,
+    data: path,
   });
 }
 

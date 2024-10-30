@@ -59,6 +59,7 @@ router.delete("/:templateName/:data", async (req, res) => {
     res.status(404).send("Data not found");
     return;
   }
+
   await template.delete({
     name: template.data({ name: data, type, format: type }),
     parent: "data",

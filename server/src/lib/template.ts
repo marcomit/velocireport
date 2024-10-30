@@ -126,10 +126,12 @@ class Template {
     );
   }
   public async delete(file: Omit<TemplateTree, "type" | "path" | "content">) {
+    console.log(this.name);
+
     if (isDenied(file, this.name, ["delete"])) {
       throw new Error("You cannot delete this file");
     }
-    await fs.rm(treePath(file));
+    await fs.rm(treePath(file), { recursive: true, force: true });
   }
   public async pdf(
     margin: PDFMargin = { top: 0, bottom: 0, left: 0, right: 0 }
