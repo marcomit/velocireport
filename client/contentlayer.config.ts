@@ -1,19 +1,17 @@
-// contentlayer.config.ts
-import { defineDocumentType, makeSource } from "contentlayer/source-files";
+// TODO remove eslint-disable when fixed https://github.com/import-js/eslint-plugin-import/issues/1810
+// eslint-disable-next-line import/no-unresolved
+import { makeSource } from "@contentlayer/source-files";
+import highlight from "rehype-highlight";
+import { contentDirPath } from "./src/contentlayer/utils";
+import { validateDuplicateIds } from "./src/lib/utils";
+import * as documentTypes from "./src/contentlayer";
 
-export const Post = defineDocumentType(() => ({
-  name: "Post",
-  filePathPattern: `**/*.md`,
-  fields: {
-    title: { type: "string", required: true },
-    date: { type: "date", required: true },
+export default makeSource({
+  contentDirPath,
+  documentTypes,
+  mdx: { rehypePlugins: [highlight] },
+  onSuccess: async (importData) => {
+    const { allDocs } = await importData();
+    await validateDuplicateIds(allDocs);
   },
-  computedFields: {
-    url: {
-      type: "string",
-      resolve: (post) => `/docs/${post._raw.flattenedPath}`,
-    },
-  },
-}));
-
-export default makeSource({ contentDirPath: "posts", documentTypes: [Post] });
+});
