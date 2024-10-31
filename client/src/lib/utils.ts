@@ -3,7 +3,7 @@ import axios, { AxiosError } from "axios";
 import { clsx, type ClassValue } from "clsx";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
-import { Doc } from "contentlayer/generated";
+/* import { Doc } from "contentlayer/generated"; */
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -63,9 +63,9 @@ export const renameFile = async (name: string, path: DirectoryTree["path"]) => {
   });
 };
 
-export async function deleteFile(path: number[]) {
+export async function deleteFile(file: DirectoryTree) {
   return await axios.delete(`http://localhost:8000/templates/`, {
-    data: path,
+    data: file,
   });
 }
 
@@ -83,13 +83,13 @@ export const fetchDirectories = async () => {
   }
 };
 
-export async function validateDuplicateIds(allDocs: Doc[]) {
-  const ids = allDocs.map((doc) => doc.global_id);
+// export async function validateDuplicateIds(allDocs: Doc[]) {
+//   const ids = allDocs.map((doc) => doc.global_id);
 
-  const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
-  if (duplicates.length) {
-    throw new Error(`[Error] Duplicate ids found: ${duplicates.join(", ")}`);
-  }
+//   const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
+//   if (duplicates.length) {
+//     throw new Error(`[Error] Duplicate ids found: ${duplicates.join(", ")}`);
+//   }
 
-  console.log("No duplicate ids found");
-}
+//   console.log("No duplicate ids found");
+// }

@@ -5,7 +5,13 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import { fetchDirectories, imagesForLanguage, renameFile, runTemplate, saveFiles } from "@/lib/utils";
+import {
+  fetchDirectories,
+  imagesForLanguage,
+  renameFile,
+  runTemplate,
+  saveFiles,
+} from "@/lib/utils";
 import useDirectories from "@/stores/directories";
 import usePdfBuffer from "@/stores/pdf-buffer";
 import { DirectoryTree } from "@/types/directory";
@@ -17,7 +23,7 @@ import {
   LoaderIcon,
   Play,
   SaveAll,
-  TextCursor
+  TextCursor,
 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -36,6 +42,7 @@ const DirectoriesTree = () => {
   }>({});
   const {
     directories,
+    changed,
     setDirectories,
     changeSelected,
     changeTabState,
@@ -52,7 +59,8 @@ const DirectoriesTree = () => {
   });
   useEffect(() => {
     if (data) setDirectories(data);
-  }, [data]);
+    if (changed) refetch();
+  }, [data, changed]);
   if (isPending)
     return (
       <div className=" flex justify-center mt-4 ">
