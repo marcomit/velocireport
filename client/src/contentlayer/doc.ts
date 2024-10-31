@@ -1,15 +1,12 @@
 import { defineDocumentType } from "@contentlayer/source-files";
-import type * as unified from "unified";
-import { toMarkdown } from "mdast-util-to-markdown";
 import { mdxToMarkdown } from "mdast-util-mdx";
+import { toMarkdown } from "mdast-util-to-markdown";
+import type * as unified from "unified";
 
 import { bundleMDX } from "mdx-bundler";
 
-// import { SEO } from '../nested/SEO'
-
 import type { DocumentGen } from "contentlayer/core";
 import * as fs from "node:fs/promises";
-import path from "node:path";
 
 export const contentDirPath = "content";
 
@@ -26,9 +23,7 @@ export const urlFromFilePath = (doc: DocumentGen): string => {
 };
 
 export const getLastEditedDate = async (doc: DocumentGen): Promise<Date> => {
-  const stats = await fs.stat(
-    path.join(contentDirPath, doc._raw.sourceFilePath)
-  );
+  const stats = await fs.stat(doc._raw.sourceFilePath);
   return stats.mtime;
 };
 
@@ -36,6 +31,7 @@ export type DocHeading = { level: 1 | 2 | 3; title: string };
 
 export const Doc = defineDocumentType(() => ({
   name: "Doc",
+  // type: "Doc",
   filePathPattern: `docs/**/*.mdx`,
   contentType: "mdx",
   fields: {
@@ -118,7 +114,7 @@ export const Doc = defineDocumentType(() => ({
           mdxOptions: (opts) => {
             opts.remarkPlugins = [
               ...(opts.remarkPlugins ?? []),
-              tocPlugin(headings),
+              // tocPlugin(headings),
             ];
             return opts;
           },
