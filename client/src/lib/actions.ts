@@ -42,3 +42,4 @@ const renameFile = async (name: string, path: DirectoryTree["path"]) => {
 };
 
 export { createNewFile, createNewFolder, createTemplate, renameFile };
+

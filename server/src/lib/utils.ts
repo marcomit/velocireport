@@ -11,11 +11,16 @@ async function exists(path: string) {
     return false;
   }
 }
-function isTemplate(obj: object) {
-  return "type" in obj && "name" in obj && "parent" in obj && "content" in obj;
+function validate(obj: object, keys: string[] = []) {
+  for (const key of keys) {
+    if (!(key in obj)) {
+      return false;
+    }
+  }
+  return true;
 }
 
-function treePath(tree: Omit<TemplateTree, "type" | "content">) {
+function treePath(tree: Omit<TemplateTree, "type" | "content" | "path">) {
   return path.join(Template.PATH, tree.parent, tree.name);
 }
 
@@ -29,40 +34,58 @@ function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+type Permission = "read" | "rename" | "write" | "delete";
+
 // At runtime all {} are replaced with the templateName
-const hiddenFiles: Omit<TemplateTree, "type" | "content">[] = [
+const hiddenFiles: (Omit<TemplateTree, "type" | "content"> & {
+  denied: Set<Permission>;
+})[] = [
   {
     name: "hidden",
     parent: "",
+    denied: new Set<Permission>(["delete", "read", "rename", "write"]),
   },
-  {
-    name: "index.js",
-    parent: path.join("{}", "data"),
-  },
-
   {
     name: "data",
     parent: "{}",
+    denied: new Set<Permission>(["delete", "read", "rename"]),
+  },
+  {
+    name: "style.css",
+    parent: "{}",
+    denied: new Set<Permission>(["delete", "read", "rename"]),
+  },
+  {
+    name: "index.js",
+    parent: "{}",
+    denied: new Set<Permission>(["delete", "read", "rename"]),
   },
   {
     name: "report.pdf",
     parent: "{}",
+    denied: new Set<Permission>(["delete", "read", "rename"]),
   },
   {
     name: "default",
     parent: "",
+    denied: new Set<Permission>(["delete", "read", "rename", "write"]),
   },
 ];
 
-function isHidden(
+function isDenied(
   file: Omit<TemplateTree, "type" | "content">,
-  templateName: string
+  templateName: string,
+  permissions: Permission[]
 ) {
   const parent =
-    templateName === "" ? "" : file.parent.replace(templateName, "{}");
+    templateName === "" ? "" : file.parent.replace("{}", templateName);
   for (const hidden of hiddenFiles) {
-    if (file.name === hidden.name && parent === hidden.parent) {
-      return true;
+    if (treePath(file) === treePath({ name: hidden.name, parent })) {
+      for (const permission of permissions) {
+        if (hidden.denied.has(permission)) {
+          return true;
+        }
+      }
     }
   }
   return false;
@@ -90,7 +113,8 @@ export {
   copy,
   exists,
   isAlphanumeric,
-  isHidden,
-  isTemplate,
+  isDenied,
   treePath,
+  validate,
 };
+

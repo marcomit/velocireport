@@ -144,21 +144,10 @@ function el(tag: HTMLTag, ...children: Content[]): TreeNode {
 const pdf = Object.fromEntries(
   htmlTags.map((tag) => [
     tag,
-    ((...args: any[]) => {
-      // if (
-      //   typeof args[0] === "object" &&
-      //   !Array.isArray(args[0]) &&
-      //   !("tag" in args[0]) &&
-      //   !("props" in args[0])
-      // ) {
-      // const [props = {}, ...children] = args;
-      return el(tag, ...args);
-      // } else {
-      //   return el(tag, new Map<string, any>(), ...args);
-      // }
-    }) as TreeNodeFunction,
+    ((...args: any[]) => el(tag, ...args)) as TreeNodeFunction,
   ])
 ) as Record<HTMLTag, TreeNodeFunction>;
+
 const selfClosedTags = new Set([
   "area",
   "base",
@@ -200,9 +189,7 @@ function renderToString(head: Content): string {
         .map(renderToString)
         .join("")}</${tag}>`;
 }
-function htmlToNode(content: string): Content {
-  return "";
-}
+
 function renderProps(props: TreeNode["props"]): string {
   if (!props) {
     return "";
@@ -212,4 +199,5 @@ function renderProps(props: TreeNode["props"]): string {
     .join(" ");
 }
 export default pdf;
-export { htmlToNode, renderToString };
+export { renderToString };
+

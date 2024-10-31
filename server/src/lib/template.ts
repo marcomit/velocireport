@@ -3,7 +3,7 @@ import path from "path";
 import puppeteer, { type PDFMargin } from "puppeteer";
 import pdf, { renderToString } from "../engines/veloci-js";
 import { type Data } from "../lib/types";
-import { capitalize, copy, exists, isHidden, treePath } from "./utils";
+import { capitalize, copy, exists, isDenied, treePath } from "./utils";
 
 interface TemplateTree {
   name: string;
@@ -56,7 +56,9 @@ class Template {
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const stat = await fs.stat(path.join(__dirname, directory, file));
-      if (isHidden({ name: file, parent }, parent.split(path.sep)[0])) {
+      if (
+        isDenied({ name: file, parent }, parent.split(path.sep)[0], ["read"])
+      ) {
         counter++;
         continue;
       }
@@ -124,14 +126,12 @@ class Template {
     );
   }
   public async delete(file: Omit<TemplateTree, "type" | "path" | "content">) {
-    if (
-      file.name == "index.ts" ||
-      file.name == "index.js" ||
-      file.name == "style.css"
-    ) {
-      return;
+    console.log(this.name);
+
+    if (isDenied(file, this.name, ["delete"])) {
+      throw new Error("You cannot delete this file");
     }
-    await fs.rm(treePath(file));
+    await fs.rm(treePath(file), { recursive: true, force: true });
   }
   public async pdf(
     margin: PDFMargin = { top: 0, bottom: 0, left: 0, right: 0 }
