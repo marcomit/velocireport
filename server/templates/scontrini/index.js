@@ -1,12 +1,10 @@
-import pdf from "@/engines/veloci-js";
+import pdf from "@/syntax/veloci-js";
 import data from "./data.json";
 import * as content from "./data/index";
 
 // Generate the PDF structure for the receipts report
 export default async () => {
-    function getScontriniData() {
-        
-    }
+  function getScontriniData() {}
   const receipts = data["scontrini"];
   const test = await content.getScontriniData();
   // Function to create a table row for each item in the receipt

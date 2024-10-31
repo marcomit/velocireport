@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { readFile } from "fs/promises";
 import path from "path";
-import { htmlToNode, renderToString } from "../engines/veloci-js";
+import { htmlToNode, renderToString } from "../syntax/veloci-js";
 
 const router = Router();
 

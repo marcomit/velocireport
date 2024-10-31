@@ -14,7 +14,7 @@ const createTemplate = async (e: FormData) => {
 };
 
 const createNewFolder = async (e: FormData) => {
-  const response = await axios.post(`http://localhost:8000/templates/}`, {
+  const response = await axios.post(`http://localhost:8000/templates/`, {
     name: e.get("name"),
     type: "directory",
     content: [],

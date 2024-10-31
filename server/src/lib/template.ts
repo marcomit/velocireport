@@ -1,8 +1,8 @@
 import fs from "fs/promises";
 import path from "path";
 import puppeteer, { type PDFMargin } from "puppeteer";
-import pdf, { renderToString } from "../engines/veloci-js";
 import { type Data } from "../lib/types";
+import pdf, { renderToString } from "../syntax/veloci-js";
 import { capitalize, copy, exists, isDenied, treePath } from "./utils";
 
 interface TemplateTree {

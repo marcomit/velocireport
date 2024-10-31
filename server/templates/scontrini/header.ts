@@ -1,4 +1,4 @@
-import pdf from "@/engines/veloci-js";
+import pdf from "@/syntax/veloci-js";
 
 export default () => {
   return pdf

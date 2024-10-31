@@ -9,10 +9,10 @@ import cors from "cors";
 import express from "express";
 import fs from "fs/promises";
 import path from "path";
-import pdf, { renderToString } from "./engines/veloci-js";
 import { default as data } from "./router/data";
 import { default as pdfRouter } from "./router/pdf";
 import { default as templates } from "./router/templates";
+import pdf, { renderToString } from "./syntax/veloci-js";
 
 const app = express();
 app.use(
