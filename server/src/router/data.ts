@@ -18,7 +18,6 @@ router.post("/:templateName", async (req, res) => {
     res.status(404).send("Template not found");
     return;
   }
-  console.log(treePath({ name, parent: `${templateName}/data` }));
   if (
     await template.exists(
       treePath({

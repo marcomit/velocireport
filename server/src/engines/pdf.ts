@@ -16,10 +16,11 @@ class PdfEngine extends Engine {
     const browser = await puppeteer.launch();
     try {
       const page = await browser.newPage();
-      const template = await this.template.getContent();
-      await page.setContent(renderToString(template), {
+      const [template, after] = await this.template.getContent();
+      await page.setContent(renderToString(template as any), {
         waitUntil: "networkidle0",
       });
+      await page.evaluate(async () => await after());
       const header = (await this.template.defaultScript("header")) || "";
       const footer = (await this.template.defaultScript("footer")) || "";
       const generatedPdf = await page.pdf({

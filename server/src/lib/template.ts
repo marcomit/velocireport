@@ -2,7 +2,7 @@ import fs from "fs/promises";
 import path from "path";
 import puppeteer, { type PDFMargin } from "puppeteer";
 import { type Data } from "../lib/types";
-import pdf, { renderToString } from "../syntax/veloci-js";
+import pdf, { renderToString, type TreeNode } from "../syntax/veloci-js";
 import { capitalize, copy, exists, isDenied, treePath } from "./utils";
 
 interface TemplateTree {
@@ -137,14 +137,14 @@ class Template {
     const browser = await puppeteer.launch();
     try {
       const page = await browser.newPage();
-      const template = await this.getContent();
+      const [template, after] = await this.getContent();
 
       await page.setContent(renderToString(template), {
         waitUntil: "networkidle0",
       });
       const header = (await this.defaultScript("header")) || "";
       const footer = (await this.defaultScript("footer")) || "";
-
+      await page.evaluate(after);
       const generatedPdf = await page.pdf({
         format: "A4",
         printBackground: true,
@@ -184,27 +184,19 @@ class Template {
     return null;
   }
   public async dynamicScript(fileName: string) {
-    // return await this.script(
-    //   treePath({ name: fileName, parent: this.name }),
-    //   async (file) => await import(`../../templates/${this.name}/${file}`)
-    // );
     const module = await this.script(
       treePath({ name: fileName, parent: this.name }),
       async (name) =>
-        await import(treePath({ name: fileName, parent: this.name })) //`../../templates/${this.name}/${file}`
+        await import(treePath({ name: fileName, parent: this.name }))
     );
-    console.log("module", module);
 
     if (module === null) {
       return null;
     }
-
-    // Filter to get only the functions from the exports
     const functions: Record<string, any> = {};
     for (const [key, value] of Object.entries(module)) {
       (functions as any)[key] = value;
     }
-
     return functions;
   }
   public async defaultScript(
@@ -222,7 +214,7 @@ class Template {
     }
     return await content[functionName](...args);
   }
-  public async getContent() {
+  public async getContent(): Promise<[TreeNode, () => Promise<any>]> {
     const script = await this.get(
       treePath({ name: "script.js", parent: this.name })
     );
@@ -235,24 +227,33 @@ class Template {
     );
     const globalStyle = await this.get("../shared/global.css");
     const data = await this.dynamicScript("data/index");
-    console.log("DATA", data);
 
     const content = await this.defaultScript("index", "default", data);
+    let after = async () => {};
+    if (!("content" in content)) {
+      throw new Error("Invalid template");
+    }
+    if ("after" in content && typeof content.after === "function") {
+      after = content.after;
+    }
 
-    return pdf.html(
-      pdf.head(
-        pdf.meta().$("charset", "utf-8"),
-        pdf.script().$("src", "https://cdn.tailwindcss.com"),
-        pdf.script().$("src", "https://cdn.jsdelivr.net/npm/chart.js"),
-        pdf.style(globalStyle || ""),
-        pdf.style(style || "")
+    return [
+      pdf.html(
+        pdf.head(
+          pdf.meta().$("charset", "utf-8"),
+          pdf.script().$("src", "https://cdn.tailwindcss.com"),
+          pdf.script().$("src", "https://cdn.jsdelivr.net/npm/chart.js"),
+          pdf.style(globalStyle || ""),
+          pdf.style(style || "")
+        ),
+        pdf.body(
+          content == null ? "" : content.content,
+          pdf.script(globalScript || ""),
+          pdf.script(script || "")
+        )
       ),
-      pdf.body(
-        content == null ? "" : content,
-        pdf.script(globalScript || ""),
-        pdf.script(script || "")
-      )
-    );
+      after,
+    ];
   }
   public async connect({ type, name, content, format }: Data) {
     const fileName = this.data({ type, name, format });

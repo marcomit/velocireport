@@ -1,13 +1,10 @@
 type HTMLTag = keyof HTMLElementTagNameMap;
-type Content = string | number | boolean | null | undefined | TreeNode;
-type ElementAttributes<T extends HTMLTag> = Partial<HTMLElementTagNameMap[T]>;
-type ElementEvents = Partial<DocumentEventMap>;
-type ElementProps<T extends HTMLTag> = ElementAttributes<T> & ElementEvents;
+export type Content = string | number | boolean | null | undefined | TreeNode;
 type TreeNodeFunction = {
   (props?: TreeNode["props"], ...children: Content[]): TreeNode;
   (...children: Content[]): TreeNode;
 };
-type TreeNode = {
+export type TreeNode = {
   tag: HTMLTag;
   props: Map<string, string>;
   children: Content[];
