@@ -13,7 +13,8 @@ import { ContextMenuItem } from "@/components/ui/context-menu";
 import { Trash } from "lucide-react";
 import { useState } from "react";
 import { deleteFile } from "@/lib/utils";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import useDirectories from "@/stores/directories";
 
 interface DeleteFileDialogProps {
   file: DirectoryTree;
@@ -22,20 +23,33 @@ interface DeleteFileDialogProps {
 export default function DeleteFileDialog({ file }: DeleteFileDialogProps) {
   const [open, setOpen] = useState(false);
 
-  const { isPending, error, data } = useQuery({
-    queryKey: ["deleteFile"],
-    queryFn: () => deleteFile(file.path),
+  const deleteMutation = useMutation({
+    mutationFn: async () => await deleteFile(file),
+
+    onSuccess: () => {
+      setOpen(false);
+
+      console.log("deleted succesfully");
+    },
+    onError: (error) => {
+      console.log("onError", error);
+    },
   });
 
-  async function onDelete() {
-    let response = await deleteFile(file.path);
-    console.log(response);
-  }
+  //   const { isPending, error, data } = useQuery({
+  //     queryKey: ["deleteFile"],
+  //     queryFn: () => deleteFile(file.path),
+  //   });
 
-  async function handleDelete() {
-    await onDelete();
-    setOpen(false);
-  }
+  //   async function onDelete() {
+  //     let response = await deleteFile(file.path);
+  //     console.log(response);
+  //   }
+
+  //   async function handleDelete() {
+  //     await deleteFile(file.path);
+  //     setOpen(false);
+  //   }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -60,12 +74,15 @@ export default function DeleteFileDialog({ file }: DeleteFileDialogProps) {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="destructive" onClick={handleDelete}>
-            {isPending ? "Deleting..." : "Yes"}
+          <Button variant="destructive" onClick={() => deleteMutation.mutate()}>
+            {deleteMutation.isPending ? "Deleting..." : "Yes"}
           </Button>
           <Button variant="secondary" onClick={() => setOpen(false)}>
             No
           </Button>
+          {deleteMutation.isError && (
+            <p className="text-destructive">{deleteMutation.error.message}</p>
+          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>
