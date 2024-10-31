@@ -3,6 +3,7 @@ import axios, { AxiosError } from "axios";
 import { clsx, type ClassValue } from "clsx";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
+import { Doc } from "contentlayer/generated";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -81,3 +82,14 @@ export const fetchDirectories = async () => {
     console.error("Error fetching directories:", error);
   }
 };
+
+export async function validateDuplicateIds(allDocs: Doc[]) {
+  const ids = allDocs.map((doc) => doc.global_id);
+
+  const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
+  if (duplicates.length) {
+    throw new Error(`[Error] Duplicate ids found: ${duplicates.join(", ")}`);
+  }
+
+  console.log("No duplicate ids found");
+}
