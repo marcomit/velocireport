@@ -126,8 +126,6 @@ class Template {
     );
   }
   public async delete(file: Omit<TemplateTree, "type" | "path" | "content">) {
-    console.log(this.name);
-
     if (isDenied(file, this.name, ["delete"])) {
       throw new Error("You cannot delete this file");
     }
@@ -158,8 +156,8 @@ class Template {
           right: margin.right || 0,
         },
         displayHeaderFooter: true,
-        headerTemplate: header ? renderToString(header) : "",
-        footerTemplate: footer ? renderToString(footer) : "",
+        headerTemplate: header ? renderToString(pdf.header(header)) : "",
+        footerTemplate: footer ? renderToString(pdf.footer(footer)) : "",
       });
 
       await fs.writeFile(`./templates/${this.name}/report.pdf`, generatedPdf);
@@ -185,15 +183,44 @@ class Template {
     }
     return null;
   }
-  public async defaultScript(fileName: string) {
-    const content = await this.script(
+  public async dynamicScript(fileName: string) {
+    // return await this.script(
+    //   treePath({ name: fileName, parent: this.name }),
+    //   async (file) => await import(`../../templates/${this.name}/${file}`)
+    // );
+    const module = await this.script(
       treePath({ name: fileName, parent: this.name }),
-      async (file) => await import(`../../templates/${this.name}/${file}`)
+      async (name) =>
+        await import(treePath({ name: fileName, parent: this.name })) //`../../templates/${this.name}/${file}`
     );
-    if (content === null) {
+    console.log("module", module);
+
+    if (module === null) {
       return null;
     }
-    return await content.default();
+
+    // Filter to get only the functions from the exports
+    const functions: Record<string, any> = {};
+    for (const [key, value] of Object.entries(module)) {
+      (functions as any)[key] = value;
+    }
+
+    return functions;
+  }
+  public async defaultScript(
+    fileName: string,
+    functionName: string = "default",
+    ...args: any[]
+  ) {
+    const content = await this.dynamicScript(fileName);
+
+    if (!content) {
+      return null;
+    }
+    if (!content[functionName]) {
+      return null;
+    }
+    return await content[functionName](...args);
   }
   public async getContent() {
     const script = await this.get(
@@ -207,17 +234,24 @@ class Template {
       treePath({ name: "../shared/global.js", parent: "" })
     );
     const globalStyle = await this.get("../shared/global.css");
+    const data = await this.dynamicScript("data/index");
+    console.log("DATA", data);
 
-    const content = await this.defaultScript("index");
+    const content = await this.defaultScript("index", "default", data);
 
     return pdf.html(
       pdf.head(
+        pdf.meta().$("charset", "utf-8"),
+        pdf.script().$("src", "https://cdn.tailwindcss.com"),
+        pdf.script().$("src", "https://cdn.jsdelivr.net/npm/chart.js"),
         pdf.style(globalStyle || ""),
-        pdf.style(style || ""),
+        pdf.style(style || "")
+      ),
+      pdf.body(
+        content == null ? "" : content,
         pdf.script(globalScript || ""),
         pdf.script(script || "")
-      ),
-      pdf.body(content == null ? "" : content)
+      )
     );
   }
   public async connect({ type, name, content, format }: Data) {

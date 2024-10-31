@@ -17,7 +17,6 @@ class PdfEngine extends Engine {
     try {
       const page = await browser.newPage();
       const template = await this.template.getContent();
-
       await page.setContent(renderToString(template), {
         waitUntil: "networkidle0",
       });

@@ -1,12 +1,10 @@
 import pdf from "@/syntax/veloci-js";
-import data from "./data.json";
-import * as content from "./data/index";
-
+// import * as content from "./data";
 // Generate the PDF structure for the receipts report
-export default async () => {
-  function getScontriniData() {}
-  const receipts = data["scontrini"];
-  const test = await content.getScontriniData();
+export default async (content) => {
+  // const receipts = data["scontrini"];
+  const receipts = (await content.getScontriniData())['scontrini'];
+  // const receipts = (await content.getScontriniData())["scontrini"];
   // Function to create a table row for each item in the receipt
   const createReceiptRows = (receipt) => {
     const items = receipt.righe || []; // Ensure items exist
@@ -28,7 +26,6 @@ export default async () => {
       );
     });
   };
-
   // Function to calculate the overall total for the receipts
   const calculateTotal = () =>
     receipts
@@ -36,7 +33,8 @@ export default async () => {
       .toFixed(2);
 
   return pdf.div(
-    pdf.p(JSON.stringify(test)),
+    pdf.h1("Receipts Report").$("class", "text-center text-red-500"),
+    // pdf.canvas().$("id", "prova"),
     pdf
       .table(
         // Define the table header
@@ -44,7 +42,7 @@ export default async () => {
           pdf.tr(
             pdf.th("Receipt ID").$("class", "table__header"),
             pdf.th("Date").$("class", "table__header"),
-            pdf.th("Status").$("class", "table__header"),
+            pdf.th("Status").$("class", "table__header text-red"),
             pdf.th("Payment Status").$("class", "table__header"),
             pdf.th("Description").$("class", "table__header"),
             pdf.th("Quantity").$("class", "table__header"),
@@ -64,6 +62,7 @@ export default async () => {
         )
       )
       .$("border", 1) // Apply border style
-      .$("class", "table table--receipts")
+      .$("class", "table table--receipts"),
+    pdf.canvas().$("id", "prova")
   ); // Apply the main class for the entire table
 };
