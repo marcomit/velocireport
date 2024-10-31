@@ -118,9 +118,9 @@ function isDenied(
   permissions: Permission[]
 ) {
   const parent =
-    templateName === "" ? "" : file.parent.replace(templateName, "{}");
+    templateName === "" ? "" : file.parent.replace("{}", templateName);
   for (const hidden of hiddenFiles) {
-    if (treePath(file) === treePath(hidden)) {
+    if (treePath(file) === treePath({ name: hidden.name, parent })) {
       for (const permission of permissions) {
         if (hidden.denied.has(permission)) {
           return true;
@@ -156,6 +156,6 @@ export {
   isDenied,
   rawValidate,
   treePath,
-  validate,
+  validate
 };
 
