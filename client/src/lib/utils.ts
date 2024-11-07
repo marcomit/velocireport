@@ -38,6 +38,15 @@ export function areTreesEqual(a: DirectoryTree, b: DirectoryTree) {
   return true;
 }
 
+export function getDirectoryRoot(
+  directory: DirectoryTree,
+  templateList: DirectoryTree[]
+) {
+  if (directory.parent === "") return directory;
+
+  return templateList.find((t) => t.name == directory.parent.split("\\")[0]);
+}
+
 export async function runTemplate(templateName: string) {
   /*   try { */
   const response = await axios.get(`http://localhost:8000/pdf/${templateName}`);

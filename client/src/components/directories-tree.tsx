@@ -24,6 +24,7 @@ import {
   Play,
   SaveAll,
   TextCursor,
+  Trash,
 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -213,7 +214,12 @@ const DirectoriesTree = () => {
                 <TextCursor className="w-4 h-4 me-2" />
                 Rename
               </ContextMenuItem>
-              <DeleteFileDialog file={directory} />
+              <DeleteFileDialog file={directory}>
+                <ContextMenuItem className="text-destructive focus:text-destructive">
+                  <Trash className="w-4 h-4 me-2" />
+                  Delete
+                </ContextMenuItem>
+              </DeleteFileDialog>
             </ContextMenuContent>
           </ContextMenu>
         ) : (
@@ -273,7 +279,12 @@ const DirectoriesTree = () => {
               >
                 Rename
               </ContextMenuItem>
-              <ContextMenuItem>Delete</ContextMenuItem>
+              <DeleteFileDialog file={directory}>
+                <ContextMenuItem className="text-destructive focus:text-destructive">
+                  <Trash className="w-4 h-4 me-2" />
+                  Delete
+                </ContextMenuItem>
+              </DeleteFileDialog>
             </ContextMenuContent>
           </ContextMenu>
         )}

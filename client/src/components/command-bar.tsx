@@ -13,7 +13,7 @@ const CommandBar = ({
 }: {
   constraintsRef: React.RefObject<HTMLDivElement>;
 }) => {
-  const { getSelected } = useDirectories();
+  const { getSelected, toggleChanged } = useDirectories();
   const { setPdfBuffer, setError } = usePdfBuffer();
   const selected = getSelected();
 
@@ -55,6 +55,7 @@ const CommandBar = ({
     directories.forEach((d) => dfs(d));
     console.log(changedFiles);
     const result = await saveFiles(changedFiles);
+    if (result) toggleChanged();
     toast.success(result);
   }
   return (

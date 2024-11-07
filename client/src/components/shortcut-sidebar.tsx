@@ -3,10 +3,13 @@ import { Button } from "./ui/button";
 import { NewTemplateDialog } from "./dialogs/new-template";
 import ConnectDataDialog from "./dialogs/connect-data";
 import useDirectories from "@/stores/directories";
+import DeleteFileDialog from "./dialogs/delete-file";
+import { getDirectoryRoot } from "@/lib/utils";
 
 const ShortcutSidebar = () => {
   function createNewTemplate() {}
   const selected = useDirectories().getSelected();
+  const { directories } = useDirectories();
 
   return (
     <div className=" h-1/2 mt-auto flex flex-col items-center p-2">
@@ -24,12 +27,18 @@ const ShortcutSidebar = () => {
             }
           />
         )}
-      <Button variant={"custom-dark"} className="mt-2 w-full">
+      {/* <Button variant={"custom-dark"} className="mt-2 w-full">
         CONNECT SCRIPTS
-      </Button>
-      <Button variant={"destructive-outline"} className="mt-2 w-full">
-        DELETE TEMPLATE
-      </Button>
+      </Button> */}
+      {selected &&
+        selected.name !== "shared" &&
+        selected?.parent.split("/")[0] !== "shared" && (
+          <DeleteFileDialog file={getDirectoryRoot(selected, directories)!}>
+            <Button variant={"destructive-outline"} className="mt-2 w-full">
+              DELETE TEMPLATE
+            </Button>
+          </DeleteFileDialog>
+        )}
       <Button variant={"custom-dark"} className="mt-auto w-full">
         PUBLISH TEMPLATE
       </Button>

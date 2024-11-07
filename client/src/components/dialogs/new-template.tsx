@@ -12,19 +12,44 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { FilePlus2 } from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
-import axios from "axios";
 import { createTemplate } from "@/lib/actions";
+import useDirectories from "@/stores/directories";
+import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 
 export function NewTemplateDialog() {
+  const [open, setOpen] = useState(false);
+  const { toggleChanged } = useDirectories();
+
+  const { mutate } = useMutation({
+    mutationFn: async (data: FormData) => {
+      await createTemplate(data);
+      toggleChanged();
+    },
+    onSuccess: () => {
+      setOpen(false);
+    },
+    onError: (error) => {
+      console.log("onError", error);
+    },
+  });
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={() => setOpen(false)}>
       <DialogTrigger asChild>
-        <Button variant={"custom-dark"} className="mt-2 w-full">
+        <Button
+          variant={"custom-dark"}
+          className="mt-2 w-full"
+          onClick={(event) => {
+            event.preventDefault();
+            setOpen(true);
+          }}
+        >
           NEW TEMPLATE
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
-        <form action={createTemplate}>
+        <form action={mutate}>
           <DialogHeader>
             <DialogTitle>New template</DialogTitle>
             <DialogDescription>

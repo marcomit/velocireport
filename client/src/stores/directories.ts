@@ -10,7 +10,7 @@ interface DirectoriesState {
     name: string;
     path: DirectoryTree["path"];
   };
-  getSelected: () => DirectoryTree;
+  getSelected: () => DirectoryTree | undefined;
   setRename: ({
     path,
     name,
@@ -55,6 +55,7 @@ const useDirectories = create<DirectoriesState>()((set, get) => ({
   updateSelectedContent: (content: string) => {
     const store = get();
     const selected = store.getSelected();
+    if (!selected) return;
     selected.content = content;
     selected.sync = false;
     set({ directories: [...store.directories] });

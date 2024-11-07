@@ -18,15 +18,25 @@ import useDirectories from "@/stores/directories";
 
 interface DeleteFileDialogProps {
   file: DirectoryTree;
+
+  children: React.ReactNode;
 }
 
-export default function DeleteFileDialog({ file }: DeleteFileDialogProps) {
+export default function DeleteFileDialog({
+  file,
+  children,
+}: DeleteFileDialogProps) {
   const [open, setOpen] = useState(false);
 
+  const { toggleChanged } = useDirectories();
+
   const deleteMutation = useMutation({
-    mutationFn: async () => await deleteFile(file),
+    mutationFn: async () => {
+      await deleteFile(file);
+    },
 
     onSuccess: () => {
+      toggleChanged();
       setOpen(false);
 
       console.log("deleted succesfully");
@@ -52,18 +62,19 @@ export default function DeleteFileDialog({ file }: DeleteFileDialogProps) {
   //   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <ContextMenuItem
-          className="text-destructive focus:text-destructive"
-          onSelect={(event) => {
-            event.preventDefault();
-            setOpen(true);
-          }}
-        >
-          <Trash className="w-4 h-4 me-2" />
-          Delete
-        </ContextMenuItem>
+    <Dialog open={open} onOpenChange={() => setOpen(false)}>
+      <DialogTrigger
+        asChild
+        onSelect={(event) => {
+          event.preventDefault();
+          setOpen(true);
+        }}
+        onClick={(event) => {
+          event.preventDefault();
+          setOpen(true);
+        }}
+      >
+        {children}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
