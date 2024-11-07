@@ -28,7 +28,7 @@ export default function DeleteFileDialog({
 }: DeleteFileDialogProps) {
   const [open, setOpen] = useState(false);
 
-  const { toggleChanged } = useDirectories();
+  const { toggleChanged, selected } = useDirectories();
 
   const deleteMutation = useMutation({
     mutationFn: async () => {
@@ -38,7 +38,7 @@ export default function DeleteFileDialog({
     onSuccess: () => {
       toggleChanged();
       setOpen(false);
-
+      console.log(selected);
       console.log("deleted succesfully");
     },
     onError: (error) => {

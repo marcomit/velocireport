@@ -60,7 +60,10 @@ const DirectoriesTree = () => {
   });
   useEffect(() => {
     if (data) setDirectories(data);
-    if (changed) refetch();
+    if (changed) {
+      refetch();
+      if (changed === true) toggleChanged();
+    }
   }, [data, changed]);
   if (isPending)
     return (
