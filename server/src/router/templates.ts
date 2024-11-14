@@ -171,4 +171,44 @@ router.delete("/", async (req, res) => {
   res.send("File deleted");
 });
 
+router.get("/config/:templateName", async (req, res) => {
+  const { templateName } = req.params;
+  const template = new Template(templateName);
+  if (!(await template.exists())) {
+    res.status(404).send("Template not found");
+    return;
+  }
+
+  const config = await template.get("config.json");
+  res.send(config);
+});
+
+router.put("/config/:templateName", async (req, res) => {
+  const { templateName } = req.params;
+  const template = new Template(templateName);
+  if (!(await template.exists())) {
+    res.status(404).send("Template not found");
+    return;
+  }
+  const config = req.body;
+  try {
+    await template.insert({
+      name: "config.json",
+      content: JSON.stringify(config),
+      parent: "",
+    });
+  } catch (e) {
+    if (e instanceof Error) {
+      res.status(500).send(e.message);
+      console.log(e.message);
+      return;
+    }
+    res.status(500).send(e);
+    console.log(e);
+    return;
+  }
+  res.send("Config updated");
+});
+
+
 export default router;

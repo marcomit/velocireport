@@ -3,20 +3,22 @@ import data from "../scontrini/data.json";
 import * as content from "./data";
 export default async function () {
   const test = await content.getVenditeData();
-  return pdf
-    .table(
-      pdf.p(JSON.stringify(test)),
-      pdf.tbody(
-        ...data["scontrini"].map((item, index) =>
-          pdf.tr(
-            pdf.td(item["_id"]),
-            pdf.td(item["prodotto"]),
-            riga(item["righe"])
+  return {
+    content: pdf
+      .table(
+        pdf.p(JSON.stringify(test)),
+        pdf.tbody(
+          ...data["scontrini"].map((item, index) =>
+            pdf.tr(
+              pdf.td(item["_id"]),
+              pdf.td(item["prodotto"]),
+              riga(item["righe"])
+            )
           )
         )
       )
-    )
-    .$("border", 1);
+      .$("border", 1),
+  };
 }
 
 function riga(righe) {

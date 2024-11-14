@@ -42,7 +42,7 @@ class Template {
     }
     return await exists(this.path);
   }
-  public async create(classic: boolean = false) {
+  public async create() {
     await copy(treePath({ name: "", parent: "default" }), this.path);
   }
   public async tree(
