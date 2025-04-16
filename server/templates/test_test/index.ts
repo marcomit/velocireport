@@ -1,8 +1,8 @@
 import pdf from "@/syntax/veloci-js";
 import veloci from "@/syntax/components";
 
-export default async (content) => {
-  const receipts = (await content.getScontriniData())["scontrini"];
+export default async (content: any) => {
+  const receipts: any[] = (await content.getScontriniData())["scontrini"];
 
   return {
     content: pdf.div(

@@ -11,7 +11,7 @@ class Components {
 
   table<T>(
     list: T[],
-    { columns, footer }: { columns: Column<T>[]; footer: any }
+    { columns, footer }: { columns: Column<T>[]; footer?: any }
   ) {
     return pdf.table(
       pdf.tr(...columns.map((c) => pdf.th(c.name))),
