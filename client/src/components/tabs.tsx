@@ -26,9 +26,6 @@ const Tabs = () => {
   };
 
   const selected = useDirectories((state) => state.selected);
-  useEffect(() => {
-    console.log("rerendered", selected);
-  }, [selected]);
 
   return (
     <div

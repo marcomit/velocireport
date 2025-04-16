@@ -19,8 +19,7 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"],
-      "contentlayer/generated": ["./.contentlayer/generated"]
+      "@/*": ["./src/*"]
     }
   },
   "include": [
@@ -29,8 +28,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/page.tsx",
-    "src/components/pdf-preview.tsx",
-    ".contentlayer/generated"
+    "src/components/pdf-preview.tsx"
   ],
   "exclude": ["node_modules"]
 }

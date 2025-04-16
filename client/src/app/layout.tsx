@@ -1,9 +1,3 @@
-// ░░      ░░░░      ░░░       ░░░░      ░░░░      ░░░  ░░░░  ░░        ░░  ░░░░░░░░  ░░░░░░░░░      ░░
-// ▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒  ▒▒  ▒▒▒▒  ▒▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒  ▒▒   ▒▒   ▒▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒  ▒
-// ▓  ▓▓▓   ▓▓  ▓▓▓▓  ▓▓       ▓▓▓  ▓▓▓   ▓▓  ▓▓▓▓  ▓▓        ▓▓      ▓▓▓▓  ▓▓▓▓▓▓▓▓  ▓▓▓▓▓▓▓▓  ▓▓▓▓  ▓
-// █  ████  ██        ██  ███  ███  ████  ██        ██  █  █  ██  ████████  ████████  ████████        █
-// ██      ███  ████  ██  ████  ███      ███  ████  ██  ████  ██        ██        ██        ██  ████  █
-
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { TooltipProvider } from "@/providers/tooltip-provider";
@@ -31,7 +25,6 @@ export const metadata: Metadata = {
     icon: "/favicon.ico",
   },
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{
