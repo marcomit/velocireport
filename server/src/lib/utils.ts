@@ -98,7 +98,7 @@ const hiddenFiles: (Omit<TemplateTree, "type" | "content"> & {
   {
     name: "index.js",
     parent: "{}",
-    denied: new Set<Permission>(["delete", "read", "rename"]),
+    denied: new Set<Permission>(["delete", "rename"]),
   },
   {
     name: "report.pdf",
@@ -156,6 +156,5 @@ export {
   isDenied,
   rawValidate,
   treePath,
-  validate
+  validate,
 };
-

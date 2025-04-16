@@ -47,4 +47,5 @@ function getSum(list) {
   }
   return sum;
 }
+
 export { getAverage, getMax, getMedian, getMin, getSum, groupBy };
