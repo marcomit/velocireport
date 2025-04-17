@@ -137,7 +137,7 @@ class Template {
     const browser = await puppeteer.launch();
     try {
       const page = await browser.newPage();
-      const [template, after] = await this.getContent();
+      const { template, after } = await this.getContent();
 
       await page.setContent(renderToString(template), {
         waitUntil: "networkidle0",
@@ -206,15 +206,13 @@ class Template {
   ) {
     const content = await this.dynamicScript(fileName);
 
-    if (!content) {
-      return null;
-    }
-    if (!content[functionName]) {
-      return null;
-    }
+    if (!content) return null;
+
+    if (!content[functionName]) return null;
+
     return await content[functionName](...args);
   }
-  public async getContent(): Promise<[TreeNode, () => Promise<any>]> {
+  public async getContent(): Promise<{ template: TreeNode, after: () => Promise<any> }> {
     const script = await this.get(
       treePath({ name: "script.js", parent: this.name })
     );
@@ -229,31 +227,32 @@ class Template {
     const data = await this.dynamicScript("data/index");
 
     const content = await this.defaultScript("index", "default", data);
-    let after = async () => {};
-    if (!("content" in content)) {
+    let after = await this.defaultScript("index", "after");
+    if (!after) {
+      after = async () => { };
+    }
+    if (!content) {
       throw new Error("Invalid template");
     }
-    if ("after" in content && typeof content.after === "function") {
-      after = content.after;
-    }
 
-    return [
-      pdf.html(
-        pdf.head(
-          pdf.meta().$("charset", "utf-8"),
-          pdf.script().$("src", "https://cdn.tailwindcss.com"),
-          pdf.script().$("src", "https://cdn.jsdelivr.net/npm/chart.js"),
-          pdf.style(globalStyle || ""),
-          pdf.style(style || "")
+    return {
+      template:
+        pdf.html(
+          pdf.head(
+            pdf.meta().$("charset", "utf-8"),
+            pdf.script().$("src", "https://cdn.tailwindcss.com"),
+            pdf.script().$("src", "https://cdn.jsdelivr.net/npm/chart.js"),
+            pdf.style(globalStyle || ""),
+            pdf.style(style || "")
+          ),
+          pdf.body(
+            content == null ? "" : content,
+            pdf.script(globalScript || ""),
+            pdf.script(script || "")
+          )
         ),
-        pdf.body(
-          content == null ? "" : content.content,
-          pdf.script(globalScript || ""),
-          pdf.script(script || "")
-        )
-      ),
       after,
-    ];
+    };
   }
   public async connect({ type, name, content, format }: Data) {
     const fileName = this.data({ type, name, format });
@@ -274,7 +273,7 @@ class Template {
       content: formattedContent,
       parent: this.name,
     });
-    const bridgeFunction = await this.bridgeFunction({ type, format, name });
+    const bridgeFunction = this.bridgeFunction({ type, format, name });
     await fs.appendFile(
       treePath({ name: "data/index.js", parent: this.name }),
       `${bridgeFunction}\n`
