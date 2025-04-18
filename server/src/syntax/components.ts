@@ -6,7 +6,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { variants, type Variant } from "./variants";
+import {
+  gridVariants,
+  variants,
+  type GridVariant,
+  type Variant,
+} from "./variants";
 import pdf, { type Content } from "./veloci-js";
 
 type Data<T> = {
@@ -19,6 +24,8 @@ type Cell = {
   description: Content;
   colSpan?: number;
   rowSpan?: number;
+  class?: string;
+  variant?: (keyof GridVariant)[];
 };
 
 class Components {
@@ -30,6 +37,13 @@ class Components {
     tipo: keyof (typeof variants)[T]
   ): string {
     return vList.map((e) => variants[e][tipo]).join(" ");
+  }
+
+  private evalGridVariant<T extends keyof GridVariant>(
+    vList: T[],
+    tipo: keyof (typeof gridVariants)[T]
+  ): string {
+    return vList.map((e) => gridVariants[e][tipo]).join(" ");
   }
 
   table<T>(
@@ -162,21 +176,26 @@ class Components {
     return curr[splitted[splitted.length - 1]];
   }
 
-  grid(cols: number, cells: Cell[]) {
+  grid(cols: number, cells: Cell[], ...variant: (keyof GridVariant)[]) {
     return pdf
       .div(
         ...cells.map((c) =>
           pdf
-            .div(c.description)
+            .div(c.description || "")
             .$(
               "class",
-              `col-span-${c.colSpan || 1} row-span-${
-                c.rowSpan || 1
-              } border border-black`
+              ` col-span-${c.colSpan || 1} row-span-${c.rowSpan || 1} ${
+                c.variant
+                  ? this.evalGridVariant(c.variant, "cell")
+                  : this.evalGridVariant(variant, "cell")
+              }  ${c.class}`
             )
         )
       )
-      .$("class", `grid grid-cols-${cols}`);
+      .$(
+        "class",
+        `grid grid-cols-${cols} ${this.evalGridVariant(variant, "grid")}`
+      );
   }
 }
 
