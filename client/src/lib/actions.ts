@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2025, (Marco Menegazzi, Francesco Venanti)
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD 3-Clause License found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 "use server";
 
 import { DirectoryTree } from "@/types/directory";
@@ -42,4 +50,3 @@ const renameFile = async (name: string, path: DirectoryTree["path"]) => {
 };
 
 export { createNewFile, createNewFolder, createTemplate, renameFile };
-

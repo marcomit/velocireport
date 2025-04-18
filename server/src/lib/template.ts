@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2025, (Marco Menegazzi, Francesco Venanti)
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD 3-Clause License found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import fs from "fs/promises";
 import path from "path";
 import puppeteer, { type PDFMargin } from "puppeteer";
@@ -212,7 +220,10 @@ class Template {
 
     return await content[functionName](...args);
   }
-  public async getContent(): Promise<{ template: TreeNode, after: () => Promise<any> }> {
+  public async getContent(): Promise<{
+    template: TreeNode;
+    after: () => Promise<any>;
+  }> {
     const script = await this.get(
       treePath({ name: "script.js", parent: this.name })
     );
@@ -229,28 +240,27 @@ class Template {
     const content = await this.defaultScript("index", "default", data);
     let after = await this.defaultScript("index", "after");
     if (!after) {
-      after = async () => { };
+      after = async () => {};
     }
     if (!content) {
       throw new Error("Invalid template");
     }
 
     return {
-      template:
-        pdf.html(
-          pdf.head(
-            pdf.meta().$("charset", "utf-8"),
-            pdf.script().$("src", "https://cdn.tailwindcss.com"),
-            pdf.script().$("src", "https://cdn.jsdelivr.net/npm/chart.js"),
-            pdf.style(globalStyle || ""),
-            pdf.style(style || "")
-          ),
-          pdf.body(
-            content == null ? "" : content,
-            pdf.script(globalScript || ""),
-            pdf.script(script || "")
-          )
+      template: pdf.html(
+        pdf.head(
+          pdf.meta().$("charset", "utf-8"),
+          pdf.script().$("src", "https://cdn.tailwindcss.com"),
+          pdf.script().$("src", "https://cdn.jsdelivr.net/npm/chart.js"),
+          pdf.style(globalStyle || ""),
+          pdf.style(style || "")
         ),
+        pdf.body(
+          content == null ? "" : content,
+          pdf.script(globalScript || ""),
+          pdf.script(script || "")
+        )
+      ),
       after,
     };
   }
@@ -295,4 +305,3 @@ class Template {
 
 export default Template;
 export type { TemplateTree };
-

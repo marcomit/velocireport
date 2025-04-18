@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2025, (Marco Menegazzi, Francesco Venanti)
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD 3-Clause License found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import pdf, { type Content } from "./veloci-js";
 
 const variants = {
@@ -14,14 +22,14 @@ type Data<T> = {
 };
 
 type Cell = {
-  description: Content
-  colSpan?: number
-  rowSpan?: number
-}
+  description: Content;
+  colSpan?: number;
+  rowSpan?: number;
+};
 
 class Components {
   static instance = new Components();
-  private constructor() { }
+  private constructor() {}
 
   table<T>(
     list: T[],
@@ -139,9 +147,20 @@ class Components {
   }
 
   grid(cols: number, cells: Cell[]) {
-    return pdf.div(
-      ...cells.map((c) => pdf.div(c.description).$('class', `col-span-${c.colSpan || 1} row-span-${c.rowSpan || 1} border border-black`))
-    ).$('class', `grid grid-cols-${cols}`)
+    return pdf
+      .div(
+        ...cells.map((c) =>
+          pdf
+            .div(c.description)
+            .$(
+              "class",
+              `col-span-${c.colSpan || 1} row-span-${
+                c.rowSpan || 1
+              } border border-black`
+            )
+        )
+      )
+      .$("class", `grid grid-cols-${cols}`);
   }
 }
 

@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2025, (Marco Menegazzi, Francesco Venanti)
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD 3-Clause License found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 type HTMLTag = keyof HTMLElementTagNameMap;
 export type Content = string | number | boolean | null | undefined | TreeNode;
 type TreeNodeFunction = {
@@ -197,4 +205,3 @@ function renderProps(props: TreeNode["props"]): string {
 }
 export default pdf;
 export { renderToString };
-
