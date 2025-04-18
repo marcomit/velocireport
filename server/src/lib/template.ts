@@ -12,6 +12,8 @@ import puppeteer, { type PDFMargin } from "puppeteer";
 import { type Data } from "../lib/types";
 import pdf, { renderToString, type TreeNode } from "../syntax/veloci-js";
 import { capitalize, copy, exists, isDenied, treePath } from "./utils";
+import data from '../../templates/hidden/index'
+import TemplateData from "./data";
 
 interface TemplateTree {
   name: string;
@@ -26,33 +28,35 @@ class Template {
   type: "directory" | "file" = "directory";
   parent: string = "";
   content: string | TemplateTree[] = [];
+  data: TemplateData;
+
   public static PATH: string = path.join(__dirname, "..", "..", "templates");
+
   public get path() {
     return path.join(Template.PATH, this.name);
   }
+
   constructor(name: string, createIfNotExists: boolean = false) {
     this.name = name;
     if (createIfNotExists) {
       this.create();
     }
+    this.data = new TemplateData(this.join('data'));
   }
+
   public async init() {
     this.content = await this.tree();
     return this;
   }
-  public async exists(filePath?: string, type: TemplateTree["type"] = "file") {
-    if (filePath) {
-      if (type === "directory") {
-        return await exists(filePath);
-      }
 
-      return await exists(filePath);
-    }
-    return await exists(this.path);
+  public async exists(...args: string[]) {
+    return await exists(this.join(...args));
   }
-  public async create(classic: boolean = false) {
-    await copy(treePath({ name: "", parent: "default" }), this.path);
+
+  public async create() {
+    await copy(this.join('..', 'default'), this.path);
   }
+
   public async tree(
     directory: string = this.name,
     tree: TemplateTree[] = [],
@@ -100,20 +104,25 @@ class Template {
     }
     return tree;
   }
-  public async get(fileName: string) {
-    if (!(await this.exists(fileName))) {
+
+  public async get(...filePath: string[]) {
+    if (!(await this.exists(...filePath))) {
       return null;
     }
 
-    return await fs.readFile(fileName, "utf8");
+    return await fs.readFile(this.join(...filePath), "utf8");
   }
+
   public async rename(newName: string, location: number[] = []) {
     const file = this.getTreeFromPath(location);
     if (newName === file.name) {
       throw new Error("New name cannot be the same as old name");
     }
-    await fs.rename(treePath(file), treePath({ ...file, name: newName }));
+    const filePath: string[] = [file.parent, file.name];
+    const newFilePath: string[] = [file.parent, newName];
+    await fs.rename(this.join(...filePath), this.join(...newFilePath));
   }
+
   public getTreeFromPath(location: number[] = []) {
     let tree: TemplateTree = this.content[location[0]] as TemplateTree;
     for (let i = 1; i < location.length; i++) {
@@ -121,10 +130,12 @@ class Template {
     }
     return tree;
   }
+
   public async insert(file: Omit<TemplateTree, "type">) {
     const hasParentDir = await exists(path.join("..", file.parent));
     if (!hasParentDir) {
       await fs.mkdir(path.join(Template.PATH, file.parent), {
+
         recursive: true,
       });
     }
@@ -133,15 +144,17 @@ class Template {
       file.content as string
     );
   }
+
   public async delete(file: Omit<TemplateTree, "type" | "path" | "content">) {
     if (isDenied(file, this.name, ["delete"])) {
       throw new Error("You cannot delete this file");
     }
     await fs.rm(treePath(file), { recursive: true, force: true });
   }
+
   public async pdf(
     margin: PDFMargin = { top: 0, bottom: 0, left: 0, right: 0 }
-  ): Promise<Uint8Array | string> {
+  ): Promise<Uint8Array | Error> {
     const browser = await puppeteer.launch();
     try {
       const page = await browser.newPage();
@@ -168,45 +181,53 @@ class Template {
         footerTemplate: footer ? renderToString(pdf.footer(footer)) : "",
       });
 
-      await fs.writeFile(`./templates/${this.name}/report.pdf`, generatedPdf);
+      await fs.writeFile(this.join('report.pdf'), generatedPdf);
 
       await browser.close();
       return generatedPdf;
     } catch (e) {
       browser.close();
-      return `${e}`;
+      return e as Error;
     }
   }
+
   public async script<T>(
     fileWithoutExtension: string,
     callback: (fileWithExtension: string) => Promise<T>
   ): Promise<T | null> {
-    const fileName = fileWithoutExtension.split(path.sep).pop();
+    // const fileName = fileWithoutExtension.split(path.sep).pop();
 
-    if (await this.exists(fileWithoutExtension + ".ts")) {
-      return await callback(fileName + ".ts");
-    }
-    if (await this.exists(fileWithoutExtension + ".js")) {
-      return await callback(fileName + ".js");
+    const extensions = ['ts', 'js'];
+    for (const ext of extensions) {
+      const name = [fileWithoutExtension, ext].join('.');
+      if (await this.exists(name)) {
+        return await callback(this.join(name))
+      }
     }
     return null;
   }
-  public async dynamicScript(fileName: string) {
-    const module = await this.script(
-      treePath({ name: fileName, parent: this.name }),
-      async (name) =>
-        await import(treePath({ name: fileName, parent: this.name }))
-    );
 
+  public async dynamicScript(fileName: string) {
+    const module = await this.script(fileName,
+      async (name) => await import(name)
+    );
     if (module === null) {
       return null;
     }
+
     const functions: Record<string, any> = {};
+
     for (const [key, value] of Object.entries(module)) {
       (functions as any)[key] = value;
     }
+
     return functions;
   }
+
+  public join(...args: string[]) {
+    return path.join(this.path, ...args)
+  }
+
   public async defaultScript(
     fileName: string,
     functionName: string = "default",
@@ -220,32 +241,29 @@ class Template {
 
     return await content[functionName](...args);
   }
+
   public async getContent(): Promise<{
     template: TreeNode;
     after: () => Promise<any>;
   }> {
-    const script = await this.get(
-      treePath({ name: "script.js", parent: this.name })
-    );
-    const style = await this.get(
-      treePath({ name: "style.css", parent: this.name })
-    );
+    const script = await this.get('script.js');
+    const style = await this.get('style.css');
 
     const globalScript = await this.get(
-      treePath({ name: "../shared/global.js", parent: "" })
+      path.join('..', 'shared', 'global.js')
     );
-    const globalStyle = await this.get("../shared/global.css");
-    const data = await this.dynamicScript("data/index");
+    const globalStyle = await this.get(path.join("..", "shared", "global.css"));
+    const ctx = await this.dynamicScript(path.join('data', 'index'));
 
-    const content = await this.defaultScript("index", "default", data);
+    const content = await this.defaultScript("index", "default", ctx);
     let after = await this.defaultScript("index", "after");
+
     if (!after) {
-      after = async () => {};
+      after = async () => { };
     }
     if (!content) {
       throw new Error("Invalid template");
     }
-
     return {
       template: pdf.html(
         pdf.head(
@@ -264,8 +282,9 @@ class Template {
       after,
     };
   }
+
   public async connect({ type, name, content, format }: Data) {
-    const fileName = this.data({ type, name, format });
+    const fileName = name//this.data({ type, name, format });
 
     let formattedContent = "";
 
@@ -277,29 +296,12 @@ class Template {
         formattedContent = content;
         break;
     }
-
+    await this.data.insert({ type, name, format });
     await this.insert({
       name: `data/${fileName}`,
       content: formattedContent,
       parent: this.name,
     });
-    const bridgeFunction = this.bridgeFunction({ type, format, name });
-    await fs.appendFile(
-      treePath({ name: "data/index.js", parent: this.name }),
-      `${bridgeFunction}\n`
-    );
-  }
-  public bridgeFunction({ type, format, name }: Omit<Data, "content">) {
-    return `export const get${capitalize(
-      name
-    )} = async () => await format.${format}(join(__dirname, "${this.data({
-      type,
-      name,
-      format,
-    })}"));`;
-  }
-  public data({ type, name, format }: Omit<Data, "content">) {
-    return `${type}-${type === "raw" ? `${name}.${format}` : name}`;
   }
 }
 

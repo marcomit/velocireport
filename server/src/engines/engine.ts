@@ -14,8 +14,8 @@ class Engine {
     this.template = template;
   }
 
-  public async generate(): Promise<Uint8Array | string> {
-    return "Unimplemented";
+  public async generate(): Promise<Uint8Array | Error> {
+    return new Error("Unimplemented");
   }
 }
 export default Engine;

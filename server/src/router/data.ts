@@ -9,9 +9,30 @@
 import { Router } from "express";
 import Template from "../lib/template";
 import { DataSchema } from "../lib/types";
-import { isAlphanumeric, treePath } from "../lib/utils";
+import fs from 'fs/promises';
+import { isAlphanumeric, treePath, validateTemplate } from "../lib/utils";
 
 const router = Router();
+
+router.get("/:templateName", async (req, res) => {
+  const { templateName } = req.params;
+  const template: Error | Template = await validateTemplate(templateName);
+  if (template instanceof Error) {
+    console.log(template);
+    res.status(405).send(template);
+    return;
+  }
+  if (!(await template.exists('data'))) {
+    console.log('data folder does not exists on this template');
+    res.status(400).send("Data doesnt exists for this template");
+  }
+  const data = await template.data.getAll();
+  if (data instanceof Error) {
+    res.status(400).send(data);
+    return;
+  }
+  res.json(data);
+});
 
 router.post("/:templateName", async (req, res) => {
   const { templateName } = req.params;
@@ -26,14 +47,11 @@ router.post("/:templateName", async (req, res) => {
     res.status(404).send("Template not found");
     return;
   }
-  if (
-    await template.exists(
-      treePath({
-        name: template.data({ type, name, format }),
-        parent: `${templateName}/data`,
-      })
-    )
-  ) {
+  const exists = await template.data.exists(name);
+  if (exists instanceof Error) {
+    res.status(400).send(exists);
+  }
+  if (exists) {
     res.status(400).send("Data already exists");
     return;
   }
@@ -67,10 +85,10 @@ router.delete("/:templateName/:data", async (req, res) => {
     return;
   }
 
-  await template.delete({
-    name: template.data({ name: data, type, format: type }),
-    parent: "data",
-  });
-  res.send("OK");
+  // await template.delete({
+  //   name: template.data({ name: data, type, format: type }),
+  //   parent: "data",
+  // });
+  res.send("TODO");
 });
 export default router;
