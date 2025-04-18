@@ -28,7 +28,7 @@ router.get("/:templateName", async (req, res) => {
   }
   const data = await template.data.getAll();
   if (data instanceof Error) {
-    res.status(400).send(data);
+    res.status(400).send(data.message);
     return;
   }
   res.json(data);
@@ -38,7 +38,7 @@ router.post("/:templateName", async (req, res) => {
   const { templateName } = req.params;
   const body = DataSchema.safeParse(req.body);
   if (!body.success) {
-    res.status(400).send(body.error.issues.map((i) => i.message));
+    res.status(400).send(body);
     return;
   }
   const { name, type, format, content } = body.data;
