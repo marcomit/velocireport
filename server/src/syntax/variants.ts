@@ -150,15 +150,15 @@ export const gridVariants = {
   // === Core Layout Variants ===
   basic: {
     grid: "gap-4",
-    cell: "p-2 border border-gray-200",
+    cell: "p-2 border border-black",
   },
   tight: {
     grid: "gap-2",
-    cell: "p-1 border border-gray-200",
+    cell: "p-1 border border-black",
   },
   loose: {
     grid: "gap-6",
-    cell: "p-4 border-2 border-gray-300",
+    cell: "p-4 border-2 border-black",
   },
 
   // === Grid Gaps ===
@@ -182,11 +182,11 @@ export const gridVariants = {
   },
   "border-thin": {
     grid: "",
-    cell: "border border-gray-200",
+    cell: "border border-gray-400",
   },
   "border-thick": {
     grid: "",
-    cell: "border-2 border-gray-400",
+    cell: "border-2 border-black",
   },
 
   // === Cell Padding ===

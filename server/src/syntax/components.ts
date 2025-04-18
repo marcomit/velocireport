@@ -25,6 +25,7 @@ type Cell = {
   colSpan?: number;
   rowSpan?: number;
   class?: string;
+  apex?: Content;
   variant?: (keyof GridVariant)[];
 };
 
@@ -181,10 +182,18 @@ class Components {
       .div(
         ...cells.map((c) =>
           pdf
-            .div(c.description || "")
+            .div(
+              pdf
+
+                .p(c.apex || "")
+                .$("class", "position-absolute top-0 right-0 ms-2 text-apex"),
+              pdf.p(c.description || "").$("class", "m-0 text-center")
+            )
             .$(
               "class",
-              ` col-span-${c.colSpan || 1} row-span-${c.rowSpan || 1} ${
+              `position-relative  col-span-${c.colSpan || 1} row-span-${
+                c.rowSpan || 1
+              } ${
                 c.variant
                   ? this.evalGridVariant(c.variant, "cell")
                   : this.evalGridVariant(variant, "cell")
