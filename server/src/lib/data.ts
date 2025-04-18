@@ -20,16 +20,16 @@ class TemplateData {
   }
 
   private get confPath() {
-    return path.join(this.location, 'config.json');
+    return this.join('config.json');
   }
 
   private join(...args: string[]) {
-    return path.join(this.confPath, ...args);
+    return path.join(this.location, ...args);
   }
 
   public async getConfig() {
     if (!(await exists(this.confPath))) {
-      return new Error("Configuration of data dows not exists");
+      return new Error("Configuration of data does not exists");
     }
     const config = JSON.parse(await fs.readFile(this.confPath, 'utf8'))
     if (!Array.isArray(config)) return new Error("This template is corrupted");
@@ -37,6 +37,7 @@ class TemplateData {
   }
 
   public async insert(data: Omit<Data, 'content'>) {
+    console.log(data)
     const config = await this.getConfig();
 
     if (config instanceof Error) return config;
@@ -66,7 +67,6 @@ class TemplateData {
     const config = await this.getConfig();
 
     if (config instanceof Error) return config;
-
     const result: Data[] = [];
 
     for (const data of config) {
@@ -80,12 +80,14 @@ class TemplateData {
 
   public async get(data: Omit<Data, 'content'>): Promise<Data | Error> {
     const result = data;
-    if (!(await exists(this.join(data.name)))) {
+    const dataPath = this.join(data.name)
+    console.log(this.join(data.name))
+    if (!(await exists(dataPath))) {
       return new Error("Data does not exists");
     }
     let content = ""
     if (data.format in format) {
-      content = await format[data.format as keyof typeof format](data.name)
+      content = await format[data.format as keyof typeof format](dataPath)
     }
     return { ...result, content };
   }
