@@ -286,16 +286,16 @@ class Template {
   public async connect({ type, name, content, format }: Data) {
     const fileName = name//this.data({ type, name, format });
 
-    let formattedContent = "";
+    let formattedContent = content;
 
-    switch (format) {
-      case "json":
-        formattedContent = JSON.stringify(content);
-        break;
-      default:
-        formattedContent = content;
-        break;
-    }
+    // switch (format) {
+    //   case "json":
+    //     formattedContent = JSON.stringify(content);
+    //     break;
+    //   default:
+    //     formattedContent = content;
+    //     break;
+    // }
     await this.data.insert({ type, name, format });
     await this.insert({
       name: `data/${fileName}`,
