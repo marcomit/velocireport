@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025, (Marco Menegazzi, Francesco Venanti)
+ * Copyright (c) 2025, Marco Menegazzi
  * All rights reserved.
  *
  * This source code is licensed under the BSD 3-Clause License found in the
@@ -27,10 +27,10 @@ export default async (content: any) => {
         },
         {
           name: "righe",
-          value: "righe.length",
-          variant: "primary",
+          value: 'righe.length',
+          variant: 'primary',
           //class: "text-red-500"
-          class: (el, i) => (i % 2 == 0 ? "text-red-500" : "text-green-500"),
+          class: (el, i) => i % 2 == 0 ? 'text-red-500' : 'text-green-500'
         },
         {
           name: "somma",

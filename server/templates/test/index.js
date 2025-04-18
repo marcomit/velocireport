@@ -2,39 +2,6 @@ import pdf from "@/syntax/veloci-js";
 import veloci from "@/syntax/components";
 
 export default async (content) => {
-  const receipts = (await content.getScontriniData())["scontrini"];
-  const createReceiptRows = (receipt) => {
-    const items = receipt.righe || [];
-    return items.map((item) => {
-      const priceClass =
-        item.prezzo > 100
-          ? "price--high"
-          : item.prezzo < 1
-            ? "price--zero"
-            : "price--normal";
-
-      return pdf.tr(
-        pdf
-          .td(receipt._id)
-          .$("class", `receipt__id receipt__id--${receipt._id}`),
-        pdf.td(receipt.editInfo.dataCreazione).$("class", "receipt__date"),
-        pdf.td(receipt.stato).$("class", "receipt__status"),
-        pdf.td(receipt.statoPagamento).$("class", "receipt__payment-status"),
-        pdf.td(item.descrizione).$("class", "receipt__description"),
-        pdf.td(item.quantita).$("class", "receipt__quantity"),
-        pdf.td(`$${item.prezzoUnitario}`).$("class", "receipt__unit-price"),
-        pdf
-          .td(`$${item.prezzo}`)
-          .$("class", `receipt__total-price ${priceClass}`)
-      );
-    });
-  };
-  const calculateTotal = () => {
-    const total = receipts
-      .reduce((sum, receipt) => sum + (receipt.totale || 0), 0)
-      .toFixed(2);
-    return total;
-  };
 
   return pdf.div(
     pdf

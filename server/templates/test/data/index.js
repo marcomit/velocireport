@@ -9,4 +9,3 @@ export async function getProvaTsv() {
 export async function getScontriniData() {
   return await format.json(join(__dirname, "raw-scontriniData.json"));
 }
-export const getTestData = async () => await format.txt(join(__dirname, "raw-testData.txt"));

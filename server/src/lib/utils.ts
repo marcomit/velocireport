@@ -64,6 +64,7 @@ function validate(
 }
 
 function treePath(tree: Omit<TemplateTree, "type" | "content" | "path">) {
+  console.log("tree path", path.join(Template.PATH, tree.parent, tree.name))
   return path.join(Template.PATH, tree.parent, tree.name);
 }
 
@@ -83,42 +84,42 @@ type Permission = "read" | "rename" | "write" | "delete";
 const hiddenFiles: (Omit<TemplateTree, "type" | "content"> & {
   denied: Set<Permission>;
 })[] = [
-  {
-    name: "hidden",
-    parent: "",
-    denied: new Set<Permission>(["delete", "read", "rename", "write"]),
-  },
-  {
-    name: "prova",
-    parent: "",
-    denied: new Set<Permission>(["delete", "read", "rename", "write"]),
-  },
-  {
-    name: "data",
-    parent: "{}",
-    denied: new Set<Permission>(["delete", "read", "rename"]),
-  },
-  {
-    name: "style.css",
-    parent: "{}",
-    denied: new Set<Permission>(["delete", "read", "rename"]),
-  },
-  {
-    name: "index.js",
-    parent: "{}",
-    denied: new Set<Permission>(["delete", "rename"]),
-  },
-  {
-    name: "report.pdf",
-    parent: "{}",
-    denied: new Set<Permission>(["delete", "read", "rename"]),
-  },
-  {
-    name: "default",
-    parent: "",
-    denied: new Set<Permission>(["delete", "read", "rename", "write"]),
-  },
-];
+    {
+      name: "hidden",
+      parent: "",
+      denied: new Set<Permission>(["delete", "read", "rename", "write"]),
+    },
+    {
+      name: "prova",
+      parent: "",
+      denied: new Set<Permission>(["delete", "read", "rename", "write"]),
+    },
+    {
+      name: "data",
+      parent: "{}",
+      denied: new Set<Permission>(["delete", "read", "rename"]),
+    },
+    {
+      name: "style.css",
+      parent: "{}",
+      denied: new Set<Permission>(["delete", "read", "rename"]),
+    },
+    {
+      name: "index.js",
+      parent: "{}",
+      denied: new Set<Permission>(["delete", "rename"]),
+    },
+    {
+      name: "report.pdf",
+      parent: "{}",
+      denied: new Set<Permission>(["delete", "read", "rename"]),
+    },
+    {
+      name: "default",
+      parent: "",
+      denied: new Set<Permission>(["delete", "read", "rename", "write"]),
+    },
+  ];
 
 function isDenied(
   file: Omit<TemplateTree, "type" | "content">,
@@ -156,6 +157,13 @@ async function copy(src: string, dest: string) {
   }
 }
 
+async function validateTemplate(name: string) {
+  const template = new Template(name);
+  const exists = await template.exists();
+  if (!exists) return new Error("Template not found")
+  return template;
+}
+
 export {
   capitalize,
   copy,
@@ -165,4 +173,5 @@ export {
   rawValidate,
   treePath,
   validate,
+  validateTemplate
 };

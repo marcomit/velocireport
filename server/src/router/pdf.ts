@@ -8,6 +8,7 @@
 
 import express from "express";
 import Template from "../lib/template";
+// import PdfEngine from "@/engines/pdf";
 
 const router = express.Router();
 
@@ -25,10 +26,12 @@ router.get("/:templateName", async (req, res) => {
   }
 
   try {
+    // const pdf = await new PdfEngine(template).generate();
+    // pdf.generate();
     const pdf = await template.pdf();
     res.set("Content-Type", "application/pdf");
-    if (typeof pdf === "string") {
-      res.status(400).send(pdf);
+    if (pdf instanceof Error) {
+      res.status(400).send("Errore durante la generazione del pdf");
     } else {
       res.send(pdf);
     }

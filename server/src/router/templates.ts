@@ -42,8 +42,9 @@ router.get("/:templateName/:fileName", async (req, res) => {
   const { templateName, fileName } = req.params;
 
   const template = new Template(templateName);
-  const filePath = treePath({ parent: templateName, name: fileName });
-  if (!(await template.exists(filePath))) {
+  // const filePath = treePath({ parent: templateName, name: fileName });
+  const filePath = template.join(fileName)
+  if (!(await template.exists(fileName))) {
     res.status(404).send("File not found");
     return;
   }
@@ -85,7 +86,7 @@ router.post("/", async (req, res) => {
     res.status(404).send("Template not found");
     return;
   }
-  if (await template.exists(treePath(content))) {
+  if (await template.exists(content.parent, content.name)) {
     res.status(404).send("File already exists");
     return;
   }
@@ -110,7 +111,7 @@ router.put("/", async (req, res) => {
       return;
     }
 
-    if (!(await template.exists(treePath(content)))) {
+    if (!(await template.exists(content.parent, content.name))) {
       res
         .status(404)
         .send(`File ${content.name} not found ${treePath(content)}`);
@@ -158,7 +159,7 @@ router.delete("/", async (req, res) => {
     res.status(404).send("Template not found");
     return;
   }
-  if (!(await template.exists(treePath(content)))) {
+  if (!(await template.exists(content.parent, content.name))) {
     res
       .status(404)
       .send(`File ${path.join(content.parent, content.name)} not found`);

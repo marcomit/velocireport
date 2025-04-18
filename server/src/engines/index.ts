@@ -7,14 +7,14 @@
  */
 
 import PdfEngine from "./pdf";
-import XlsxEngine from "./xlsx";
+// import XlsxEngine from "./xlsx";
 
 export * from "./pdf";
-export * from "./xlsx";
+// export * from "./xlsx";
 
 const engines = {
   pdf: PdfEngine,
-  xlsx: XlsxEngine,
+  // xlsx: XlsxEngine,
 } as const;
 
 export { engines };
