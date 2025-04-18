@@ -151,48 +151,7 @@ export default async (content) => {
     scadenze: [{ data: "21/03/2025", importo: 9.9 }],
   };
 
-  const items = invoice.righe || [];
-
-  const createItemRows = (item) =>
-    pdf.tr(
-      pdf.td(JSON.stringify(item)),
-      pdf.td(item.prodotto.codice || "").$("class", "item__code"),
-      pdf.td(item.descrizione || "").$("class", "item__desc")
-      // pdf.td(item.quantita || "").$("class", "item__qty"),
-      // pdf.td(item.um || "").$("class", "item__um"),
-      // pdf.td(`€ ${item.valoreUnitario?.toFixed(2)}`).$("class", "item__unit"),
-      // pdf.td(`${item.sconto || 0}%`).$("class", "item__discount"),
-      // pdf.td(`€ ${item.imponibile?.toFixed(2)}`).$("class", "item__imponibile"),
-      // pdf.td(`${item.iva || 0}%`).$("class", "item__iva")
-    );
-
-  const createTotalRow = () => {
-    const totalImponibile = items
-      .reduce((acc, i) => acc + (i.imponibile || 0), 0)
-      .toFixed(2);
-    const totalIVA = items
-      .reduce((acc, i) => acc + ((i.imponibile || 0) * (i.iva || 0)) / 100, 0)
-      .toFixed(2);
-    const total = (parseFloat(totalImponibile) + parseFloat(totalIVA)).toFixed(
-      2
-    );
-
-    return pdf.tbody(
-      pdf.tr(
-        pdf.td("Totali").$("colspan", 6),
-        pdf.td(`€ ${totalImponibile}`).$("class", "total__imponibile"),
-        pdf.td(`€ ${totalIVA}`).$("class", "total__iva")
-      ),
-      pdf.tr(
-        pdf.td("Totale da pagare").$("colspan", 7),
-        pdf.td(`€ ${total}`).$("class", "total__final")
-      )
-    );
-  };
-
   return pdf.div(
-    // HEADER
-    // pdf.div(JSON.stringify(invoice)),
     pdf
       .div(
         pdf
@@ -204,149 +163,135 @@ export default async (content) => {
             pdf.p("Email: danitecdistribuzione@gmail.com")
           )
           .$("class", "header"),
-        veloci.grid(6, [
-          {
-            value: "",
-            description: pdf
-              .div(pdf.p("Fattura immediata").$("class", "font-bold"))
-              .$("class", "flex justify-center items-center h-full"),
-            colSpan: 6,
-          },
-          {
-            value: "numero",
-            description: pdf
-              .div(pdf.p(invoice._id).$("class", ""))
-              .$("class", "flex justify-center items-center h-full"),
-            colSpan: 3,
-          },
-          {
-            value: "del",
-            description: pdf
-              .div(
-                pdf
-                  .p(new Date(invoice.data).toLocaleDateString("en-GB"))
-                  .$("class", "")
-              )
-              .$("class", "flex justify-center items-center h-full"),
-            colSpan: 2,
-          },
-          {
-            value: "pag",
-            description: pdf
-              .div(pdf.p("").$("class", ""))
-              .$("class", "flex justify-center items-center h-full"),
-          },
-        ])
+        veloci.grid(
+          6,
+          [
+            {
+              description: pdf
+                .div(pdf.p("Fattura immediata").$("class", "font-bold"))
+                .$("class", "flex justify-center items-center h-full"),
+              colSpan: 6,
+            },
+            {
+              description: pdf
+                .div(pdf.p(invoice._id).$("class", ""))
+                .$("class", "flex justify-center items-center h-full"),
+              colSpan: 3,
+            },
+            {
+              description: pdf
+                .div(
+                  pdf
+                    .p(new Date(invoice.data).toLocaleDateString("en-GB"))
+                    .$("class", "")
+                )
+                .$("class", "flex justify-center items-center h-full"),
+              colSpan: 2,
+            },
+            {
+              description: pdf
+                .div(pdf.p("").$("class", ""))
+                .$("class", "flex justify-center items-center h-full"),
+            },
+          ],
+          "gap-none",
+          "border-thin",
+          "padding-sm"
+        )
       )
       .$("class", "flex justify-around my-4"),
-    veloci.grid(2, [
-      {
-        value: "",
-        description: pdf.div(
-          "spedizione: ",
-          invoice.spedizione.destinazione.paese.descrizione
-        ),
-      },
-      {
-        value: "",
-        description: pdf.div(
-          "spedizione: ",
-          invoice.spedizione.destinazione.codice
-        ),
-      },
-      {
-        value: "",
-        description: pdf.div(
-          "spedizione: ",
-          invoice.spedizione.destinazione.paese.descrizione
-        ),
-      },
-      {
-        value: "",
-        description: pdf.div(
-          "spedizione: ",
-          invoice.spedizione.destinazione.paese.descrizione
-        ),
-      },
-      {
-        value: "",
-        colSpan: 2,
-        description: pdf.div(
-          "spedizione: ",
-          invoice.spedizione.destinazione.paese.descrizione
-        ),
-      },
-    ]),
-    // INVOICE INFO
     pdf
       .div(
-        pdf.p(
-          `Fattura Immediata - N° ${invoice.numero || "FT0001"} del ${
-            invoice.data || "08/04/2025"
-          }`
-        ),
-        pdf.p(`Tavolo: ${invoice.tavolo || "T1"}`)
+        veloci.grid(
+          2,
+          [
+            {
+              value: "",
+              description: veloci.grid(
+                2,
+                [
+                  {
+                    apex: "Spedizione: ",
+                    description: "",
+                  },
+                  {
+                    apex: "Consegna: ",
+                    description: "",
+                  },
+                  {
+                    apex: "Colli: ",
+                    description: "",
+                  },
+                  {
+                    apex: "Causale del trasporto: ",
+                    description: "",
+                  },
+                  {
+                    colSpan: 2,
+                    apex: "Aspetto esteriore dei beni",
+                    description: "",
+                  },
+                ],
+                "border-thin",
+                "gap-none",
+                "padding-sm"
+              ),
+              colSpan: 1,
+              variant: ["border-none", "padding-none"],
+            },
+            {
+              valure: "",
+              description: pdf.div(
+                pdf.p(invoice.anagrafica.cliente.descrizione),
+                pdf.p(invoice.spedizione.destinazione.indirizzo),
+                pdf.p(
+                  `${invoice.spedizione.destinazione.cap} ${invoice.spedizione.destinazione.localita} (${invoice.spedizione.destinazione.provincia})`
+                ),
+                pdf.p(invoice.spedizione.destinazione.localita),
+                pdf.p(invoice.spedizione.destinazione.paese.descrizione)
+              ),
+              colSpan: 1,
+            },
+            {
+              value: "",
+              description: veloci.grid(
+                2,
+                [
+                  {
+                    apex: "Modalita pagamento",
+                    description: invoice.pagamento.dettaglio.modalita,
+                    colSpan: 2,
+                  },
+                  {
+                    apex: "Banca di appoggio",
+                    colSpan: 2,
+                  },
+                  {
+                    apex: "Nostro riferimento",
+                  },
+                  {
+                    apex: "Vostro riferimento",
+                  },
+                  {
+                    apex: "Nostre coordinate bancarie",
+                    colSpan: 2,
+                  },
+                ],
+                "gap-none",
+                "border-thin",
+                "padding-sm"
+              ),
+              variant: ["border-none", "padding-none"],
+            },
+            {
+              variant: ["border-none"],
+            },
+          ],
+          "gap-md",
+          "border-thin",
+          "padding-sm"
+        )
       )
-      .$("class", "invoice__info"),
-    pdf
-      .div(
-        pdf.p("consegna").$("class", "border-2 border-black p-2"),
-        pdf.p("Spedizione").$("class", "border-2 border-black p-2")
-      )
-      .$("class", "flex"),
-
-    veloci.table(
-      invoice.righe,
-      {
-        columns: [
-          {
-            name: "Spedizione",
-            value: (r) => (r.descrizione == undefined ? "a" : "b"),
-          },
-          {
-            name: "22222",
-            value: "descrizione",
-          },
-          {
-            name: "Spediz3333ione",
-            value: "prodotto.codice",
-          },
-        ],
-      },
-      "border-md",
-      "border-gray",
-      "header-light",
-      "padding-lg"
-    ),
-    // TABLE
-    // pdf.table(
-    //   pdf.thead(
-    //     pdf.tr(
-    //       pdf.th("Codice"),
-    //       pdf.th("Descrizione"),
-    //       pdf.th("Quantità"),
-    //       pdf.th("UM"),
-    //       pdf.th("Val. Unit."),
-    //       pdf.th("Sconto"),
-    //       pdf.th("Imponibile"),
-    //       pdf.th("IVA")
-    //     )
-    //   ),
-    //   pdf.tbody(...items.map(createItemRows)),
-    //   createTotalRow()
-    // ).$("class", "invoice__table").$("border", 1),
-
-    // FOOTER SECTION
-    pdf
-      .div(
-        pdf.p("Modalità pagamento: MP01"),
-        pdf.p("Destinazione: ARUBA POSTA ELETTRONICA CERTIFICATA S.P.A."),
-        pdf.p("VIA SAN CLEMENTE 53, 24036 PONTE SAN PIETRO BG, Italia"),
-        pdf.p("P.IVA / CF: 01879020517")
-      )
-      .$("class", "footer__details"),
-
-    // DISCLAIMER
-    pdf.p("*** Copia non valida ai fini fiscali ***").$("class", "disclaimer")
+      .$("class", "mx-3 ")
   );
 };
