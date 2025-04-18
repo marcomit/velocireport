@@ -6,14 +6,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import { variants, type Variant } from "./variants";
 import pdf, { type Content } from "./veloci-js";
-
-const variants = {
-  primary: "",
-  secondary: "",
-} as const;
-
-type Variant = typeof variants;
 
 type Data<T> = {
   name: string;
@@ -31,25 +25,47 @@ class Components {
   static instance = new Components();
   private constructor() {}
 
+  private evalVariant<T extends keyof Variant>(
+    vList: T[],
+    tipo: keyof (typeof variants)[T]
+  ): string {
+    return vList.map((e) => variants[e][tipo]).join(" ");
+  }
+
   table<T>(
     list: T[],
     { columns }: { columns: Data<T>[] },
-    variant: keyof Variant
+    ...variant: (keyof Variant)[]
   ) {
     return pdf
       .table(
-        pdf.tr(...columns.map((c) => pdf.th(c.name))),
-        ...list.map((e, i) =>
-          pdf.tr(
+        pdf
+          .tr(
             ...columns.map((c) =>
-              pdf
-                .td(this.evaluate(e, c.value))
-                .$("class", this.evaluateClass(e, i, c.class))
+              pdf.th(c.name).$("class", this.evalVariant(variant, "th"))
             )
           )
+          .$("class", ""),
+        ...list.map((e, i) =>
+          pdf
+            .tr(
+              ...columns.map((c) =>
+                pdf
+                  .td(this.evaluate(e, c.value))
+                  .$(
+                    "class",
+                    `${this.evalVariant(variant, "td")} ${this.evaluateClass(
+                      e,
+                      i,
+                      c.class
+                    )}`
+                  )
+              )
+            )
+            .$("class", i % 2 === 0 ? "bg-white" : "bg-gray-50")
         )
       )
-      .$("class", variants[variant]);
+      .$("class", this.evalVariant(variant, "table"));
   }
 
   private evaluateClass<T>(item: T, i: number, className: Data<T>["class"]) {
