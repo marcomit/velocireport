@@ -172,3 +172,10 @@ dist
 
 # Finder (MacOS) folder config
 .DS_Store
+
+.vscode/
+.vscode
+./vscode/
+.vscode/multi-terminals.json
+
+*.pdf
