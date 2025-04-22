@@ -30,14 +30,38 @@ router.get("/:templateName", async (req, res) => {
     // pdf.generate();
     const pdf = await template.pdf();
     res.set("Content-Type", "application/pdf");
-    if (pdf instanceof Error) {
-      res.status(400).send("Errore durante la generazione del pdf");
-    } else {
-      res.send(pdf);
-    }
+    if (pdf instanceof Error) throw pdf;
+    res.send(pdf);
   } catch (e) {
     res.status(400).send(`${e}`);
   }
 });
+
+router.post("/:templateName", async (req, res) => {
+  const { templateName } = req.params;
+  if (templateName === 'shared') {
+    res.status(401).send("Cannot create shared pdf");
+    return;
+  }
+  const template = new Template(templateName);
+
+  if (!(await template.exists())) {
+    res.status(404).send("Template not found");
+    return;
+  }
+
+  const request = { body: req.body, query: req.query }
+  console.log("request: ", request)
+
+  try {
+    const pdf = await template.pdf(request);
+    res.set("Content-Type", "application/pdf");
+    if (pdf instanceof Error) throw pdf;
+    res.send(pdf)
+  }
+  catch (e) {
+    res.status(400).send(`${e}`);
+  }
+})
 
 export default router;
