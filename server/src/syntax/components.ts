@@ -21,7 +21,7 @@ type Data<T> = {
 };
 
 type Cell = {
-  description: Content;
+  value: Content;
   colSpan?: number;
   rowSpan?: number;
   class?: string;
@@ -172,7 +172,16 @@ class Components {
     const splitted = path.split(".");
     let curr: any = listElement;
     for (let i = 0; i < splitted.length - 1; i++) {
+      if (!(splitted[i] in curr)) return "";
       curr = curr[splitted[i]];
+    }
+    if (!(splitted[splitted.length - 1] in curr)) {
+      console.log(
+        `CURR: ${JSON.stringify(curr)}, splitted: ${
+          splitted[splitted.length - 1]
+        }`
+      );
+      return "";
     }
     return curr[splitted[splitted.length - 1]];
   }
@@ -187,7 +196,7 @@ class Components {
 
                 .p(c.apex || "")
                 .$("class", "position-absolute top-0 right-0 ms-2 text-apex"),
-              pdf.p(c.description || "").$("class", "m-0 text-center")
+              pdf.p(c.value || "").$("class", "m-0 text-center")
             )
             .$(
               "class",

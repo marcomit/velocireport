@@ -12,7 +12,7 @@ import puppeteer, { type PDFMargin } from "puppeteer";
 import { type Data } from "../lib/types";
 import pdf, { renderToString, type TreeNode } from "../syntax/veloci-js";
 import { capitalize, copy, exists, isDenied, treePath } from "./utils";
-import data from '../../templates/hidden/index'
+import data from "../../templates/hidden/index";
 import TemplateData from "./data";
 
 interface TemplateTree {
@@ -41,7 +41,7 @@ class Template {
     if (createIfNotExists) {
       this.create();
     }
-    this.data = new TemplateData(this.join('data'));
+    this.data = new TemplateData(this.join("data"));
   }
 
   public async init() {
@@ -54,7 +54,7 @@ class Template {
   }
 
   public async create() {
-    await copy(this.join('..', 'default'), this.path);
+    await copy(this.join("..", "default"), this.path);
   }
 
   public async tree(
@@ -135,7 +135,6 @@ class Template {
     const hasParentDir = await exists(path.join("..", file.parent));
     if (!hasParentDir) {
       await fs.mkdir(path.join(Template.PATH, file.parent), {
-
         recursive: true,
       });
     }
@@ -181,7 +180,7 @@ class Template {
         footerTemplate: footer ? renderToString(pdf.footer(footer)) : "",
       });
 
-      await fs.writeFile(this.join('report.pdf'), generatedPdf);
+      // await fs.writeFile(this.join('report.pdf'), generatedPdf);
 
       await browser.close();
       return generatedPdf;
@@ -197,18 +196,19 @@ class Template {
   ): Promise<T | null> {
     // const fileName = fileWithoutExtension.split(path.sep).pop();
 
-    const extensions = ['ts', 'js'];
+    const extensions = ["ts", "js"];
     for (const ext of extensions) {
-      const name = [fileWithoutExtension, ext].join('.');
+      const name = [fileWithoutExtension, ext].join(".");
       if (await this.exists(name)) {
-        return await callback(this.join(name))
+        return await callback(this.join(name));
       }
     }
     return null;
   }
 
   public async dynamicScript(fileName: string) {
-    const module = await this.script(fileName,
+    const module = await this.script(
+      fileName,
       async (name) => await import(name)
     );
     if (module === null) {
@@ -225,7 +225,7 @@ class Template {
   }
 
   public join(...args: string[]) {
-    return path.join(this.path, ...args)
+    return path.join(this.path, ...args);
   }
 
   public async defaultScript(
@@ -246,14 +246,12 @@ class Template {
     template: TreeNode;
     after: () => Promise<any>;
   }> {
-    const script = await this.get('script.js');
-    const style = await this.get('style.css');
+    const script = await this.get("script.js");
+    const style = await this.get("style.css");
 
-    const globalScript = await this.get(
-      path.join('..', 'shared', 'global.js')
-    );
+    const globalScript = await this.get(path.join("..", "shared", "global.js"));
     const globalStyle = await this.get(path.join("..", "shared", "global.css"));
-    const ctx = await this.dynamicScript(path.join('data', 'index'));
+    const ctx = await this.dynamicScript(path.join("data", "index"));
 
     if (ctx) ctx.request = request;
 
@@ -261,7 +259,7 @@ class Template {
     let after = await this.defaultScript("index", "after");
 
     if (!after) {
-      after = async () => { };
+      after = async () => {};
     }
     if (!content) {
       throw new Error("Invalid template");
@@ -286,7 +284,7 @@ class Template {
   }
 
   public async connect({ type, name, content, format }: Data) {
-    const fileName = name//this.data({ type, name, format });
+    const fileName = name; //this.data({ type, name, format });
 
     let formattedContent = content;
 
