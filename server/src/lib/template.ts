@@ -151,13 +151,13 @@ class Template {
     await fs.rm(treePath(file), { recursive: true, force: true });
   }
 
-  public async pdf(
+  public async pdf(request?: { body: any, query: any },
     margin: PDFMargin = { top: 0, bottom: 0, left: 0, right: 0 }
   ): Promise<Uint8Array | Error> {
     const browser = await puppeteer.launch();
     try {
       const page = await browser.newPage();
-      const { template, after } = await this.getContent();
+      const { template, after } = await this.getContent(request);
 
       await page.setContent(renderToString(template), {
         waitUntil: "networkidle0",
@@ -242,7 +242,7 @@ class Template {
     return await content[functionName](...args);
   }
 
-  public async getContent(): Promise<{
+  public async getContent(request?: { body: any, query: any }): Promise<{
     template: TreeNode;
     after: () => Promise<any>;
   }> {
@@ -252,6 +252,8 @@ class Template {
     const globalScript = await this.get(path.join("..", "shared", "global.js"));
     const globalStyle = await this.get(path.join("..", "shared", "global.css"));
     const ctx = await this.dynamicScript(path.join("data", "index"));
+
+    if (ctx) ctx.request = request;
 
     const content = await this.defaultScript("index", "default", ctx);
     let after = await this.defaultScript("index", "after");
