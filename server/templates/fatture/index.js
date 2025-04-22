@@ -155,12 +155,27 @@ export default async (content) => {
     pdf
       .div(
         pdf
+          .img()
+          .$(
+            "src",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKhJ9vY-WJviH34cgDfbG2Hn_cBf0t5BBmaWrmH--NzBO3pjGP6hjV7pb8s958ug9K7p6iR-3vz6nlw7c4i5ZdMw"
+          )
+          .$("class", "logoImage"),
+        pdf
           .div(
             pdf.h2("DANITEC DISTRIBUZIONE").$("class", "company__name"),
-            pdf.p("Commercio all'ingrosso di materiale per l'illuminazione"),
-            pdf.p("Via Settevalli, 111 - 06129 Perugia"),
-            pdf.p("Cell. 347.6496994 - P.IVA 03630700544"),
-            pdf.p("Email: danitecdistribuzione@gmail.com")
+            pdf
+              .p("Commercio all'ingrosso di materiale per l'illuminazione")
+              .$("class", "text-header-small"),
+            pdf
+              .p("Via Settevalli, 111 - 06129 Perugia")
+              .$("class", "text-header-small"),
+            pdf
+              .p("Cell. 347.6496994 - P.IVA 03630700544")
+              .$("class", "text-header-small"),
+            pdf
+              .p("Email: danitecdistribuzione@gmail.com")
+              .$("class", "text-header-small")
           )
           .$("class", "header"),
         veloci.grid(
