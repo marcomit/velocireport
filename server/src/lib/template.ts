@@ -159,7 +159,6 @@ class Template {
     try {
       const page = await browser.newPage();
       const { template, after } = await this.getContent(request);
-      console.log("daiiiiiiii")
       await page.setContent(renderToString(template), {
         waitUntil: 'networkidle0',
       });
@@ -206,7 +205,6 @@ class Template {
     }
     return null;
   }
-
 
   public join(...args: string[]) {
     return path.join(this.path, ...args);
@@ -265,12 +263,11 @@ class Template {
     if (ctx) ctx.request = request;
 
     const content = await this.defaultScript('index', 'default', ctx);
-    console.log('prima del load')
+
     let after = await this.getModule('index', 'after');
-    console.log('dopo load', after)
 
     if (!after) {
-      after = async () => { };
+      after = async () => {};
     }
     if (!content) {
       throw new Error('Invalid template');
