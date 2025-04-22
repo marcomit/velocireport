@@ -21,7 +21,7 @@ type Data<T> = {
 };
 
 type Cell = {
-  value: Content;
+  value?: Content;
   colSpan?: number;
   rowSpan?: number;
   class?: string;
