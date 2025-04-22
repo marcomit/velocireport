@@ -159,7 +159,7 @@ class Template {
     try {
       const page = await browser.newPage();
       const { template, after } = await this.getContent(request);
-
+      console.log("daiiiiiiii")
       await page.setContent(renderToString(template), {
         waitUntil: 'networkidle0',
       });
@@ -207,6 +207,11 @@ class Template {
     return null;
   }
 
+
+  public join(...args: string[]) {
+    return path.join(this.path, ...args);
+  }
+
   public async dynamicScript(fileName: string) {
     const module = await this.script(
       fileName,
@@ -225,8 +230,13 @@ class Template {
     return functions;
   }
 
-  public join(...args: string[]) {
-    return path.join(this.path, ...args);
+  private async getModule(fileName: string, functionName: string) {
+    const content = await this.dynamicScript(fileName);
+
+    if (!content) return null;
+    if (!content[functionName]) return null;
+
+    return content[functionName];
   }
 
   public async defaultScript(
@@ -234,13 +244,11 @@ class Template {
     functionName: string = 'default',
     ...args: any[]
   ) {
-    const content = await this.dynamicScript(fileName);
+    const content = await this.getModule(fileName, functionName);
 
     if (!content) return null;
 
-    if (!content[functionName]) return null;
-
-    return await content[functionName](...args);
+    return await content(...args);
   }
 
   public async getContent(request?: { body: any; query: any }): Promise<{
@@ -257,10 +265,12 @@ class Template {
     if (ctx) ctx.request = request;
 
     const content = await this.defaultScript('index', 'default', ctx);
-    let after = await this.defaultScript('index', 'after');
+    console.log('prima del load')
+    let after = await this.getModule('index', 'after');
+    console.log('dopo load', after)
 
     if (!after) {
-      after = async () => {};
+      after = async () => { };
     }
     if (!content) {
       throw new Error('Invalid template');

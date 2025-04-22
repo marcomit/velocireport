@@ -1,6 +1,10 @@
 import pdf from '@/syntax/veloci-js';
 import veloci from '@/syntax/components';
 
+export async function after() {
+  console.log(document)
+}
+
 export default async (content) => {
   const invoice = await content.getFattureData();
 
