@@ -1,0 +1,15 @@
+[
+  {
+    "label": "start-services",
+    "commands": [
+      {
+        "name": "client",
+        "script": "cd client && bun dev"
+      },
+      {
+        "name": "server",
+        "script": "cd server && bun dev"
+      }
+    ]
+  }
+]
