@@ -4,11 +4,16 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "dev": "bun --watch src/index.ts"
+    "dev": "bun --watch src/index.ts",
+    "lint": "eslint .",
+    "format": "prettier --write ."
   },
   "devDependencies": {
+    "@eslint/js": "^9.25.1",
     "@types/bun": "latest",
-    "@types/express": "^5.0.0"
+    "@types/express": "^5.0.0",
+    "globals": "^16.0.0",
+    "typescript-eslint": "^8.31.0"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
@@ -16,7 +21,11 @@
   "dependencies": {
     "@types/cors": "^2.8.17",
     "cors": "^2.8.5",
+    "eslint": "^9.25.1",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-plugin-prettier": "^5.2.6",
     "express": "^4.21.0",
+    "prettier": "^3.5.3",
     "puppeteer": "^23.5.0",
     "xlsx": "^0.18.5",
     "zlib": "^1.0.5",

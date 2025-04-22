@@ -11,8 +11,8 @@ import {
   variants,
   type GridVariant,
   type Variant,
-} from "./variants";
-import pdf, { type Content } from "./veloci-js";
+} from './variants';
+import pdf, { type Content } from './veloci-js';
 
 type Data<T> = {
   name: string;
@@ -35,16 +35,16 @@ class Components {
 
   private evalVariant<T extends keyof Variant>(
     vList: T[],
-    tipo: keyof (typeof variants)[T]
+    tipo: keyof (typeof variants)[T],
   ): string {
-    return vList.map((e) => variants[e][tipo]).join(" ");
+    return vList.map((e) => variants[e][tipo]).join(' ');
   }
 
   private evalGridVariant<T extends keyof GridVariant>(
     vList: T[],
-    tipo: keyof (typeof gridVariants)[T]
+    tipo: keyof (typeof gridVariants)[T],
   ): string {
-    return vList.map((e) => gridVariants[e][tipo]).join(" ");
+    return vList.map((e) => gridVariants[e][tipo]).join(' ');
   }
 
   table<T>(
@@ -57,10 +57,10 @@ class Components {
         pdf
           .tr(
             ...columns.map((c) =>
-              pdf.th(c.name).$("class", this.evalVariant(variant, "th"))
-            )
+              pdf.th(c.name).$('class', this.evalVariant(variant, 'th')),
+            ),
           )
-          .$("class", ""),
+          .$('class', ''),
         ...list.map((e, i) =>
           pdf
             .tr(
@@ -68,32 +68,32 @@ class Components {
                 pdf
                   .td(this.evaluate(e, c.value))
                   .$(
-                    "class",
-                    `${this.evalVariant(variant, "td")} ${this.evaluateClass(
+                    'class',
+                    `${this.evalVariant(variant, 'td')} ${this.evaluateClass(
                       e,
                       i,
-                      c.class
-                    )}`
-                  )
-              )
+                      c.class,
+                    )}`,
+                  ),
+              ),
             )
-            .$("class", i % 2 === 0 ? "bg-white" : "bg-gray-50")
-        )
+            .$('class', i % 2 === 0 ? 'bg-white' : 'bg-gray-50'),
+        ),
       )
-      .$("class", this.evalVariant(variant, "table"));
+      .$('class', this.evalVariant(variant, 'table'));
   }
 
-  private evaluateClass<T>(item: T, i: number, className: Data<T>["class"]) {
-    if (!className) return "";
-    if (typeof className === "function") {
+  private evaluateClass<T>(item: T, i: number, className: Data<T>['class']) {
+    if (!className) return '';
+    if (typeof className === 'function') {
       return className(item, i);
     }
     return className;
   }
 
-  evaluate<T>(listElement: T, column: Data<T>["value"]) {
-    if (typeof column == "function") return column(listElement);
-    if (typeof column === "string") {
+  evaluate<T>(listElement: T, column: Data<T>['value']) {
+    if (typeof column == 'function') return column(listElement);
+    if (typeof column === 'string') {
       return this.getChild(listElement, column);
     }
     return listElement[column];
@@ -101,12 +101,12 @@ class Components {
 
   min<T>(
     path: String,
-    column: Data<T>["value"],
-    compare: (a: any, b: any) => number = (a: any, b: any) => a - b
-  ): Data<T>["value"] {
+    column: Data<T>['value'],
+    compare: (a: any, b: any) => number = (a: any, b: any) => a - b,
+  ): Data<T>['value'] {
     return (listElement: T) => {
       const child = this.getChild(listElement, path);
-      if (!Array.isArray(child)) return "";
+      if (!Array.isArray(child)) return '';
       let result = this.evaluate(child[0], column);
       for (let i = 1; i < child.length; i++) {
         let evaluated = this.evaluate(child[i], column);
@@ -117,10 +117,10 @@ class Components {
   }
 
   max<T>(
-    path: Data<T>["value"],
-    column: Data<T>["value"],
-    compare: (a: any, b: any) => number = this.compareNumbers
-  ): Data<T>["value"] {
+    path: Data<T>['value'],
+    column: Data<T>['value'],
+    compare: (a: any, b: any) => number = this.compareNumbers,
+  ): Data<T>['value'] {
     const parse = (acc: any, curr: any) => {
       if (compare(acc, curr) < 0) return curr;
       return acc;
@@ -129,17 +129,17 @@ class Components {
   }
 
   sum<T>(
-    path: Data<T>["value"],
-    column: Data<T>["value"],
-    parse: (a: any) => any = parseFloat
-  ): Data<T>["value"] {
+    path: Data<T>['value'],
+    column: Data<T>['value'],
+    parse: (a: any) => any = parseFloat,
+  ): Data<T>['value'] {
     const reduce = (acc: any, curr: any) => {
       return (acc || 0) + parse(curr);
     };
     return this.groupedFunctions(path, column, reduce);
   }
 
-  count(list: Data<any>["value"], value: Data<any>["value"]) {
+  count(list: Data<any>['value'], value: Data<any>['value']) {
     const parse = (acc: any, curr: any) => {
       //if()
     };
@@ -147,14 +147,14 @@ class Components {
   }
 
   private groupedFunctions<T>(
-    path: Data<T>["value"],
-    value: Data<T>["value"],
+    path: Data<T>['value'],
+    value: Data<T>['value'],
     reduce: (acc: any, curr: any) => any,
-    initialValue?: any
-  ): Data<T>["value"] {
+    initialValue?: any,
+  ): Data<T>['value'] {
     return (item: T) => {
       const list = this.evaluate(item, path);
-      if (!Array.isArray(list)) return "";
+      if (!Array.isArray(list)) return '';
       let result = reduce(initialValue, this.evaluate(list[0], value));
       for (const child of list) {
         const curr = this.evaluate(child, value);
@@ -169,19 +169,19 @@ class Components {
   }
 
   getChild<T>(listElement: T, path: String) {
-    const splitted = path.split(".");
+    const splitted = path.split('.');
     let curr: any = listElement;
     for (let i = 0; i < splitted.length - 1; i++) {
-      if (!(splitted[i] in curr)) return "";
+      if (!(splitted[i] in curr)) return '';
       curr = curr[splitted[i]];
     }
     if (!(splitted[splitted.length - 1] in curr)) {
       console.log(
         `CURR: ${JSON.stringify(curr)}, splitted: ${
           splitted[splitted.length - 1]
-        }`
+        }`,
       );
-      return "";
+      return '';
     }
     return curr[splitted[splitted.length - 1]];
   }
@@ -194,25 +194,25 @@ class Components {
             .div(
               pdf
 
-                .p(c.apex || "")
-                .$("class", "position-absolute top-0 right-0 ms-2 text-apex"),
-              pdf.p(c.value || "").$("class", "m-0 text-center")
+                .p(c.apex || '')
+                .$('class', 'position-absolute top-0 right-0 ms-2 text-apex'),
+              pdf.p(c.value || '').$('class', 'm-0 text-center'),
             )
             .$(
-              "class",
+              'class',
               `position-relative  col-span-${c.colSpan || 1} row-span-${
                 c.rowSpan || 1
               } ${
                 c.variant
-                  ? this.evalGridVariant(c.variant, "cell")
-                  : this.evalGridVariant(variant, "cell")
-              }  ${c.class}`
-            )
-        )
+                  ? this.evalGridVariant(c.variant, 'cell')
+                  : this.evalGridVariant(variant, 'cell')
+              }  ${c.class}`,
+            ),
+        ),
       )
       .$(
-        "class",
-        `grid grid-cols-${cols} ${this.evalGridVariant(variant, "grid")}`
+        'class',
+        `grid grid-cols-${cols} ${this.evalGridVariant(variant, 'grid')}`,
       );
   }
 }

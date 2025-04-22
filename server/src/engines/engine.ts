@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type Template from "@/lib/template";
+import type Template from '@/lib/template';
 
 class Engine {
   protected template: Template;
@@ -15,7 +15,7 @@ class Engine {
   }
 
   public async generate(): Promise<Uint8Array | Error> {
-    return new Error("Unimplemented");
+    return new Error('Unimplemented');
   }
 }
 export default Engine;

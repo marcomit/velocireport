@@ -6,10 +6,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { access, mkdir, readdir, readFile, stat, writeFile } from "fs/promises";
-import path from "path";
-import type { TemplateTree } from "./template";
-import Template from "./template";
+import { access, mkdir, readdir, readFile, stat, writeFile } from 'fs/promises';
+import path from 'path';
+import type { TemplateTree } from './template';
+import Template from './template';
 
 async function exists(path: string) {
   try {
@@ -38,7 +38,7 @@ function validate(
   options: ValidateOptions = {
     checkTypes: true,
     omitKeys: [],
-  }
+  },
 ): boolean {
   const omitKeys = new Set(options.omitKeys);
   const keys = Object.keys(model);
@@ -54,7 +54,7 @@ function validate(
     if (options.checkTypes && typeof value !== typeof objValue) {
       return false;
     }
-    if (typeof value === "object") {
+    if (typeof value === 'object') {
       if (!validate(value as object, objValue as object, options)) {
         return false;
       }
@@ -63,7 +63,7 @@ function validate(
   return true;
 }
 
-function treePath(tree: Omit<TemplateTree, "type" | "content" | "path">) {
+function treePath(tree: Omit<TemplateTree, 'type' | 'content' | 'path'>) {
   // console.log("tree path", path.join(Template.PATH, tree.parent, tree.name))
   return path.join(Template.PATH, tree.parent, tree.name);
 }
@@ -78,56 +78,56 @@ function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-type Permission = "read" | "rename" | "write" | "delete";
+type Permission = 'read' | 'rename' | 'write' | 'delete';
 
 // At runtime all {} are replaced with the templateName
-const hiddenFiles: (Omit<TemplateTree, "type" | "content"> & {
+const hiddenFiles: (Omit<TemplateTree, 'type' | 'content'> & {
   denied: Set<Permission>;
 })[] = [
-    {
-      name: "hidden",
-      parent: "",
-      denied: new Set<Permission>(["delete", "read", "rename", "write"]),
-    },
-    {
-      name: "prova",
-      parent: "",
-      denied: new Set<Permission>(["delete", "read", "rename", "write"]),
-    },
-    {
-      name: "data",
-      parent: "{}",
-      denied: new Set<Permission>(["delete", "read", "rename"]),
-    },
-    {
-      name: "style.css",
-      parent: "{}",
-      denied: new Set<Permission>(["delete", "read", "rename"]),
-    },
-    {
-      name: "index.js",
-      parent: "{}",
-      denied: new Set<Permission>(["delete", "rename"]),
-    },
-    {
-      name: "report.pdf",
-      parent: "{}",
-      denied: new Set<Permission>(["delete", "read", "rename"]),
-    },
-    {
-      name: "default",
-      parent: "",
-      denied: new Set<Permission>(["delete", "read", "rename", "write"]),
-    },
-  ];
+  {
+    name: 'hidden',
+    parent: '',
+    denied: new Set<Permission>(['delete', 'read', 'rename', 'write']),
+  },
+  {
+    name: 'prova',
+    parent: '',
+    denied: new Set<Permission>(['delete', 'read', 'rename', 'write']),
+  },
+  {
+    name: 'data',
+    parent: '{}',
+    denied: new Set<Permission>(['delete', 'read', 'rename']),
+  },
+  {
+    name: 'style.css',
+    parent: '{}',
+    denied: new Set<Permission>(['delete', 'read', 'rename']),
+  },
+  {
+    name: 'index.js',
+    parent: '{}',
+    denied: new Set<Permission>(['delete', 'rename']),
+  },
+  {
+    name: 'report.pdf',
+    parent: '{}',
+    denied: new Set<Permission>(['delete', 'read', 'rename']),
+  },
+  {
+    name: 'default',
+    parent: '',
+    denied: new Set<Permission>(['delete', 'read', 'rename', 'write']),
+  },
+];
 
 function isDenied(
-  file: Omit<TemplateTree, "type" | "content">,
+  file: Omit<TemplateTree, 'type' | 'content'>,
   templateName: string,
-  permissions: Permission[]
+  permissions: Permission[],
 ) {
   const parent =
-    templateName === "" ? "" : file.parent.replace("{}", templateName);
+    templateName === '' ? '' : file.parent.replace('{}', templateName);
   for (const hidden of hiddenFiles) {
     if (treePath(file) === treePath({ name: hidden.name, parent })) {
       for (const permission of permissions) {
@@ -160,7 +160,7 @@ async function copy(src: string, dest: string) {
 async function validateTemplate(name: string) {
   const template = new Template(name);
   const exists = await template.exists();
-  if (!exists) return new Error("Template not found")
+  if (!exists) return new Error('Template not found');
   return template;
 }
 
@@ -173,5 +173,5 @@ export {
   rawValidate,
   treePath,
   validate,
-  validateTemplate
+  validateTemplate,
 };
