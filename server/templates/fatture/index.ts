@@ -2,7 +2,7 @@ import pdf from '@/syntax/veloci-js';
 import veloci from '@/syntax/components';
 
 export async function after() {
-  function printami(...texts: string[]) {
+  function print(...texts: string[]) {
     const logger = document.getElementById('logger')!;
     logger.innerText = 'LOGGER::: ';
     logger.innerText += texts.join(' ');
@@ -31,11 +31,11 @@ export async function after() {
   ctx.moveTo(0, canvas.height);
   ctx.lineTo(canvas.width, 0);
   ctx.stroke();
-  printami(cH.toString(), canvas.height.toString());
+  print(cH.toString(), canvas.height.toString());
 }
 export default async (content: any) => {
   const invoice = await content.getFattureData();
-  let id = content?.query?.id || '';
+  // let id = content?.query?.id || '';
 
   return pdf
     .div(
