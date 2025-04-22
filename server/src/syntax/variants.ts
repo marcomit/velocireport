@@ -145,3 +145,77 @@ export const variants = {
 } as const;
 
 export type Variant = typeof variants;
+
+export const gridVariants = {
+  // === Core Layout Variants ===
+  basic: {
+    grid: "gap-4",
+    cell: "p-2 border border-black",
+  },
+  tight: {
+    grid: "gap-2",
+    cell: "p-1 border border-black",
+  },
+  loose: {
+    grid: "gap-6",
+    cell: "p-4 border-2 border-black",
+  },
+
+  // === Grid Gaps ===
+  "gap-none": {
+    grid: "gap-0",
+    cell: "",
+  },
+  "gap-sm": {
+    grid: "gap-2",
+    cell: "",
+  },
+  "gap-md": {
+    grid: "gap-4",
+    cell: "",
+  },
+
+  // === Cell Borders ===
+  "border-none": {
+    grid: "",
+    cell: "border-0",
+  },
+  "border-thin": {
+    grid: "",
+    cell: "border border-gray-400",
+  },
+  "border-thick": {
+    grid: "",
+    cell: "border-2 border-black",
+  },
+
+  // === Cell Padding ===
+  "padding-none": {
+    grid: "",
+    cell: "p-0",
+  },
+  "padding-sm": {
+    grid: "",
+    cell: "p-2",
+  },
+  "padding-md": {
+    grid: "",
+    cell: "p-4",
+  },
+
+  // === Cell Backgrounds ===
+  "cells-transparent": {
+    grid: "",
+    cell: "bg-transparent",
+  },
+  "cells-gray": {
+    grid: "",
+    cell: "bg-gray-50",
+  },
+  "cells-zebra": {
+    grid: "",
+    cell: "odd:bg-gray-50",
+  },
+} as const;
+
+export type GridVariant = typeof gridVariants;
