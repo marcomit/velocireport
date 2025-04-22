@@ -7,10 +7,10 @@
  */
 
 import { capitalize, exists } from './utils';
-import path from 'path'
-import fs from 'fs/promises'
+import path from 'path';
+import fs from 'fs/promises';
 import type { Data } from './types';
-import format from '../../templates/hidden/index'
+import format from '../../templates/hidden/index';
 
 class TemplateData {
   private location: string;
@@ -29,35 +29,34 @@ class TemplateData {
 
   public async getConfig() {
     if (!(await exists(this.confPath))) {
-      return new Error("Configuration of data does not exists");
+      return new Error('Configuration of data does not exists');
     }
-    const config = JSON.parse(await fs.readFile(this.confPath, 'utf8'))
-    if (!Array.isArray(config)) return new Error("This template is corrupted");
+    const config = JSON.parse(await fs.readFile(this.confPath, 'utf8'));
+    if (!Array.isArray(config)) return new Error('This template is corrupted');
     return config;
   }
 
   public async insert(data: Omit<Data, 'content'>) {
-    console.log(data)
+    console.log(data);
     const config = await this.getConfig();
 
     if (config instanceof Error) return config;
 
-    const index = config.findIndex(d => d.name === data.name);
+    const index = config.findIndex((d) => d.name === data.name);
 
     if (index === -1) {
       config.push(data);
-    }
-    else {
+    } else {
       config[index] = data;
     }
 
-    await fs.writeFile(this.confPath, JSON.stringify(config), 'utf8')
-    await this.bridge(data)
+    await fs.writeFile(this.confPath, JSON.stringify(config), 'utf8');
+    await this.bridge(data);
   }
 
   private async bridge({ name, format }: Omit<Data, 'content'>) {
     const func = `export const get${capitalize(
-      name
+      name,
     )} = async () => await format.${format}(join(__dirname, "${name}"));\n`;
 
     await fs.appendFile(this.join('index.js'), func);
@@ -72,7 +71,7 @@ class TemplateData {
     for (const data of config) {
       const d = await this.get(data);
       if (d instanceof Error) return d;
-      result.push(d)
+      result.push(d);
     }
 
     return result;
@@ -80,14 +79,14 @@ class TemplateData {
 
   public async get(data: Omit<Data, 'content'>): Promise<Data | Error> {
     const result = data;
-    const dataPath = this.join(data.name)
-    console.log(this.join(data.name))
+    const dataPath = this.join(data.name);
+    console.log(this.join(data.name));
     if (!(await exists(dataPath))) {
-      return new Error("Data does not exists");
+      return new Error('Data does not exists');
     }
-    let content = ""
+    let content = '';
     if (data.format in format) {
-      content = await format[data.format as keyof typeof format](dataPath)
+      content = await format[data.format as keyof typeof format](dataPath);
     }
     return { ...result, content };
   }
@@ -95,7 +94,7 @@ class TemplateData {
   public async exists(name: string): Promise<boolean | Error> {
     const config = await this.getConfig();
     if (config instanceof Error) return config;
-    return config.some(d => d.name == name);
+    return config.some((d) => d.name == name);
   }
 }
 export default TemplateData;
