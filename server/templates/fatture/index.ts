@@ -35,12 +35,12 @@ export async function after() {
 }
 export default async (content: any) => {
   const invoice = await content.getFattureData();
-  // let id = content?.query?.id || '';
-
+  let id = content.request.query.id;
   return pdf
     .div(
       pdf
         .div(
+          pdf.h1(id),
           pdf
             .div(
               pdf

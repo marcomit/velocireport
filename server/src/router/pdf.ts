@@ -28,9 +28,9 @@ router.get('/:templateName', async (req, res) => {
   try {
     // const pdf = await new PdfEngine(template).generate();
     // pdf.generate();
-    const pdf = await template.pdf();
+    const pdf = await template.pdf({ query: req.query });
     res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', `inline; filename="${templateName}.pdf"`)
+    res.setHeader('Content-Disposition', `inline; filename="template.pdf"`)
     if (pdf instanceof Error) throw pdf;
     res.send(pdf);
   } catch (e) {
@@ -52,9 +52,9 @@ router.get('/preview/:templateName', async (req, res) => {
   }
 
   try {
-    const pdf = await template.pdf();
+    const pdf = await template.pdf({ query: req.query });
     res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', `inline; filename="${templateName}.pdf"`)
+    res.setHeader('Content-Disposition', `inline; filename="template.pdf"`)
     if (pdf instanceof Error) throw pdf;
     res.send(Buffer.from(pdf));
   } catch (e) {

@@ -152,7 +152,7 @@ class Template {
   }
 
   public async pdf(
-    request?: { body: any; query: any },
+    request?: { body?: any; query?: any },
     margin: PDFMargin = { top: 0, bottom: 0, left: 0, right: 0 },
   ): Promise<Uint8Array | Error> {
     const browser = await puppeteer.launch();
@@ -249,7 +249,7 @@ class Template {
     return await content(...args);
   }
 
-  public async getContent(request?: { body: any; query: any }): Promise<{
+  public async getContent(request?: { body?: any; query?: any }): Promise<{
     template: TreeNode;
     after: () => Promise<any>;
   }> {
@@ -267,7 +267,7 @@ class Template {
     let after = await this.getModule('index', 'after');
 
     if (!after) {
-      after = async () => {};
+      after = async () => { };
     }
     if (!content) {
       throw new Error('Invalid template');
