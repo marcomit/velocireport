@@ -64,7 +64,7 @@ function validate(
 }
 
 function treePath(tree: Omit<TemplateTree, "type" | "content" | "path">) {
-  console.log("tree path", path.join(Template.PATH, tree.parent, tree.name))
+  // console.log("tree path", path.join(Template.PATH, tree.parent, tree.name))
   return path.join(Template.PATH, tree.parent, tree.name);
 }
 
