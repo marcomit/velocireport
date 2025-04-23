@@ -1,43 +1,6 @@
 import pdf from '@/syntax/veloci-js';
 import veloci from '@/syntax/components';
 
-export async function after() {
-  function print(...texts: any[]) {
-    const logger = document.getElementById('logger')!;
-    logger.innerText = 'LOGGER::: ';
-    logger.innerText += texts.join(' ');
-  }
-  const pages = parseInt(document.querySelector('.totalPages')!.innerHTML);
-  const bodyH = document.body.clientHeight;
-  const PDFH = bodyH / pages;
-  let canvasDiv = document.getElementById('main');
-  let canvas = document.createElement('canvas');
-
-  // canvas.height = PDFH;
-
-  canvas.classList.add('absolute', 'w-full', 'border-2');
-  canvasDiv?.appendChild(canvas);
-  const table = document.getElementById('table')!;
-
-  const header = document.getElementById('header')!.getBoundingClientRect()!;
-  const footer = document.getElementById('footer')!.getBoundingClientRect()!;
-
-  // table.className += ' h-[300px]';
-  // table?.classList.add(`h-[${PDFH - header.height - footer.height}px]`);
-
-  let ctx = canvas.getContext('2d')!;
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(0, canvas.height);
-  ctx.lineTo(canvas.width, 0);
-  ctx.stroke();
-  print(
-    // JSON.stringify(metrics),
-    pages.toString(),
-    document.body.clientHeight.toString(),
-    (PDFH - header.height - footer.height).toString(),
-  );
-}
 export default async (ctx: any) => {
   const invoice = ctx.data.fattureData;
   let id = ctx.request.query.id;
@@ -251,10 +214,10 @@ export default async (ctx: any) => {
               'header-dark',
               'padding-sm',
             )
-            .$('class', 'w-full')
+            .$('class', 'w-full grtow')
             .$('id', 'table'),
         )
-        .$('class', 'mt-2 mx-3'),
+        .$('class', 'mt-2 mx-3 flex'),
       pdf
         .div(
           veloci.grid(
@@ -314,3 +277,45 @@ export default async (ctx: any) => {
     )
     .$('id', 'main');
 };
+
+/*
+
+export async function after() {
+  function print(...texts: any[]) {
+    const logger = document.getElementById('logger')!;
+    logger.innerText = 'LOGGER::: ';
+    logger.innerText += texts.join(' ');
+  }
+  const pages = parseInt(document.querySelector('.totalPages')!.innerHTML);
+  const bodyH = document.body.clientHeight;
+  const PDFH = bodyH / pages;
+  let canvasDiv = document.getElementById('main');
+  let canvas = document.createElement('canvas');
+
+  // canvas.height = PDFH;
+
+  canvas.classList.add('absolute', 'w-full', 'border-2');
+  canvasDiv?.appendChild(canvas);
+  const table = document.getElementById('table')!;
+
+  const header = document.getElementById('header')!.getBoundingClientRect()!;
+  const footer = document.getElementById('footer')!.getBoundingClientRect()!;
+
+  // table.className += ' h-[300px]';
+  // table?.classList.add(`h-[${PDFH - header.height - footer.height}px]`);
+
+  let ctx = canvas.getContext('2d')!;
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(0, canvas.height);
+  ctx.lineTo(canvas.width, 0);
+  ctx.stroke();
+  print(
+    // JSON.stringify(metrics),
+    pages.toString(),
+    document.body.clientHeight.toString(),
+    (PDFH - header.height - footer.height).toString(),
+  );
+}
+
+*/
