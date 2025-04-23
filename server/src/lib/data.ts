@@ -27,7 +27,7 @@ class TemplateData {
     return path.join(this.location, ...args);
   }
 
-  public async getConfig() {
+  public async getConfig(): Promise<Omit<Data, 'content'>[] | Error> {
     if (!(await exists(this.confPath))) {
       return new Error('Configuration of data does not exists');
     }
@@ -100,7 +100,7 @@ class TemplateData {
     return config.some((d) => d.name == name);
   }
 
-  public async loadAll(): Promise<Record<string, string> | Error> {
+  public async loadAllEvaluated(): Promise<Record<string, string> | Error> {
     const data = await this.getAll();
 
     if (data instanceof Error) return data;
@@ -112,6 +112,19 @@ class TemplateData {
     }
 
     return result;
+  }
+
+  public async dataLoarder(): Promise<Record<string, () => Promise<any>>> {
+    const config = await this.getConfig();
+    if (config instanceof Error) throw config
+
+    const loader: Record<string, () => Promise<any>> = {};
+
+    for (const data of config) {
+      loader[data.name] = async () => await this.get(data);
+    }
+
+    return loader
   }
 }
 export default TemplateData;
