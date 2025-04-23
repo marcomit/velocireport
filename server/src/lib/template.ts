@@ -118,9 +118,10 @@ class Template {
     if (newName === file.name) {
       throw new Error('New name cannot be the same as old name');
     }
-    const filePath: string[] = [file.parent, file.name];
-    const newFilePath: string[] = [file.parent, newName];
-    await fs.rename(this.join(...filePath), this.join(...newFilePath));
+    const filePath: string = this.join(file.parent, file.name);
+    const newFilePath: string = this.join(file.parent, newName);
+
+    await fs.rename(filePath, newFilePath);
   }
 
   public getTreeFromPath(location: number[] = []) {
@@ -260,17 +261,26 @@ class Template {
     const globalStyle = await this.get(path.join('..', 'shared', 'global.css'));
     const ctx = await this.dynamicScript(path.join('data', 'index'));
 
-    if (ctx) ctx.request = request;
+
+    const ld = await this.data.loadAll();
+
+    if (ld instanceof Error) throw ld;
+
+    if (ctx) {
+      ctx.data = ld;
+      ctx.request = request;
+    }
 
     const content = await this.defaultScript('index', 'default', ctx);
+
+    if (!content) {
+      throw new Error('Invalid template');
+    }
 
     let after = await this.getModule('index', 'after');
 
     if (!after) {
       after = async () => { };
-    }
-    if (!content) {
-      throw new Error('Invalid template');
     }
     return {
       template: pdf.html(
@@ -282,7 +292,7 @@ class Template {
           pdf.style(style || ''),
         ),
         pdf.body(
-          content == null ? '' : content,
+          content || "",
           pdf.script(globalScript || ''),
           pdf.script(script || ''),
         ),
