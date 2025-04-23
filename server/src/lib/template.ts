@@ -179,7 +179,7 @@ class Template {
         headerTemplate: header ? renderToString(pdf.header(header)) : '',
         footerTemplate: footer ? renderToString(pdf.footer(footer)) : '',
       });
-
+      console.log(await page.metrics());
       // await fs.writeFile(this.join('report.pdf'), generatedPdf);
 
       await browser.close();
@@ -267,7 +267,7 @@ class Template {
     let after = await this.getModule('index', 'after');
 
     if (!after) {
-      after = async () => { };
+      after = async () => {};
     }
     if (!content) {
       throw new Error('Invalid template');
