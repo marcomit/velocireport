@@ -41,7 +41,7 @@ router.get("/loaded/:templateName", async (req, res) => {
     res.status(404).send("Template not found");
     return;
   }
-  const loaded = await template.data.loadAll();
+  const loaded = await template.data.loadAllEvaluated();
   console.log(loaded)
   if (loaded instanceof Error) {
     res.status(400).send(`${loaded}`)

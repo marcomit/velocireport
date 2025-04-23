@@ -3,6 +3,7 @@ import veloci from '@/syntax/components';
 
 export default async (ctx: any) => {
   const invoice = ctx.data.fattureData;
+  // const invoice = await ctx.loader.fattureData();
   let id = ctx.request.query.id;
   return pdf
     .div(
@@ -212,7 +213,7 @@ export default async (ctx: any) => {
               'header-dark',
               'padding-sm',
             )
-            .$('class', 'w-full')
+            .$('class', 'w-full grow')
             .$('id', 'mainTable'),
           pdf.div().$('class', 'h-full')
         )
@@ -268,47 +269,50 @@ export default async (ctx: any) => {
             'cells-zebra',
             'padding-sm',
           ),
-          veloci.grid(4, [{}], 'border-thick'),
+          // veloci.grid(4, [{}], 'border-thick'),
         )
         .$('class', 'flex')
         .$('id', 'footer'),
       pdf.h1().$('id', 'logger').$('class', 'text-xl'),
     )
-    .$('class', 'h-screen flex flex-col')
+    .$('class', 'min-h-screen h-full flex flex-col')
     .$('id', 'main');
 };
-/*
+
 
 export async function after() {
   function print(...texts: string[]) {
     const logger = document.getElementById('logger')!;
-    logger.innerText = 'LOGGER::: ';
+    logger.innerText = '';
     logger.innerText += texts.join(' ');
   }
-  const PDFH = 3508;
-  const PDFW = 2480;
-  let canvasDiv = document.getElementById('main');
-  let canvas = document.createElement('canvas');
-
-  canvas.height = PDFH;
-
-  canvas.classList.add('absolute', 'w-full', 'border-2');
-  canvasDiv?.appendChild(canvas);
-  let table = document.getElementById('mainTable')!;
-  let tableRect = table.getBoundingClientRect();
-  let footer = document.getElementById('footer')!;
-  let footerRect = footer.getBoundingClientRect();
-  let header = document.getElementById('header')!;
-  let headerRect = header.getBoundingClientRect();
-  let cH = PDFH - footerRect.height - headerRect.height;
-  tableRect.height = cH;
-  table.classList.add(`height-[${cH}px]`);
-  let ctx = canvas.getContext('2d')!;
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(0, canvas.height);
-  ctx.lineTo(canvas.width, 0);
-  ctx.stroke();
-  print(cH.toString(), canvas.height.toString());
+  const main = document.getElementById('main')!;
+  const rect = document.body.getBoundingClientRect()
+  print(JSON.stringify(rect))
+  // const PDFH = 3508;
+  // const PDFW = 2480;
+  // let canvasDiv = document.getElementById('main');
+  // let canvas = document.createElement('canvas');
+  //
+  // canvas.height = PDFH;
+  //
+  // canvas.classList.add('absolute', 'w-full', 'border-2');
+  // canvasDiv?.appendChild(canvas);
+  // let table = document.getElementById('mainTable')!;
+  // let tableRect = table.getBoundingClientRect();
+  // let footer = document.getElementById('footer')!;
+  // let footerRect = footer.getBoundingClientRect();
+  // let header = document.getElementById('header')!;
+  // let headerRect = header.getBoundingClientRect();
+  // let cH = PDFH - footerRect.height - headerRect.height;
+  // tableRect.height = cH;
+  // table.classList.add(`height-[${cH}px]`);
+  // let ctx = canvas.getContext('2d')!;
+  // ctx.lineWidth = 1;
+  // ctx.beginPath();
+  // ctx.moveTo(0, canvas.height);
+  // ctx.lineTo(canvas.width, 0);
+  // ctx.stroke();
+  // print(cH.toString(), canvas.height.toString());
 }
-*/
+
