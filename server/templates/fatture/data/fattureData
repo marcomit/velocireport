@@ -36,6 +36,652 @@
         "importoNettoUnitario": 8.1148,
         "importoNettoTotale": 8.1148
       }
+    },{
+      "rigaDescrittiva": false,
+      "prodotto": {
+        "codice": "55"
+      },
+      "descrizione": "ROLLABILLY",
+      "quantita": 1,
+      "unitaMisura": "pz",
+      "sconti": "",
+      "aliquotaIva": {
+        "codice": "22",
+        "valore": 22,
+        "descrizione": "22%",
+        "tipoApplicazione": "banco"
+      },
+      "valore": {
+        "listino": {
+          "codice": "L1",
+          "descrizione": "Listino Base",
+          "ivato": true
+        },
+        "sconto1": "",
+        "sconto2": "",
+        "sconto3": "",
+        "sconto4": "",
+        "prezzoUnitario": 9.9,
+        "prezzoTotale": 9.9,
+        "prezzoNettoUnitario": 8.1148,
+        "prezzoNettoTotale": 8.1148,
+        "importoUnitario": 9.9,
+        "importoTotale": 9.9,
+        "importoNettoUnitario": 8.1148,
+        "importoNettoTotale": 8.1148
+      }
+    },{
+      "rigaDescrittiva": false,
+      "prodotto": {
+        "codice": "55"
+      },
+      "descrizione": "ROLLABILLY",
+      "quantita": 1,
+      "unitaMisura": "pz",
+      "sconti": "",
+      "aliquotaIva": {
+        "codice": "22",
+        "valore": 22,
+        "descrizione": "22%",
+        "tipoApplicazione": "banco"
+      },
+      "valore": {
+        "listino": {
+          "codice": "L1",
+          "descrizione": "Listino Base",
+          "ivato": true
+        },
+        "sconto1": "",
+        "sconto2": "",
+        "sconto3": "",
+        "sconto4": "",
+        "prezzoUnitario": 9.9,
+        "prezzoTotale": 9.9,
+        "prezzoNettoUnitario": 8.1148,
+        "prezzoNettoTotale": 8.1148,
+        "importoUnitario": 9.9,
+        "importoTotale": 9.9,
+        "importoNettoUnitario": 8.1148,
+        "importoNettoTotale": 8.1148
+      }
+    },{
+      "rigaDescrittiva": false,
+      "prodotto": {
+        "codice": "55"
+      },
+      "descrizione": "ROLLABILLY",
+      "quantita": 1,
+      "unitaMisura": "pz",
+      "sconti": "",
+      "aliquotaIva": {
+        "codice": "22",
+        "valore": 22,
+        "descrizione": "22%",
+        "tipoApplicazione": "banco"
+      },
+      "valore": {
+        "listino": {
+          "codice": "L1",
+          "descrizione": "Listino Base",
+          "ivato": true
+        },
+        "sconto1": "",
+        "sconto2": "",
+        "sconto3": "",
+        "sconto4": "",
+        "prezzoUnitario": 9.9,
+        "prezzoTotale": 9.9,
+        "prezzoNettoUnitario": 8.1148,
+        "prezzoNettoTotale": 8.1148,
+        "importoUnitario": 9.9,
+        "importoTotale": 9.9,
+        "importoNettoUnitario": 8.1148,
+        "importoNettoTotale": 8.1148
+      }
+    },{
+      "rigaDescrittiva": false,
+      "prodotto": {
+        "codice": "55"
+      },
+      "descrizione": "ROLLABILLY",
+      "quantita": 1,
+      "unitaMisura": "pz",
+      "sconti": "",
+      "aliquotaIva": {
+        "codice": "22",
+        "valore": 22,
+        "descrizione": "22%",
+        "tipoApplicazione": "banco"
+      },
+      "valore": {
+        "listino": {
+          "codice": "L1",
+          "descrizione": "Listino Base",
+          "ivato": true
+        },
+        "sconto1": "",
+        "sconto2": "",
+        "sconto3": "",
+        "sconto4": "",
+        "prezzoUnitario": 9.9,
+        "prezzoTotale": 9.9,
+        "prezzoNettoUnitario": 8.1148,
+        "prezzoNettoTotale": 8.1148,
+        "importoUnitario": 9.9,
+        "importoTotale": 9.9,
+        "importoNettoUnitario": 8.1148,
+        "importoNettoTotale": 8.1148
+      }
+    },{
+      "rigaDescrittiva": false,
+      "prodotto": {
+        "codice": "55"
+      },
+      "descrizione": "ROLLABILLY",
+      "quantita": 1,
+      "unitaMisura": "pz",
+      "sconti": "",
+      "aliquotaIva": {
+        "codice": "22",
+        "valore": 22,
+        "descrizione": "22%",
+        "tipoApplicazione": "banco"
+      },
+      "valore": {
+        "listino": {
+          "codice": "L1",
+          "descrizione": "Listino Base",
+          "ivato": true
+        },
+        "sconto1": "",
+        "sconto2": "",
+        "sconto3": "",
+        "sconto4": "",
+        "prezzoUnitario": 9.9,
+        "prezzoTotale": 9.9,
+        "prezzoNettoUnitario": 8.1148,
+        "prezzoNettoTotale": 8.1148,
+        "importoUnitario": 9.9,
+        "importoTotale": 9.9,
+        "importoNettoUnitario": 8.1148,
+        "importoNettoTotale": 8.1148
+      }
+    },{
+      "rigaDescrittiva": false,
+      "prodotto": {
+        "codice": "55"
+      },
+      "descrizione": "ROLLABILLY",
+      "quantita": 1,
+      "unitaMisura": "pz",
+      "sconti": "",
+      "aliquotaIva": {
+        "codice": "22",
+        "valore": 22,
+        "descrizione": "22%",
+        "tipoApplicazione": "banco"
+      },
+      "valore": {
+        "listino": {
+          "codice": "L1",
+          "descrizione": "Listino Base",
+          "ivato": true
+        },
+        "sconto1": "",
+        "sconto2": "",
+        "sconto3": "",
+        "sconto4": "",
+        "prezzoUnitario": 9.9,
+        "prezzoTotale": 9.9,
+        "prezzoNettoUnitario": 8.1148,
+        "prezzoNettoTotale": 8.1148,
+        "importoUnitario": 9.9,
+        "importoTotale": 9.9,
+        "importoNettoUnitario": 8.1148,
+        "importoNettoTotale": 8.1148
+      }
+    },{
+      "rigaDescrittiva": false,
+      "prodotto": {
+        "codice": "55"
+      },
+      "descrizione": "ROLLABILLY",
+      "quantita": 1,
+      "unitaMisura": "pz",
+      "sconti": "",
+      "aliquotaIva": {
+        "codice": "22",
+        "valore": 22,
+        "descrizione": "22%",
+        "tipoApplicazione": "banco"
+      },
+      "valore": {
+        "listino": {
+          "codice": "L1",
+          "descrizione": "Listino Base",
+          "ivato": true
+        },
+        "sconto1": "",
+        "sconto2": "",
+        "sconto3": "",
+        "sconto4": "",
+        "prezzoUnitario": 9.9,
+        "prezzoTotale": 9.9,
+        "prezzoNettoUnitario": 8.1148,
+        "prezzoNettoTotale": 8.1148,
+        "importoUnitario": 9.9,
+        "importoTotale": 9.9,
+        "importoNettoUnitario": 8.1148,
+        "importoNettoTotale": 8.1148
+      }
+    },{
+      "rigaDescrittiva": false,
+      "prodotto": {
+        "codice": "55"
+      },
+      "descrizione": "ROLLABILLY",
+      "quantita": 1,
+      "unitaMisura": "pz",
+      "sconti": "",
+      "aliquotaIva": {
+        "codice": "22",
+        "valore": 22,
+        "descrizione": "22%",
+        "tipoApplicazione": "banco"
+      },
+      "valore": {
+        "listino": {
+          "codice": "L1",
+          "descrizione": "Listino Base",
+          "ivato": true
+        },
+        "sconto1": "",
+        "sconto2": "",
+        "sconto3": "",
+        "sconto4": "",
+        "prezzoUnitario": 9.9,
+        "prezzoTotale": 9.9,
+        "prezzoNettoUnitario": 8.1148,
+        "prezzoNettoTotale": 8.1148,
+        "importoUnitario": 9.9,
+        "importoTotale": 9.9,
+        "importoNettoUnitario": 8.1148,
+        "importoNettoTotale": 8.1148
+      }
+    },{
+      "rigaDescrittiva": false,
+      "prodotto": {
+        "codice": "55"
+      },
+      "descrizione": "ROLLABILLY",
+      "quantita": 1,
+      "unitaMisura": "pz",
+      "sconti": "",
+      "aliquotaIva": {
+        "codice": "22",
+        "valore": 22,
+        "descrizione": "22%",
+        "tipoApplicazione": "banco"
+      },
+      "valore": {
+        "listino": {
+          "codice": "L1",
+          "descrizione": "Listino Base",
+          "ivato": true
+        },
+        "sconto1": "",
+        "sconto2": "",
+        "sconto3": "",
+        "sconto4": "",
+        "prezzoUnitario": 9.9,
+        "prezzoTotale": 9.9,
+        "prezzoNettoUnitario": 8.1148,
+        "prezzoNettoTotale": 8.1148,
+        "importoUnitario": 9.9,
+        "importoTotale": 9.9,
+        "importoNettoUnitario": 8.1148,
+        "importoNettoTotale": 8.1148
+      }
+    },{
+      "rigaDescrittiva": false,
+      "prodotto": {
+        "codice": "55"
+      },
+      "descrizione": "ROLLABILLY",
+      "quantita": 1,
+      "unitaMisura": "pz",
+      "sconti": "",
+      "aliquotaIva": {
+        "codice": "22",
+        "valore": 22,
+        "descrizione": "22%",
+        "tipoApplicazione": "banco"
+      },
+      "valore": {
+        "listino": {
+          "codice": "L1",
+          "descrizione": "Listino Base",
+          "ivato": true
+        },
+        "sconto1": "",
+        "sconto2": "",
+        "sconto3": "",
+        "sconto4": "",
+        "prezzoUnitario": 9.9,
+        "prezzoTotale": 9.9,
+        "prezzoNettoUnitario": 8.1148,
+        "prezzoNettoTotale": 8.1148,
+        "importoUnitario": 9.9,
+        "importoTotale": 9.9,
+        "importoNettoUnitario": 8.1148,
+        "importoNettoTotale": 8.1148
+      }
+    },{
+      "rigaDescrittiva": false,
+      "prodotto": {
+        "codice": "55"
+      },
+      "descrizione": "ROLLABILLY",
+      "quantita": 1,
+      "unitaMisura": "pz",
+      "sconti": "",
+      "aliquotaIva": {
+        "codice": "22",
+        "valore": 22,
+        "descrizione": "22%",
+        "tipoApplicazione": "banco"
+      },
+      "valore": {
+        "listino": {
+          "codice": "L1",
+          "descrizione": "Listino Base",
+          "ivato": true
+        },
+        "sconto1": "",
+        "sconto2": "",
+        "sconto3": "",
+        "sconto4": "",
+        "prezzoUnitario": 9.9,
+        "prezzoTotale": 9.9,
+        "prezzoNettoUnitario": 8.1148,
+        "prezzoNettoTotale": 8.1148,
+        "importoUnitario": 9.9,
+        "importoTotale": 9.9,
+        "importoNettoUnitario": 8.1148,
+        "importoNettoTotale": 8.1148
+      }
+    },{
+      "rigaDescrittiva": false,
+      "prodotto": {
+        "codice": "55"
+      },
+      "descrizione": "ROLLABILLY",
+      "quantita": 1,
+      "unitaMisura": "pz",
+      "sconti": "",
+      "aliquotaIva": {
+        "codice": "22",
+        "valore": 22,
+        "descrizione": "22%",
+        "tipoApplicazione": "banco"
+      },
+      "valore": {
+        "listino": {
+          "codice": "L1",
+          "descrizione": "Listino Base",
+          "ivato": true
+        },
+        "sconto1": "",
+        "sconto2": "",
+        "sconto3": "",
+        "sconto4": "",
+        "prezzoUnitario": 9.9,
+        "prezzoTotale": 9.9,
+        "prezzoNettoUnitario": 8.1148,
+        "prezzoNettoTotale": 8.1148,
+        "importoUnitario": 9.9,
+        "importoTotale": 9.9,
+        "importoNettoUnitario": 8.1148,
+        "importoNettoTotale": 8.1148
+      }
+    },{
+      "rigaDescrittiva": false,
+      "prodotto": {
+        "codice": "55"
+      },
+      "descrizione": "ROLLABILLY",
+      "quantita": 1,
+      "unitaMisura": "pz",
+      "sconti": "",
+      "aliquotaIva": {
+        "codice": "22",
+        "valore": 22,
+        "descrizione": "22%",
+        "tipoApplicazione": "banco"
+      },
+      "valore": {
+        "listino": {
+          "codice": "L1",
+          "descrizione": "Listino Base",
+          "ivato": true
+        },
+        "sconto1": "",
+        "sconto2": "",
+        "sconto3": "",
+        "sconto4": "",
+        "prezzoUnitario": 9.9,
+        "prezzoTotale": 9.9,
+        "prezzoNettoUnitario": 8.1148,
+        "prezzoNettoTotale": 8.1148,
+        "importoUnitario": 9.9,
+        "importoTotale": 9.9,
+        "importoNettoUnitario": 8.1148,
+        "importoNettoTotale": 8.1148
+      }
+    },{
+      "rigaDescrittiva": false,
+      "prodotto": {
+        "codice": "55"
+      },
+      "descrizione": "ROLLABILLY",
+      "quantita": 1,
+      "unitaMisura": "pz",
+      "sconti": "",
+      "aliquotaIva": {
+        "codice": "22",
+        "valore": 22,
+        "descrizione": "22%",
+        "tipoApplicazione": "banco"
+      },
+      "valore": {
+        "listino": {
+          "codice": "L1",
+          "descrizione": "Listino Base",
+          "ivato": true
+        },
+        "sconto1": "",
+        "sconto2": "",
+        "sconto3": "",
+        "sconto4": "",
+        "prezzoUnitario": 9.9,
+        "prezzoTotale": 9.9,
+        "prezzoNettoUnitario": 8.1148,
+        "prezzoNettoTotale": 8.1148,
+        "importoUnitario": 9.9,
+        "importoTotale": 9.9,
+        "importoNettoUnitario": 8.1148,
+        "importoNettoTotale": 8.1148
+      }
+    },{
+      "rigaDescrittiva": false,
+      "prodotto": {
+        "codice": "55"
+      },
+      "descrizione": "ROLLABILLY",
+      "quantita": 1,
+      "unitaMisura": "pz",
+      "sconti": "",
+      "aliquotaIva": {
+        "codice": "22",
+        "valore": 22,
+        "descrizione": "22%",
+        "tipoApplicazione": "banco"
+      },
+      "valore": {
+        "listino": {
+          "codice": "L1",
+          "descrizione": "Listino Base",
+          "ivato": true
+        },
+        "sconto1": "",
+        "sconto2": "",
+        "sconto3": "",
+        "sconto4": "",
+        "prezzoUnitario": 9.9,
+        "prezzoTotale": 9.9,
+        "prezzoNettoUnitario": 8.1148,
+        "prezzoNettoTotale": 8.1148,
+        "importoUnitario": 9.9,
+        "importoTotale": 9.9,
+        "importoNettoUnitario": 8.1148,
+        "importoNettoTotale": 8.1148
+      }
+    },{
+      "rigaDescrittiva": false,
+      "prodotto": {
+        "codice": "55"
+      },
+      "descrizione": "ROLLABILLY",
+      "quantita": 1,
+      "unitaMisura": "pz",
+      "sconti": "",
+      "aliquotaIva": {
+        "codice": "22",
+        "valore": 22,
+        "descrizione": "22%",
+        "tipoApplicazione": "banco"
+      },
+      "valore": {
+        "listino": {
+          "codice": "L1",
+          "descrizione": "Listino Base",
+          "ivato": true
+        },
+        "sconto1": "",
+        "sconto2": "",
+        "sconto3": "",
+        "sconto4": "",
+        "prezzoUnitario": 9.9,
+        "prezzoTotale": 9.9,
+        "prezzoNettoUnitario": 8.1148,
+        "prezzoNettoTotale": 8.1148,
+        "importoUnitario": 9.9,
+        "importoTotale": 9.9,
+        "importoNettoUnitario": 8.1148,
+        "importoNettoTotale": 8.1148
+      }
+    },{
+      "rigaDescrittiva": false,
+      "prodotto": {
+        "codice": "55"
+      },
+      "descrizione": "ROLLABILLY",
+      "quantita": 1,
+      "unitaMisura": "pz",
+      "sconti": "",
+      "aliquotaIva": {
+        "codice": "22",
+        "valore": 22,
+        "descrizione": "22%",
+        "tipoApplicazione": "banco"
+      },
+      "valore": {
+        "listino": {
+          "codice": "L1",
+          "descrizione": "Listino Base",
+          "ivato": true
+        },
+        "sconto1": "",
+        "sconto2": "",
+        "sconto3": "",
+        "sconto4": "",
+        "prezzoUnitario": 9.9,
+        "prezzoTotale": 9.9,
+        "prezzoNettoUnitario": 8.1148,
+        "prezzoNettoTotale": 8.1148,
+        "importoUnitario": 9.9,
+        "importoTotale": 9.9,
+        "importoNettoUnitario": 8.1148,
+        "importoNettoTotale": 8.1148
+      }
+    },{
+      "rigaDescrittiva": false,
+      "prodotto": {
+        "codice": "55"
+      },
+      "descrizione": "ROLLABILLY",
+      "quantita": 1,
+      "unitaMisura": "pz",
+      "sconti": "",
+      "aliquotaIva": {
+        "codice": "22",
+        "valore": 22,
+        "descrizione": "22%",
+        "tipoApplicazione": "banco"
+      },
+      "valore": {
+        "listino": {
+          "codice": "L1",
+          "descrizione": "Listino Base",
+          "ivato": true
+        },
+        "sconto1": "",
+        "sconto2": "",
+        "sconto3": "",
+        "sconto4": "",
+        "prezzoUnitario": 9.9,
+        "prezzoTotale": 9.9,
+        "prezzoNettoUnitario": 8.1148,
+        "prezzoNettoTotale": 8.1148,
+        "importoUnitario": 9.9,
+        "importoTotale": 9.9,
+        "importoNettoUnitario": 8.1148,
+        "importoNettoTotale": 8.1148
+      }
+    },{
+      "rigaDescrittiva": false,
+      "prodotto": {
+        "codice": "55"
+      },
+      "descrizione": "ROLLABILLY",
+      "quantita": 1,
+      "unitaMisura": "pz",
+      "sconti": "",
+      "aliquotaIva": {
+        "codice": "22",
+        "valore": 22,
+        "descrizione": "22%",
+        "tipoApplicazione": "banco"
+      },
+      "valore": {
+        "listino": {
+          "codice": "L1",
+          "descrizione": "Listino Base",
+          "ivato": true
+        },
+        "sconto1": "",
+        "sconto2": "",
+        "sconto3": "",
+        "sconto4": "",
+        "prezzoUnitario": 9.9,
+        "prezzoTotale": 9.9,
+        "prezzoNettoUnitario": 8.1148,
+        "prezzoNettoTotale": 8.1148,
+        "importoUnitario": 9.9,
+        "importoTotale": 9.9,
+        "importoNettoUnitario": 8.1148,
+        "importoNettoTotale": 8.1148
+      }
     }
   ],
   "editInfo": {

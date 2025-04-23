@@ -1,38 +1,6 @@
 import pdf from '@/syntax/veloci-js';
 import veloci from '@/syntax/components';
 
-export async function after() {
-  function print(...texts: string[]) {
-    const logger = document.getElementById('logger')!;
-    logger.innerText = 'LOGGER::: ';
-    logger.innerText += texts.join(' ');
-  }
-  const PDFH = 3508;
-  const PDFW = 2480;
-  let canvasDiv = document.getElementById('main');
-  let canvas = document.createElement('canvas');
-
-  canvas.height = PDFH;
-
-  canvas.classList.add('absolute', 'w-full', 'border-2');
-  canvasDiv?.appendChild(canvas);
-  let table = document.getElementById('mainTable')!;
-  let tableRect = table.getBoundingClientRect();
-  let footer = document.getElementById('footer')!;
-  let footerRect = footer.getBoundingClientRect();
-  let header = document.getElementById('header')!;
-  let headerRect = header.getBoundingClientRect();
-  let cH = PDFH - footerRect.height - headerRect.height;
-  tableRect.height = cH;
-  table.classList.add(`height-[${cH}px]`);
-  let ctx = canvas.getContext('2d')!;
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(0, canvas.height);
-  ctx.lineTo(canvas.width, 0);
-  ctx.stroke();
-  print(cH.toString(), canvas.height.toString());
-}
 export default async (ctx: any) => {
   const invoice = ctx.data.fattureData;
   let id = ctx.request.query.id;
@@ -246,8 +214,9 @@ export default async (ctx: any) => {
             )
             .$('class', 'w-full')
             .$('id', 'mainTable'),
+          pdf.div().$('class', 'h-full')
         )
-        .$('class', 'mt-2 mx-3'),
+        .$('class', 'mt-2 mx-3 flex-grow'),
       pdf
         .div(
           veloci.grid(
@@ -305,5 +274,41 @@ export default async (ctx: any) => {
         .$('id', 'footer'),
       pdf.h1().$('id', 'logger').$('class', 'text-xl'),
     )
+    .$('class', 'h-screen flex flex-col')
     .$('id', 'main');
 };
+/*
+
+export async function after() {
+  function print(...texts: string[]) {
+    const logger = document.getElementById('logger')!;
+    logger.innerText = 'LOGGER::: ';
+    logger.innerText += texts.join(' ');
+  }
+  const PDFH = 3508;
+  const PDFW = 2480;
+  let canvasDiv = document.getElementById('main');
+  let canvas = document.createElement('canvas');
+
+  canvas.height = PDFH;
+
+  canvas.classList.add('absolute', 'w-full', 'border-2');
+  canvasDiv?.appendChild(canvas);
+  let table = document.getElementById('mainTable')!;
+  let tableRect = table.getBoundingClientRect();
+  let footer = document.getElementById('footer')!;
+  let footerRect = footer.getBoundingClientRect();
+  let header = document.getElementById('header')!;
+  let headerRect = header.getBoundingClientRect();
+  let cH = PDFH - footerRect.height - headerRect.height;
+  tableRect.height = cH;
+  table.classList.add(`height-[${cH}px]`);
+  let ctx = canvas.getContext('2d')!;
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(0, canvas.height);
+  ctx.lineTo(canvas.width, 0);
+  ctx.stroke();
+  print(cH.toString(), canvas.height.toString());
+}
+*/
