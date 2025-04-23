@@ -259,17 +259,19 @@ class Template {
 
     const globalScript = await this.get(path.join('..', 'shared', 'global.js'));
     const globalStyle = await this.get(path.join('..', 'shared', 'global.css'));
-    const ctx = await this.dynamicScript(path.join('data', 'index'));
+    // const ctx = await this.dynamicScript(path.join('data', 'index'));
 
-
-    const ld = await this.data.loadAll();
-
+    const ctx: Record<string, any> = {};
+    const ld = await this.data.loadAllEvaluated();
+    const loader = await this.data.dataLoarder();
     if (ld instanceof Error) throw ld;
 
-    if (ctx) {
-      ctx.data = ld;
-      ctx.request = request;
-    }
+    // if (ctx) {
+    ctx.data = ld;
+    ctx.request = request;
+    ctx.loader = loader
+    console.log(await ctx.loader.fattureData())
+    // }
 
     const content = await this.defaultScript('index', 'default', ctx);
 
