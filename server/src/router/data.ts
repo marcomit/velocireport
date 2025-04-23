@@ -34,6 +34,21 @@ router.get('/:templateName', async (req, res) => {
   res.json(data);
 });
 
+router.get("/loaded/:templateName", async (req, res) => {
+  const { templateName } = req.params;
+  const template = new Template(templateName);
+  if (!(await template.exists())) {
+    res.status(404).send("Template not found");
+    return;
+  }
+  const loaded = await template.data.loadAll();
+  console.log(loaded)
+  if (loaded instanceof Error) {
+    res.status(400).send(`${loaded}`)
+  }
+  res.json(loaded)
+})
+
 router.post('/:templateName', async (req, res) => {
   const { templateName } = req.params;
   const body = DataSchema.safeParse(req.body);
