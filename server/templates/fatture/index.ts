@@ -38,9 +38,9 @@ export async function after() {
     (PDFH - header.height - footer.height).toString(),
   );
 }
-export default async (content: any) => {
-  const invoice = await content.getFattureData();
-  let id = content.request.query.id;
+export default async (ctx: any) => {
+  const invoice = ctx.data.fattureData;
+  let id = ctx.request.query.id;
   return pdf
 
     .div(

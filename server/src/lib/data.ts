@@ -55,9 +55,9 @@ class TemplateData {
   }
 
   private async bridge({ name, format }: Omit<Data, 'content'>) {
-    const func = `export const get${capitalize(
-      name,
-    )} = async () => await format.${format}(join(__dirname, "${name}"));\n`;
+    // const functionName = 'get'+capitalize(name);
+    const functionName = name;
+    const func = `export const ${functionName} = async () => await format.${format}(join(__dirname, "${name}"));\n`;
 
     await fs.appendFile(this.join('index.js'), func);
   }
@@ -80,14 +80,17 @@ class TemplateData {
   public async get(data: Omit<Data, 'content'>): Promise<Data | Error> {
     const result = data;
     const dataPath = this.join(data.name);
-    console.log(this.join(data.name));
+
     if (!(await exists(dataPath))) {
       return new Error('Data does not exists');
     }
+
     let content = '';
+
     if (data.format in format) {
       content = await format[data.format as keyof typeof format](dataPath);
     }
+
     return { ...result, content };
   }
 
@@ -95,6 +98,20 @@ class TemplateData {
     const config = await this.getConfig();
     if (config instanceof Error) return config;
     return config.some((d) => d.name == name);
+  }
+
+  public async loadAll(): Promise<Record<string, string> | Error> {
+    const data = await this.getAll();
+
+    if (data instanceof Error) return data;
+
+    const result: Record<string, string> = {};
+
+    for (const d of data) {
+      result[d.name] = d.content;
+    }
+
+    return result;
   }
 }
 export default TemplateData;
